@@ -1,5 +1,5 @@
 import React from 'react';
-// import {component} from React;
+
 
 
 import firebase from "firebase/compat/app"
