@@ -17,21 +17,51 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
+
+import { Picker } from "@react-native-picker/picker";
 var db = firebase.firestore();
 class CartProducts extends Component {
+  constructor() {
+    super();
+ //   console.log("tydhfbx",this.MyDB)        
+    this.docs = db.collection("usersAddresses");
+    this.state = {
+        isLoading: true,
+        addressDB: [],
+        user:{},
+        address:'' 
+
+    };
+}
 
 
-  state = { user: {} };
-  componentDidMount() {
+componentDidMount() {
+    this.unsubscribe = this.docs.onSnapshot(this.getAddressDBData);
+}
 
-    firebase.auth().onAuthStateChanged((user) => {
+// state = { user: {},address:'' };
+componentDidMount() {
 
-      if (user != null) {
-        this.setState({ user: user });
-      }
-    })
+  firebase.auth().onAuthStateChanged((user) => {
 
-  }
+    if (user != null) {
+      this.setState({ user: user });
+    }
+  })
+
+}
+
+  // state = { user: {} };
+  // componentDidMount() {
+
+  //   firebase.auth().onAuthStateChanged((user) => {
+
+  //     if (user != null) {
+  //       this.setState({ user: user });
+  //     }
+  //   })
+
+  // }
 
 
   getCurrentDate() {
@@ -43,6 +73,27 @@ class CartProducts extends Component {
     //Alert.alert(date + '-' + month + '-' + year);
     // You can turn it in to your desired format
     return date + '-' + month + '-' + year;//format: dd-mm-yyyy;
+  }
+  getAddress(item) {
+    // console.log(item);
+    return item.country + ',' + item.city + ',' + item.street+','+item.moreDescription;//format: Palestine,Ramallah,Irsal street,buliding No. 10;
+  }
+  getAddressDBData = () => {
+
+    let AddressInf;
+    db.collection("usersAddresses")
+        .get()
+        .then((querySnapshot) => {
+          AddressInf = querySnapshot.docs.map(doc => doc.data());
+            this.setState({ addressDB: AddressInf });
+        })
+
+}
+
+  clearCart(){
+    if (this.props.route.params.cartFlag == 1){
+      this.props.onPressClearCart();
+    }
   }
 
   addOrder(orders) {
@@ -61,6 +112,21 @@ class CartProducts extends Component {
         .catch(function (error) {
           console.error("Error adding document: ", error);
         });
+        db.collection("OrdersCheckedOut").add({
+          customerName: this.state.user.displayName,
+          customerEmail: this.state.user.email,
+          OrderDate: this.getCurrentDate(),
+          product_name: obj.name,
+          product_provider: obj.provider,
+          product_price: obj.price,
+          product_image: obj.image,
+          product_quantity: obj.quantity,
+          address:this.state.address
+        })
+          .catch(function (error) {
+            console.error("Error adding document: ", error);
+          });
+        
     });
 
 
@@ -68,11 +134,29 @@ class CartProducts extends Component {
 
 
   render() {
+    // console.log("flag= ",this.props.route.params.cartFlag);
+    // if (this.props.route.params.cartFlag == 1){
+    //   this.props.onPressClearCart();
+    // }
+
     let data = this.props.products
     // console.log(this.props.products.products)
-    console.log(this.state.user.email, this.state.user.displayName)
+    // console.log(this.state.user.email, this.state.user.displayName)
+
+this.getAddressDBData();
+        let pickerItems = this.state.addressDB.map( (s, i) => {
+            // console.log(s);
+            return <Picker.Item key={i} value={this.getAddress(s)} label={this.getAddress(s)} />
+        });
+   
+
+
+
+
     return (
       <View style={styles.container}>
+        
+        
         <FlatList style={styles.list}
           contentContainerStyle={styles.listContainer}
           data={this.props.products.products}
@@ -88,9 +172,13 @@ class CartProducts extends Component {
               <View style={styles.separator} />
             )
           }}
+          
           renderItem={(post) => {
+            
             const item = post.item;
             return (
+            
+                
               <View style={styles.card}>
 
                 <View style={styles.cardHeader}>
@@ -169,13 +257,42 @@ class CartProducts extends Component {
 
 
 
-
+                  </View>
 
                 </View>
-              </View>
+           
             )
-          }}
-        />
+         }}
+        />  
+        {/* style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} */}
+         {/* <View >
+            <Text>CheckOut Screen</Text>
+            <Picker
+        selectedValue={this.state.address}
+        onValueChange={(value, index) =>  this.setState({address:value})}
+        mode="dropdown" 
+        style={styles.picker}> */}
+          {/* <Picker.Item label="Please select the address" value="Unknown" /> */}
+                {/* {pickerItems}
+                </Picker>
+      <Text style={styles.text}>Your address: {this.state.address}</Text>
+      <TouchableOpacity style={styles.buttonContainer}
+            onPress={() => {
+              console.log("your address : ",this.state.address);
+                this.addOrder(this.props.products.products) &
+              // Alert.alert('add orders successfully') &
+              this.props.onPressClearCart();
+              // this.addOrder(this.props.params.products) &
+              Alert.alert('Orders checked out successfully') 
+              // this.props.navigation.navigate("Cart") 
+            }}
+          ><Text style={{
+            color: "white",
+            padding: 5,
+            fontSize: 18
+          }}>Complete your Order</Text>
+        </TouchableOpacity>
+        </View> */}
 
 
         <View style={styles.cardFooter}>
@@ -183,10 +300,10 @@ class CartProducts extends Component {
 
           <TouchableOpacity style={styles.socialBarButton}
             onPress={() => {
-              this.addOrder(this.props.products.products) &
-              Alert.alert('add orders successfully') &
-              this.props.onPressClearCart();
-              // this.props.navigation.navigate("CheckOut") 
+              // this.addOrder(this.props.products.products) &
+              // Alert.alert('add orders successfully') &
+              // this.props.onPressClearCart();
+              this.props.navigation.navigate("CheckOut",{products:this.props.products.products}) 
             }}
           >
             <Image style={styles.icon} source={{ uri: 'https://cdn-icons-png.flaticon.com/512/6313/6313304.png' }} />
@@ -205,18 +322,18 @@ export default CartProducts;
 const styles = StyleSheet.create({
   container: {
     flex: 2,
-    marginTop: 20,
+    marginTop: 5,
   },
   list: {
     paddingHorizontal: 5,
-    backgroundColor: "#E6E6E6",
+    // backgroundColor: "#E6E6E6",
   },
   listContainer: {
     flexDirection: 'column',
     alignItems: 'center'
   },
   separator: {
-    marginTop: 10,
+    marginTop: 5,
   },
   /******** card **************/
   card: {
@@ -254,7 +371,7 @@ const styles = StyleSheet.create({
   },
   cardImage: {
     flex: 1,
-    height: 250,
+    height: 100,
     width: null,
   },
   /******** card components **************/
@@ -266,6 +383,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#38700F",
     marginTop: 5
+  }, buttonContainer: {
+    // marginBottom: 50,
+    marginLeft:30,
+    height: 40,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+    marginTop: 5,
+    width: 250,
+    borderRadius: 30,
+    backgroundColor: "#800C69",
+    color: 'white'
   },
   shop: {
     fontSize: 18,
@@ -297,7 +427,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   socialBarSection: {
-    marginTop: 10,
+    marginTop: 5,
     flexDirection: 'row',
     flex: 2,
     justifyContent: 'space-between',
