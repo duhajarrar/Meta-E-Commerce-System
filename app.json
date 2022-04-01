@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "secondTest",
+    "slug": "secondTest",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "facebookDisplayName": "Project",
+    "facebookAppId": "337956678166688",
+    "facebookScheme" :"fb337956678166688",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+  
+    "ios": {
+      "bundleIdentifier": "host.exp.exponent",
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "host.exp.exponent",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+
+  }
+}
