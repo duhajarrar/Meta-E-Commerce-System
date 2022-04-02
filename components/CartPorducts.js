@@ -23,33 +23,32 @@ var db = firebase.firestore();
 class CartProducts extends Component {
   constructor() {
     super();
- //   console.log("tydhfbx",this.MyDB)        
+    //   console.log("tydhfbx",this.MyDB)        
     this.docs = db.collection("usersAddresses");
     this.state = {
-        isLoading: true,
-        addressDB: [],
-        user:{},
-        address:'' 
-
+      isLoading: true,
+      addressDB: [],
+      user: {},
+      address: ''
     };
-}
+  }
 
 
-componentDidMount() {
+  componentDidMount() {
     this.unsubscribe = this.docs.onSnapshot(this.getAddressDBData);
-}
+  }
 
-// state = { user: {},address:'' };
-componentDidMount() {
+  // state = { user: {},address:'' };
+  componentDidMount() {
 
-  firebase.auth().onAuthStateChanged((user) => {
+    firebase.auth().onAuthStateChanged((user) => {
 
-    if (user != null) {
-      this.setState({ user: user });
-    }
-  })
+      if (user != null) {
+        this.setState({ user: user });
+      }
+    })
 
-}
+  }
 
   // state = { user: {} };
   // componentDidMount() {
@@ -76,24 +75,24 @@ componentDidMount() {
   }
   getAddress(item) {
     // console.log(item);
-    return item.country + ',' + item.city + ',' + item.street+','+item.moreDescription;//format: Palestine,Ramallah,Irsal street,buliding No. 10;
+    return item.country + ',' + item.city + ',' + item.street + ',' + item.moreDescription;//format: Palestine,Ramallah,Irsal street,buliding No. 10;
   }
   getAddressDBData = () => {
 
     let AddressInf;
     db.collection("usersAddresses")
-        .get()
-        .then((querySnapshot) => {
-          AddressInf = querySnapshot.docs.map(doc => doc.data());
-            this.setState({ addressDB: AddressInf });
-        })
+      .get()
+      .then((querySnapshot) => {
+        AddressInf = querySnapshot.docs.map(doc => doc.data());
+        this.setState({ addressDB: AddressInf });
+      })
 
-}
+  }
 
-  clearCart(){
-    if (this.props.route.params.cartFlag == 1){
-      this.props.onPressClearCart();
-    }
+  clearCart() {
+    // if (this.props.route.params.cartFlag == 1){
+    this.props.onPressClearCart();
+    // }
   }
 
   addOrder(orders) {
@@ -112,21 +111,21 @@ componentDidMount() {
         .catch(function (error) {
           console.error("Error adding document: ", error);
         });
-        db.collection("OrdersCheckedOut").add({
-          customerName: this.state.user.displayName,
-          customerEmail: this.state.user.email,
-          OrderDate: this.getCurrentDate(),
-          product_name: obj.name,
-          product_provider: obj.provider,
-          product_price: obj.price,
-          product_image: obj.image,
-          product_quantity: obj.quantity,
-          address:this.state.address
-        })
-          .catch(function (error) {
-            console.error("Error adding document: ", error);
-          });
-        
+      db.collection("OrdersCheckedOut").add({
+        customerName: this.state.user.displayName,
+        customerEmail: this.state.user.email,
+        OrderDate: this.getCurrentDate(),
+        product_name: obj.name,
+        product_provider: obj.provider,
+        product_price: obj.price,
+        product_image: obj.image,
+        product_quantity: obj.quantity,
+        address: this.state.address
+      })
+        .catch(function (error) {
+          console.error("Error adding document: ", error);
+        });
+
     });
 
 
@@ -143,20 +142,20 @@ componentDidMount() {
     // console.log(this.props.products.products)
     // console.log(this.state.user.email, this.state.user.displayName)
 
-this.getAddressDBData();
-        let pickerItems = this.state.addressDB.map( (s, i) => {
-            // console.log(s);
-            return <Picker.Item key={i} value={this.getAddress(s)} label={this.getAddress(s)} />
-        });
-   
+    this.getAddressDBData();
+    let pickerItems = this.state.addressDB.map((s, i) => {
+      // console.log(s);
+      return <Picker.Item key={i} value={this.getAddress(s)} label={this.getAddress(s)} />
+    });
+
 
 
 
 
     return (
       <View style={styles.container}>
-        
-        
+
+
         <FlatList style={styles.list}
           contentContainerStyle={styles.listContainer}
           data={this.props.products.products}
@@ -172,13 +171,13 @@ this.getAddressDBData();
               <View style={styles.separator} />
             )
           }}
-          
+
           renderItem={(post) => {
-            
+
             const item = post.item;
             return (
-            
-                
+
+
               <View style={styles.card}>
 
                 <View style={styles.cardHeader}>
@@ -257,23 +256,23 @@ this.getAddressDBData();
 
 
 
-                  </View>
-
                 </View>
-           
+
+              </View>
+
             )
-         }}
-        />  
+          }}
+        />
         {/* style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} */}
-         {/* <View >
+        {/* <View >
             <Text>CheckOut Screen</Text>
             <Picker
         selectedValue={this.state.address}
         onValueChange={(value, index) =>  this.setState({address:value})}
         mode="dropdown" 
         style={styles.picker}> */}
-          {/* <Picker.Item label="Please select the address" value="Unknown" /> */}
-                {/* {pickerItems}
+        {/* <Picker.Item label="Please select the address" value="Unknown" /> */}
+        {/* {pickerItems}
                 </Picker>
       <Text style={styles.text}>Your address: {this.state.address}</Text>
       <TouchableOpacity style={styles.buttonContainer}
@@ -303,7 +302,12 @@ this.getAddressDBData();
               // this.addOrder(this.props.products.products) &
               // Alert.alert('add orders successfully') &
               // this.props.onPressClearCart();
-              this.props.navigation.navigate("CheckOut",{products:this.props.products.products}) 
+              this.props.navigation.navigate("CheckOut",
+                {
+                  products: this.props.products.products,
+                  clearCart: this.props.onPressClearCart()
+
+                })
             }}
           >
             <Image style={styles.icon} source={{ uri: 'https://cdn-icons-png.flaticon.com/512/6313/6313304.png' }} />
@@ -385,7 +389,7 @@ const styles = StyleSheet.create({
     marginTop: 5
   }, buttonContainer: {
     // marginBottom: 50,
-    marginLeft:30,
+    marginLeft: 30,
     height: 40,
     flexDirection: 'row',
     justifyContent: 'center',

@@ -42,7 +42,7 @@ function CustomDrawerContent(props) {
       <DrawerItemList {...props} />
       <DrawerItem
         icon={() => <AntDesignIcon name="logout" size={23} color={'#800C69'} style={{ padding: 5 }} />}
-        style={{ marginTop: '20%' }}
+        style={{ marginTop: '125%' }}
         label="Logout" onPress={() => {
           firebase.auth().signOut();
         }
@@ -77,14 +77,14 @@ class HomeScreen extends React.Component {
             options={{
               title: 'Shops',
               drawerIcon: ({ focused, size }) => (
-                <EntypoIcon name="shop" size={23} color={'#800C69'} style={{ padding: 5 }} />
+                <EntypoIcon name="shop" size={20} color={'#800C69'} style={{ padding: 0 }} />
               ),
             }} />
           <Drawer.Screen name="Cart" component={Cart} style={{ color: "#800C69" }}
             options={{
               title: 'My Cart',
               drawerIcon: ({ focused, size }) => (
-                <AntDesignIcon name="shoppingcart" size={23} color={'#800C69'} style={{ padding: 5 }} />
+                <AntDesignIcon name="shoppingcart" size={20} color={'#800C69'} style={{ padding: 0 }} />
               ),
             }}
           />
@@ -92,7 +92,7 @@ class HomeScreen extends React.Component {
             options={{
               title: 'My Profile',
               drawerIcon: ({ focused, size }) => (
-                <AntDesignIcon name="user" size={23} color={'#800C69'} style={{ padding: 5 }} />
+                <AntDesignIcon name="user" size={20} color={'#800C69'} style={{ padding: 0 }} />
               ),
             }}
           />
@@ -100,7 +100,7 @@ class HomeScreen extends React.Component {
             options={{
               title: 'My Addresses',
               drawerIcon: ({ focused, size }) => (
-                <EntypoIcon name="location" size={23} color={'#800C69'} style={{ padding: 5 }} />
+                <EntypoIcon name="location" size={20} color={'#800C69'} style={{ padding: 0 }} />
               ),
             }}
           />
@@ -108,103 +108,115 @@ class HomeScreen extends React.Component {
             options={{
               title: 'Setting',
               drawerIcon: ({ focused, size }) => (
-                <Icon name="settings" size={23} color={'#800C69'} style={{ padding: 5 }} />
+                <Icon name="settings" size={20} color={'#800C69'} style={{ padding: 2 }} />
               ),
             }}
           />
-
-
           <Drawer.Screen name="pageOne" component={pageOne}
             options={{
+              drawerItemStyle: { height: 0 },
               title: 'Al-Shini',
               drawerLabel: () => null
             }} />
           <Drawer.Screen name="pageTwo" component={pageTwo}
             options={{
+              drawerItemStyle: { height: 0 },
               title: 'Bravo',
               drawerLabel: () => null
             }} />
           <Drawer.Screen name="pageThree" component={pageThree}
             options={{
+              drawerItemStyle: { height: 0 },
               title: 'Brothers',
               drawerLabel: () => null
             }} />
 
           <Drawer.Screen name="pageFour" component={pageFour}
             options={{
+              drawerItemStyle: { height: 0 },
               title: 'Gardens',
               drawerLabel: () => null
             }} />
 
           <Drawer.Screen name="CheckOut" component={CheckOut}
             options={{
+              drawerItemStyle: { height: 0 },
               title: 'CheckOut',
               drawerLabel: () => null
             }} />
 
           <Drawer.Screen name="edit" component={edit}
             options={{
+              drawerItemStyle: { height: 0 },
               title: 'Edit My Profile',
               drawerLabel: () => null
             }} />
-            
-            <Drawer.Screen name="editAddress" component={editAddress}
+
+          <Drawer.Screen name="editAddress" component={editAddress}
             options={{
+              drawerItemStyle: { height: 0 },
               title: 'Edit Address',
               drawerLabel: () => null
             }} />
 
           <Drawer.Screen name="orderHistory" component={orderHistory}
             options={{
+              drawerItemStyle: { height: 0 },
               title: 'Order History',
               drawerLabel: () => null
             }} />
 
           <Drawer.Screen name="setLocation" component={setLocation}
             options={{
+              drawerItemStyle: { height: 0 },
               title: 'Set Location',
               drawerLabel: () => null
             }} />
           <Drawer.Screen name="ProviderLogin" component={ProviderLogin}
             options={{
+              drawerItemStyle: { height: 0 },
               title: 'ProviderLogin',
               drawerLabel: () => null
             }} />
 
-
           <Drawer.Screen name="ProviderHome" component={ProviderHome}
             options={{
+              drawerItemStyle: { height: 0 },
               title: 'ProviderHome',
               drawerLabel: () => null
             }} />
 
           <Drawer.Screen name="addProduct" component={addProduct}
             options={{
+              drawerItemStyle: { height: 0 },
               title: 'addProduct',
               drawerLabel: () => null
             }} />
 
           <Drawer.Screen name="editProducts" component={editProducts}
             options={{
+              drawerItemStyle: { height: 0 },
               title: 'editProducts',
               drawerLabel: () => null
             }} />
 
           <Drawer.Screen name="viewProducts" component={viewProducts}
             options={{
+              drawerItemStyle: { height: 0 },
               title: 'viewProducts',
               drawerLabel: () => null
             }} />
 
           <Drawer.Screen name="editProd" component={editProd}
             options={{
+              drawerItemStyle: { height: 0 },
               title: 'editProd',
               drawerLabel: () => null
             }} />
 
-            
           <Drawer.Screen name="ProviderOrders" component={ProviderOrders}
             options={{
+              drawerItemStyle: { height: 0 },
               title: 'ProviderOrders',
               drawerLabel: () => null
             }} />
