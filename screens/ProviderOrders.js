@@ -20,7 +20,7 @@ export default class ProviderOrders extends Component {
     constructor() {
         super();
         console.log(this.props)
-        this.docs = firebase.firestore().collection("Orders");
+        this.docs = firebase.firestore().collection("OrdersCheckedOut");
         this.state = {
             isLoading: true,
             orderDB: []
@@ -46,7 +46,7 @@ export default class ProviderOrders extends Component {
     getorderDBData = () => {
 
         let OrderInf;
-        db.collection("Orders")
+        db.collection("OrdersCheckedOut")
             .where('product_provider', '==', this.MyDB)
             .get()
             .then((querySnapshot) => {
@@ -76,7 +76,7 @@ export default class ProviderOrders extends Component {
 
 
 
-                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
                             <TouchableOpacity>
 
@@ -84,7 +84,7 @@ export default class ProviderOrders extends Component {
 
                                     <View style={styles.infoBoxWrapper}>
 
-                                        <View>
+                                        <View style={styles.container}>
                                             <Text style={{ color: "#38700F", paddingLeft: 20, fontSize: 16 }}>
                                                 {`Product Name:  `}{item.product_name}
                                             </Text>
@@ -103,7 +103,7 @@ export default class ProviderOrders extends Component {
                                             </Text>
 
                                             <Text style={{ color: "#38700F", paddingLeft: 20, fontSize: 16 }}>
-                                                {`Customer Adress:  `}{""}
+                                                {`Customer Address:  `}{item.address}
                                             </Text>
 
                                             <Text style={{ color: "#38700F", paddingLeft: 20, fontSize: 16 }}>
@@ -164,13 +164,13 @@ export default class ProviderOrders extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        // justifyContent: 'space-between',
-        // backgroundColor: '#ecf0f1',
-        // padding: 8,
-        // flexDirection: 'column',
-        // alignItems: 'center'
+     container: {
+        width: 350,
+        height: 250,
+        marginBottom: 25,
+        borderRadius: 15,
+        backgroundColor: '#FFFFFF',
+        overflow: 'hidden'
     },
 
     userInfoSection: {
@@ -192,11 +192,11 @@ const styles = StyleSheet.create({
     },
     infoBoxWrapper: {
         //borderBottomColor: 'white',
-        borderBottomWidth: 1,
-        borderTopColor: '#dddddd',
-        borderTopWidth: 1,
-        flexDirection: 'row',
-        height: 200,
+        // borderBottomWidth: 1,
+        // borderTopColor: '#dddddd',
+        // borderTopWidth: 1,
+        // flexDirection: 'row',
+      //  height: 400,
     },
     infoBox: {
         width: '50%',
@@ -335,14 +335,14 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
         // backgroundColor: '#FFFFFF',
     },
-    container: {
-        width: 350,
-        height: 200,
-        marginBottom: 25,
-        borderRadius: 15,
-        backgroundColor: '#FFFFFF',
-        overflow: 'hidden'
-    },
+    // container: {
+    //     width: 350,
+    //     height: 200,
+    //     marginBottom: 25,
+    //     borderRadius: 15,
+    //     backgroundColor: '#FFFFFF',
+    //     overflow: 'hidden'
+    // },
 
     image: {
         alignSelf: 'flex-start',
