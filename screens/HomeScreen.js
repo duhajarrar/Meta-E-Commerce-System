@@ -29,6 +29,7 @@ import viewProducts from '../screens/viewProducts'
 import editProd from '../screens/editProd'
 import ProviderOrders from '../screens/ProviderOrders'
 import editAddress from '../screens/editAddress'
+import CardPayment from '../screens/CardPayment'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 
@@ -163,6 +164,12 @@ class HomeScreen extends React.Component {
             options={{
               drawerItemStyle: { height: 0 },
               title: 'Order History',
+              drawerLabel: () => null
+            }} />
+
+          <Drawer.Screen name="CardPayment" component={CardPayment} style={{ color: "#800C69" }}
+            options={{
+              title: 'Credit Card Payment',
               drawerLabel: () => null
             }} />
 

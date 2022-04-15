@@ -127,8 +127,6 @@ class CartProducts extends Component {
         });
 
     });
-
-
   }
 
 
@@ -147,10 +145,6 @@ class CartProducts extends Component {
       // console.log(s);
       return <Picker.Item key={i} value={this.getAddress(s)} label={this.getAddress(s)} />
     });
-
-
-
-
 
     return (
       <View style={styles.container}>
@@ -176,7 +170,6 @@ class CartProducts extends Component {
 
             const item = post.item;
             return (
-
 
               <View style={styles.card}>
 
@@ -247,17 +240,8 @@ class CartProducts extends Component {
 
                       </View>
                     </View>
-
-
-
-
                   </View>
-
-
-
-
                 </View>
-
               </View>
 
             )

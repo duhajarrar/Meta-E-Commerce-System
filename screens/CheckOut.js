@@ -89,8 +89,6 @@ export default class CheckOut extends Component {
                     console.error("Error adding document: ", error);
                 });
         });
-
-
     }
 
 
@@ -117,7 +115,7 @@ export default class CheckOut extends Component {
                         this.addOrder(this.props.route.params.products) &
                             Alert.alert('Orders checked out successfully') &
                             this.props.route.params.clearCart  &
-                            this.props.navigation.navigate("Cart")
+                            this.props.navigation.navigate("CardPayment")
                     }}
                 ><Text style={{
                     color: "white",

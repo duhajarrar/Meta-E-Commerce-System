@@ -115,25 +115,12 @@ export default class viewProducts extends Component {
 
                                             </Text>
                                         </View>
-
                                     </View>
-
-
-
-
                                 </View>
-
-
-
                             </TouchableOpacity>
                         </View>
-
-
                     }
                 />
-
-
-
 
                 <View style={styles.cardFooter}>
 
