@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { StyleSheet, SafeAreaView, Text, Image, View, TouchableOpacity, FlatList } from 'react-native';
 import { Dimensions } from "react-native";
-import {TextInput,KeyboardAvoidingView,ActivityIndicator,Keyboard,TouchableWithoutFeedback,Platform,Button, Alert } from 'react-native';
+import { TextInput, KeyboardAvoidingView, ActivityIndicator, Keyboard, TouchableWithoutFeedback, Platform, Button, Alert } from 'react-native';
 
 import MapView from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
@@ -14,7 +14,7 @@ var db = firebase.firestore();
 const GOOGLE_MAPS_APIKEY = "AIzaSyDjKKs_oh-Yhlilngt6EmiRnn8CbRECmBA";
 
 export default class editLocation extends Component {
-  state = { user: {},city:'',country:'',street:'',moreDescription:'' };
+  state = { user: {}, city: '', country: '', street: '', moreDescription: '' };
   componentDidMount() {
 
     firebase.auth().onAuthStateChanged((user) => {
@@ -28,77 +28,77 @@ export default class editLocation extends Component {
 
 
   getAddress() {
-    return this.state.city + ',' + this.state.country + ':' + this.state.street+','+this.state.moreDescription;//format: Palestine,Ramallah,Irsal street:buliding No. 10;
+    return this.state.city + ',' + this.state.country + ':' + this.state.street + ',' + this.state.moreDescription;//format: Palestine,Ramallah,Irsal street:buliding No. 10;
   }
   editAddress() {
-      db.collection("usersAddresses").doc(this.props.route.params.itemId).update({
-        email: this.state.user.email,
-        city: this.state.city,
-        country: this.state.country,
-        moreDescription: this.state.moreDescription,
-        street: this.state.street
-      })
-        .catch(function (error) {
-          console.error("Error updating document: ", error);
-        });
-    }
+    db.collection("usersAddresses").doc(this.props.route.params.itemId).update({
+      email: this.state.user.email,
+      city: this.state.city,
+      country: this.state.country,
+      moreDescription: this.state.moreDescription,
+      street: this.state.street
+    })
+      .catch(function (error) {
+        console.error("Error updating document: ", error);
+      });
+  }
 
   render() {
     return (
-<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>        
-<TextInput
-  placeholder={"Country: "+this.props.route.params.itemData.country}
-  placeholderTextColor="#B1B1B1"
-  returnKeyType="next"
-  textContentType="country"
-  value={this.state.country}
-  onChangeText={country => this.setState({ country })}
-  style={styles.input}
-/>
-    <TextInput
-      placeholder={"City: "+this.props.route.params.itemData.city}
-      placeholderTextColor="#B1B1B1"
-      returnKeyType="next"
-      textContentType="city"
-      value={this.state.city}
-      onChangeText={city => this.setState({ city })}
-      style={styles.input}
-  />
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <TextInput
+          placeholder={"Country: " + this.props.route.params.itemData.country}
+          placeholderTextColor="#B1B1B1"
+          returnKeyType="next"
+          textContentType="country"
+          value={this.state.country}
+          onChangeText={country => this.setState({ country })}
+          style={styles.input}
+        />
+        <TextInput
+          placeholder={"City: " + this.props.route.params.itemData.city}
+          placeholderTextColor="#B1B1B1"
+          returnKeyType="next"
+          textContentType="city"
+          value={this.state.city}
+          onChangeText={city => this.setState({ city })}
+          style={styles.input}
+        />
 
 
-<TextInput
-  placeholder={"Street: "+ this.props.route.params.itemData.street}
-  placeholderTextColor="#B1B1B1"
-  returnKeyType="next"
-  textContentType="street"
-//   text={dataItem.street}
-  value={this.state.street}
-  onChangeText={street => this.setState({ street })}
-  style={styles.input}
-/>
+        <TextInput
+          placeholder={"Street: " + this.props.route.params.itemData.street}
+          placeholderTextColor="#B1B1B1"
+          returnKeyType="next"
+          textContentType="street"
+          //   text={dataItem.street}
+          value={this.state.street}
+          onChangeText={street => this.setState({ street })}
+          style={styles.input}
+        />
 
-<TextInput
-  placeholder={"More Description:"+this.props.route.params.itemData.moreDescription}
-  placeholderTextColor="#B1B1B1"
-  returnKeyType="next"
-  textContentType="moreDescription"
-  value={this.state.moreDescription}
-  onChangeText={moreDescription => this.setState({ moreDescription })}
-  style={styles.input}
-/>
+        <TextInput
+          placeholder={"More Description:" + this.props.route.params.itemData.moreDescription}
+          placeholderTextColor="#B1B1B1"
+          returnKeyType="next"
+          textContentType="moreDescription"
+          value={this.state.moreDescription}
+          onChangeText={moreDescription => this.setState({ moreDescription })}
+          style={styles.input}
+        />
 
-<TouchableOpacity 
-   style={styles.buttonContainer}
-    onPress={() => this.editAddress() &  this.props.navigation.navigate("Locations") 
-    & Alert.alert('Address updated')
-    }>
-     <Text style={{
-                color: "white",
-                padding: 5,
-                fontSize: 18
-              }}>Update Address</Text>
-            </TouchableOpacity>
-{/* 
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={() => this.editAddress() & this.props.navigation.navigate("Locations")
+            & Alert.alert('Address updated')
+          }>
+          <Text style={{
+            color: "white",
+            padding: 5,
+            fontSize: 18
+          }}>Update Address</Text>
+        </TouchableOpacity>
+        {/* 
             <TouchableOpacity 
    style={styles.buttonContainer}
     onPress={() => this.addAddress() &  this.props.navigation.navigate("Locations") 
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   cardFooter: {
-    marginTop:110,
+    marginTop: 110,
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingTop: 10,
@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     textAlign: "center",
 
-  },  input: {
+  }, input: {
     fontSize: 18,
     borderColor: "#707070",
     borderWidth: 1,
@@ -276,8 +276,8 @@ const styles = StyleSheet.create({
     color: 'black',
     paddingLeft: 48,
     marginHorizontal: 25,
-    width:300,
-    height:40,
+    width: 300,
+    height: 40,
   },
   buyNow: {
     fontSize: 18,
@@ -334,7 +334,7 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // justifyContent: 'center'
   },
-    camera: {
+  camera: {
     alignSelf: 'center',
     margin: 8,
 

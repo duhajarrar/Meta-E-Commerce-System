@@ -31,6 +31,9 @@ import ProviderOrders from '../screens/ProviderOrders'
 import editAddress from '../screens/editAddress'
 import CardPayment from '../screens/CardPayment'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import ProviderFeedback from './ProviderFeedback'
+import Feedbacks from '../screens/Feedbacks'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 const Tab = createBottomTabNavigator();
 
 const Drawer = createDrawerNavigator();
@@ -43,7 +46,7 @@ function CustomDrawerContent(props) {
       <DrawerItemList {...props} />
       <DrawerItem
         icon={() => <AntDesignIcon name="logout" size={23} color={'#800C69'} style={{ padding: 5 }} />}
-        style={{ marginTop: '125%' }}
+        style={{ marginTop: '110%' }}
         label="Logout" onPress={() => {
           firebase.auth().signOut();
         }
@@ -113,6 +116,16 @@ class HomeScreen extends React.Component {
               ),
             }}
           />
+
+          <Drawer.Screen name="ProviderFeedback" component={ProviderFeedback}
+            options={{
+              drawerItemStyle: { height: 0 },
+              title: 'Feedbacks and Reviews',
+              drawerIcon: ({ focused, size }) => (
+                <MaterialIcons name="feedback" size={20} color={'#800C69'} />
+              ),
+            }} />
+
           <Drawer.Screen name="pageOne" component={pageOne}
             options={{
               drawerItemStyle: { height: 0 },
@@ -227,6 +240,14 @@ class HomeScreen extends React.Component {
               title: 'ProviderOrders',
               drawerLabel: () => null
             }} />
+
+          <Drawer.Screen name="Feedbacks" component={Feedbacks}
+            options={{
+              drawerItemStyle: { height: 0 },
+              title: ' ',
+              drawerLabel: () => null
+            }} />
+
 
 
         </Drawer.Navigator>

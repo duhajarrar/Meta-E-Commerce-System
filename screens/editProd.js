@@ -174,7 +174,7 @@ export default class editProd extends Component {
                         </View>
 
 
-            
+
                         <View style={styles.detailsWrapper}>
 
 
@@ -249,7 +249,7 @@ export default class editProd extends Component {
                             </View>
                         </View>
 
-                        
+
 
 
 
@@ -415,6 +415,10 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 1,
         borderBottomRightRadius: 1,
         backgroundColor: '#ECD4EA',
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        bottom: 0
     },
     cardImage: {
         flex: 1,

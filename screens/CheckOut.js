@@ -22,17 +22,6 @@ export default class CheckOut extends Component {
     }
     getAddressDBData = () => {
 
-
-        // db.collection(this.MyDB)
-        // .where('id', '==', this.state.id)
-        // .get()
-        // .then((querySnapshot) => {
-        //     userInf = querySnapshot.docs.map(doc => doc.data());
-        //     this.setState({ userinfo: userInf[0] });
-        //     console.log("xxxyyxxxx", this.state.userinfo)
-
-        // })
-
         let AddressInf;
 
         db.collection("usersAddresses")
@@ -113,7 +102,7 @@ export default class CheckOut extends Component {
                 <TouchableOpacity style={styles.buttonContainer}
                     onPress={() => {
                         this.addOrder(this.props.route.params.products) &
-                            Alert.alert('Orders checked out successfully') &
+                            //Alert.alert('Orders checked out successfully') &
                             this.props.route.params.clearCart  &
                             this.props.navigation.navigate("CardPayment")
                     }}

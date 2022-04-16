@@ -27,6 +27,8 @@ import Locations from '../screens/Locations'
 import setLocation from '../screens/setLocation'
 import editAddress from '../screens/editAddress' 
 import CardPayment from '../screens/CardPayment' 
+import ProviderFeedback from '../screens/ProviderFeedback'
+import Feedbacks from '../screens/Feedbacks';
 
 const Navigator = createSwitchNavigator(
   {
@@ -55,6 +57,8 @@ const Navigator = createSwitchNavigator(
     setLocation:{screen:setLocation},
     editAddress:{screen:editAddress},
     CardPayment:{screen:CardPayment},
+    ProviderFeedback: { screen: ProviderFeedback },
+    Feedbacks: { screen: Feedbacks },
   },
   { initialRouteName: 'Loading' }
 );

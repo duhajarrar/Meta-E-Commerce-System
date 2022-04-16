@@ -1,19 +1,7 @@
-// import React from 'react';
-// import { Text, View } from 'react-native';
-// import { Wrapper, Status } from "@googlemaps/react-wrapper";
-// function setLocation() {
-//     return (
-//         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-//             <Text>Set Location Screen</Text>
-//         </View>
-//     )
-// }
-// export default setLocation
-
 import React, { Component } from "react";
 import { StyleSheet, SafeAreaView, Text, Image, View, TouchableOpacity, FlatList } from 'react-native';
 import { Dimensions } from "react-native";
-import {TextInput,KeyboardAvoidingView,ActivityIndicator,Keyboard,TouchableWithoutFeedback,Platform,Button, Alert } from 'react-native';
+import { TextInput, KeyboardAvoidingView, ActivityIndicator, Keyboard, TouchableWithoutFeedback, Platform, Button, Alert } from 'react-native';
 
 import MapView from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
@@ -32,7 +20,7 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const GOOGLE_MAPS_APIKEY = "AIzaSyDjKKs_oh-Yhlilngt6EmiRnn8CbRECmBA";
 
 export default class setLocation extends Component {
-  state = { user: {},city:{},country:{},street:{},moreDescription:{} };
+  state = { user: {}, city: {}, country: {}, street: {}, moreDescription: {} };
   componentDidMount() {
 
     firebase.auth().onAuthStateChanged((user) => {
@@ -46,11 +34,11 @@ export default class setLocation extends Component {
 
 
   getAddress() {
-    return this.state.city + ',' + this.state.country + ':' + this.state.street+','+this.state.moreDescription;//format: Palestine,Ramallah,Irsal street:buliding No. 10;
+    return this.state.city + ',' + this.state.country + ':' + this.state.street + ',' + this.state.moreDescription;//format: Palestine,Ramallah,Irsal street:buliding No. 10;
   }
 
   addAddress() {
-    if (this.state.user.email != null){
+    if (this.state.user.email != null) {
       db.collection("usersAddresses").add({
         email: this.state.user.email,
         // address: this.getAddress(),
@@ -62,8 +50,8 @@ export default class setLocation extends Component {
         .catch(function (error) {
           console.error("Error adding document: ", error);
         });
-      }
     }
+  }
 
 
   // constructor(props) {
@@ -94,72 +82,73 @@ export default class setLocation extends Component {
 
   render() {
     return (
-<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>        
-<TextInput
-  placeholder="Country"
-  placeholderTextColor="#B1B1B1"
-  returnKeyType="next"
-  textContentType="country"
-  value={this.state.country}
-  onChangeText={country => this.setState({ country })}
-  style={styles.input}
-/>
-    <TextInput
-      placeholder="City"
-      placeholderTextColor="#B1B1B1"
-      returnKeyType="next"
-      textContentType="city"
-      value={this.state.city}
-      onChangeText={city => this.setState({ city })}
-      style={styles.input}
-  />
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <TextInput
+          placeholder="Country"
+          placeholderTextColor="#B1B1B1"
+          returnKeyType="next"
+          textContentType="country"
+          value={this.state.country}
+          onChangeText={country => this.setState({ country })}
+          style={styles.input}
+        />
+        <TextInput
+          placeholder="City"
+          placeholderTextColor="#B1B1B1"
+          returnKeyType="next"
+          textContentType="city"
+          value={this.state.city}
+          onChangeText={city => this.setState({ city })}
+          style={styles.input}
+        />
 
 
-<TextInput
-  placeholder="Street"
-  placeholderTextColor="#B1B1B1"
-  returnKeyType="next"
-  textContentType="street"
-  value={this.state.street}
-  onChangeText={street => this.setState({ street })}
-  style={styles.input}
-/>
+        <TextInput
+          placeholder="Street"
+          placeholderTextColor="#B1B1B1"
+          returnKeyType="next"
+          textContentType="street"
+          value={this.state.street}
+          onChangeText={street => this.setState({ street })}
+          style={styles.input}
+        />
 
-<TextInput
-  placeholder="More Description"
-  placeholderTextColor="#B1B1B1"
-  returnKeyType="next"
-  textContentType="moreDescription"
-  value={this.state.moreDescription}
-  onChangeText={moreDescription => this.setState({ moreDescription })}
-  style={styles.input}
-/>
+        <TextInput
+          placeholder="More Description"
+          placeholderTextColor="#B1B1B1"
+          returnKeyType="next"
+          textContentType="moreDescription"
+          value={this.state.moreDescription}
+          onChangeText={moreDescription => this.setState({ moreDescription })}
+          style={styles.input}
+        />
 
-<TouchableOpacity 
-   style={styles.buttonContainer}
-    onPress={() => this.addAddress() &  this.props.navigation.navigate("Locations") 
-    & Alert.alert('Address added')
-    }>
-     <Text style={{
-                color: "white",
-                padding: 5,
-                fontSize: 18
-              }}>Add Address</Text>
-            </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={() => this.addAddress() & this.props.navigation.navigate("Locations")
+            & Alert.alert('Address added')
+          }>
+          <Text style={{
+            color: "white",
+            padding: 5,
+            fontSize: 18
+          }}>Add Address</Text>
+        </TouchableOpacity>
 
-            <TouchableOpacity 
-   style={styles.buttonContainer}
-    onPress={() => this.addAddress() &  this.props.navigation.navigate("Locations") 
-    & Alert.alert('Address added')
-    }>
-     <Text style={{
-                color: "white",
-                padding: 5,
-                fontSize: 18
-              }}>Use Current Location</Text>
-            </TouchableOpacity>
+        <TouchableOpacity
+          // style={styles.buttonContainer}
+          // onPress={() => this.addAddress() & this.props.navigation.navigate("Locations")
+          //   & Alert.alert('Address added')
+          // }
+          >
+          <Text style={{
+            color: "white",
+            padding: 5,
+            fontSize: 18
+          }}>Use Current Location</Text>
+        </TouchableOpacity>
 
-      {/* <MapView
+        {/* <MapView
         initialRegion={{
           latitude: LATITUDE,
           longitude: LONGITUDE,
@@ -332,7 +321,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   cardFooter: {
-    marginTop:110,
+    marginTop: 110,
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingTop: 10,
@@ -371,7 +360,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     textAlign: "center",
 
-  },  input: {
+  }, input: {
     fontSize: 18,
     borderColor: "#707070",
     borderWidth: 1,
@@ -382,8 +371,8 @@ const styles = StyleSheet.create({
     color: 'black',
     paddingLeft: 48,
     marginHorizontal: 25,
-    width:300,
-    height:40,
+    width: 300,
+    height: 40,
   },
   buyNow: {
     fontSize: 18,
@@ -440,7 +429,7 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // justifyContent: 'center'
   },
-    camera: {
+  camera: {
     alignSelf: 'center',
     margin: 8,
 

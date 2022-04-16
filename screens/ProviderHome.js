@@ -53,6 +53,14 @@ export default class ProviderHome extends Component {
     });
   }
 
+  goToFeedback() {
+    this.props.navigation.navigate('ProviderFeedback', {
+      userName: this.props.navigation.state.params.userName,
+      ProviderName: this.props.navigation.state.params.ProviderName
+    });
+  }
+
+
 
   render() {
     return (
@@ -84,7 +92,7 @@ export default class ProviderHome extends Component {
                 color: "white",
                 padding: 10,
                 fontSize: 18
-              }}>add Product</Text>
+              }}>Add Product</Text>
             </TouchableOpacity>
 
 
@@ -128,6 +136,16 @@ export default class ProviderHome extends Component {
               }}>View Orders</Text>
             </TouchableOpacity>
 
+            <TouchableOpacity style={styles.buttonContainer}
+              onPress={() => this.goToFeedback()
+              }
+            >
+              <Text style={{
+                color: "white",
+                padding: 5,
+                fontSize: 18
+              }}>View Feedbacks</Text>
+            </TouchableOpacity>
 
 
             <TouchableOpacity style={styles.buttonContainer}

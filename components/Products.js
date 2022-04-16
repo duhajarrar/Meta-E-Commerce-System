@@ -11,11 +11,81 @@ import {
 } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import firebase from "firebase/compat/app"
+import "firebase/compat/auth"
+import "firebase/compat/firestore"
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAeCMxhLz313UsAr8xFdDCLpwghE1nan4c",
+  authDomain: "testregistration-cbec3.firebaseapp.com",
+  projectId: "testregistration-cbec3",
+  storageBucket: "testregistration-cbec3.appspot.com",
+  messagingSenderId: "731109863491",
+  appId: "1:731109863491:web:5fa78b0e7d5579a46124f6",
+  measurementId: "G-3Y36SZEZV9"
+}
+
+firebase.initializeApp(firebaseConfig);
+
+var db = firebase.firestore();
+
 
 class Products extends Component {
+  state = { providerName: '' }
+
+
+  update() {
+    const comment = "test"
+    // console.log(address);
+    firebase.firestore().collection("FeedBack").where('userName', '==', "test")
+      .get()
+      .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+          doc.ref.update({ comment: comment });
+          console.log(doc.id, " => ", doc.data());
+        });
+      })
+  }
+  addComment() {
+
+    firebase.firestore().collection("FeedBack").where("comment", "==", "test").get()
+      .then(querySnapshot => {
+        querySnapshot.docs[0].ref.delete();
+      });
+
+
+    db.collection("FeedBack").add({
+      userName: "test",
+      comment: "test",
+      photoURL: "test",
+      Provider: "tst",
+    })
+      .catch(function (error) {
+        console.error("Error adding document: ", error);
+      });
+
+  }
+
+  onLoginFeedbackSuccess() {
+    console.log("feedback successful --------------------");
+    this.addComment();
+
+    this.props.navigation.navigate('Feedbacks', {
+      // items: this.props.products,
+      ProviderName: this.props.products[0].provider,
+      isLoading: false
+    })
+  }
+  // this.props.navigation.setOptions({
+  //   title: this.props.products[0].provider +" Feedback",
+  // })
 
   render() {
+
     return (
+
       <View style={styles.container}>
         <FlatList style={styles.list}
           contentContainerStyle={styles.listContainer}
@@ -31,7 +101,10 @@ class Products extends Component {
             )
           }}
           renderItem={(post) => {
+
             const item = post.item;
+            console.log("--", this.props.name)
+            // this.setState({providerName:this.props.products[0].provider})
             return (
               <View style={styles.card}>
 
@@ -78,10 +151,22 @@ class Products extends Component {
             </Text>
           </TouchableOpacity>
 
+
+          <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+
+            onPress={() => {
+              this.onLoginFeedbackSuccess();
+            }
+            }
+          >
+            <Text style={{ fontSize: 16, color: "#800C69", }}>
+              <MaterialIcons name="feedback" size={20} color={'#2E922E'} />
+              {" "}  Feedback
+              {/* {this.Provider} */}
+            </Text>
+          </TouchableOpacity>
+
         </View>
-
-
-
 
 
       </View>
