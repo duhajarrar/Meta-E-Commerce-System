@@ -99,16 +99,19 @@ export default class Feedbacks extends Component {
     }
 
     addComment() {
-        db.collection("FeedBack").add({
-            userName: this.state.displayName,
-            comment: this.state.feedback,
-            photoURL: this.state.photoURL,
-            Provider: this.props.route.params.ProviderName,
-            time: this.getCurrentDate()
-        })
-            .catch(function (error) {
-                console.error("Error adding document: ", error);
-            });
+        if (this.state.feedback != null) {
+            db.collection("FeedBack").add({
+                userName: this.state.displayName,
+                comment: this.state.feedback,
+                photoURL: this.state.photoURL,
+                Provider: this.props.route.params.ProviderName,
+                time: this.getCurrentDate()
+            })
+                .catch(function (error) {
+                    console.error("Error adding document: ", error);
+                });
+
+        }
 
     }
 
