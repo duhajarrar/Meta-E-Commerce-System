@@ -82,40 +82,54 @@ export default class CheckOut extends Component {
 
 
     render() {
+      
         this.getAddressDBData();
         let pickerItems = this.state.addressDB.map((s, i) => {
             // console.log(s);
             return <Picker.Item key={i} value={this.getAddress(s)} label={this.getAddress(s)} />
         });
         return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text>CheckOut Screen</Text>
-                <Picker
-                    selectedValue={this.state.address}
-                    onValueChange={(value, index) => this.setState({ address: value })}
-                    mode="dropdown" // Android only
-                    style={styles.picker}>
-                    <Picker.Item label="Please select the address" value="Unknown" />
-                    {pickerItems}
-                </Picker>
-                <Text style={styles.text}>Your address: {this.state.address}</Text>
-                <TouchableOpacity style={styles.buttonContainer}
-                    onPress={() => {
-                        this.addOrder(this.props.route.params.products) &
-                            //Alert.alert('Orders checked out successfully') &
-                            this.props.route.params.clearCart  &
-                            this.props.navigation.navigate("CardPayment")
-                    }}
-                ><Text style={{
-                    color: "white",
-                    padding: 5,
-                    fontSize: 18
-                }}>Check out Order</Text>
-                </TouchableOpacity>
-            </View>
-
-
-        )
+          <View
+            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+          >
+            <Text>CheckOut Screen</Text>
+            <Picker
+              selectedValue={this.state.address}
+              onValueChange={(value, index) =>
+                this.setState({ address: value })
+              }
+              mode="dropdown" // Android only
+              style={styles.picker}
+            >
+              <Picker.Item label="Please select the address" value="Unknown" />
+              {pickerItems}
+            </Picker>
+            <Text style={styles.text}>Your address: {this.state.address}</Text>
+            <TouchableOpacity
+              style={styles.buttonContainer}
+              onPress={() => {
+                this.addOrder(this.props.route.params.products) &
+                  //Alert.alert('Orders checked out successfully') &
+                 // console.log("checout",this.props.route.params.TotalAmount)&
+                  this.props.route.params.clearCart &
+                  this.props.navigation.navigate("CardPayment", {
+                    TotalAmount: this.props.route.params.TotalAmount,
+               
+                  });
+              }}
+            >
+              <Text
+                style={{
+                  color: "white",
+                  padding: 5,
+                  fontSize: 18,
+                }}
+              >
+                Check out Order
+              </Text>
+            </TouchableOpacity>
+          </View>
+        );
     }
 }
 const styles = StyleSheet.create({

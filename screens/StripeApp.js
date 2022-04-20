@@ -3,19 +3,23 @@ import { View, Text, StyleSheet, TextInput, Button, Alert } from "react-native";
 import { CardField, useConfirmPayment } from "@stripe/stripe-react-native";
 
 //ADD localhost address of your server
-const API_URL = "http://localhost:3000";
+const API_URL = "http://172.19.28.15:3000";
 
 const StripeApp = props => {
   const [email, setEmail] = useState();
   const [cardDetails, setCardDetails] = useState();
   const { confirmPayment, loading } = useConfirmPayment();
-
+  const [amount, setAmount] = useState("0");
+  // const finalAmount = this.props.TotalAmount;
+  // console.log("finalAmount==",finalAmount);
+  //console.log("this.props==",this.props);
   const fetchPaymentIntentClientSecret = async () => {
     const response = await fetch(`${API_URL}/create-payment-intent`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify( {amount:finalAmount}),
     });
     const { clientSecret, error } = await response.json();
     return { clientSecret, error };
@@ -55,6 +59,7 @@ const StripeApp = props => {
   };
 
   return (
+   
     <View style={styles.container}>
       <TextInput
         autoCapitalize="none"
@@ -75,6 +80,7 @@ const StripeApp = props => {
         }}
       />
       <Button onPress={handlePayPress} title="Pay" disabled={loading} />
+    
     </View>
   );
 };
