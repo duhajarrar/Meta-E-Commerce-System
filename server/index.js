@@ -12,7 +12,7 @@ import bp from 'body-parser';
 const stripe = Stripe(SECRET_KEY, { apiVersion: "2020-08-27" });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://172.19.28.15:${port}`);
+  console.log(`Example app listening at http://192.168.31.198:${port}`);
 });
 app.use(bp.json())
 app.use(bp.urlencoded({ extended: true }))
