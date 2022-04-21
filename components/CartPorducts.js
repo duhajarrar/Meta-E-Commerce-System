@@ -288,9 +288,9 @@ class CartProducts extends Component {
               // this.props.onPressClearCart();
               this.props.navigation.navigate("CheckOut",
                 {
+                  TotalAmount:this.props.TotalAmount,
                   products: this.props.products.products,
                   clearCart: this.props.onPressClearCart()
-
                 })
             }}
           >

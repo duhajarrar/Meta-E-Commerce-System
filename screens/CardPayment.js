@@ -10,9 +10,12 @@ import {
 
 export default class CardPayment extends Component{
     render() {
+        console.log("CArd TotalAmount}",this.props.route.params.TotalAmount)
         return (
             <StripeProvider publishableKey="pk_test_51KkE0nKp6AqW7tekVsUktEjRVxORKt0abudPefXwCYRpYHsEJo6yD7abWCWRqb2KS7Vg3VCEsIM9BtO4D28xtWp600UDl17oRV">
-              <StripeApp />
+              <StripeApp 
+                TotalAmount={this.props.route.params.TotalAmount}
+              />
             </StripeProvider>
         );
     }
