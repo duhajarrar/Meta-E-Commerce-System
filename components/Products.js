@@ -151,9 +151,8 @@ class Products extends Component {
             </Text>
           </TouchableOpacity>
 
-
+{/* 
           <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-
             onPress={() => {
               this.onLoginFeedbackSuccess();
             }
@@ -162,9 +161,8 @@ class Products extends Component {
             <Text style={{ fontSize: 16, color: "#800C69", }}>
               <MaterialIcons name="feedback" size={20} color={'#2E922E'} />
               {" "}  Feedback
-              {/* {this.Provider} */}
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
         </View>
 

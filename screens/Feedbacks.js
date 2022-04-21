@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
+import StarRating from 'react-native-star-rating';
 
 import { StyleSheet, SafeAreaView, Text, Image, View, TouchableOpacity, FlatList, TextInput, ActivityIndicator } from 'react-native';
 import {
@@ -36,10 +37,22 @@ export default class Feedbacks extends Component {
         user: {},
     };
 
+
+    state = {
+        ProviderName: ''
+        , rating: null
+        , BravoRate: null
+        , ShiniRate: null
+        , BrothersRate: null
+        , GardensRate: null
+        ,Rates: null
+    }
+
     constructor(props) {
         super(props);
         this.forceUpdate();
         this.setState({ isLoading: this.props.route.params.isLoading });
+        this.setState({ Rates: this.props.route.params.Rate });
         console.log("TESSSST", this.props.route.params.ProviderName)
 
         this.docs = firebase.firestore().collection('FeedBack')
@@ -72,6 +85,8 @@ export default class Feedbacks extends Component {
 
     componentDidMount() {
         this.unsubscribe = this.docs.onSnapshot(this.getDBData);
+        this.update();
+
 
     }
 
@@ -116,11 +131,7 @@ export default class Feedbacks extends Component {
     }
 
     getCurrentDate() {
-
-
         var date = new Date().getDate();
-
-
         var month = new Date().getMonth() + 1;
         var year = new Date().getFullYear();
         var hours = new Date().getHours();
@@ -137,6 +148,69 @@ export default class Feedbacks extends Component {
         return finalObject;
     }
 
+
+    onGeneralStarRatingPress(rating) {
+        this.setState({
+            generalStarCount: rating,
+        });
+    }
+
+    update() {
+        this.getRate(this.props.route.params.ProviderName);
+    }
+
+    getRate(ProviderName) {
+        let Rating;
+        let rate;
+        db.collection("ProvidersRank")
+            .where('ProviderName', '==', ProviderName)
+            .get()
+            .then((querySnapshot) => {
+                Rating = querySnapshot.docs.map(doc => doc.data());
+                console.log("Rates",Rating[0].StarCountAvg);
+                rate = Rating[0].StarCountAvg;
+                this.setState({ Rates: rate });
+                this.props.navigation.setParams({
+                    Rate: rate,
+                  })
+                
+            })
+    }
+
+    updateRate(ProviderName, rate, Count) {
+        firebase.firestore().collection("ProvidersRank").where('ProviderName', '==', ProviderName)
+            .get()
+            .then(function (querySnapshot) {
+                querySnapshot.forEach(function (doc) {
+                    doc.ref.update({ StarCountAvg: rate });
+                    doc.ref.update({ Count: Count });
+                });
+            })
+        this.update();
+    }
+
+    onStarRatingPress(ProviderRate, ProviderName) {
+        let Rating;
+        let rate;
+        let Count;
+        let newRate;
+        db.collection("ProvidersRank")
+            .where('ProviderName', '==', ProviderName)
+            .get()
+            .then((querySnapshot) => {
+                Rating = querySnapshot.docs.map(doc => doc.data());
+                console.log("rating", Rating[0]);
+                rate = Rating[0].StarCountAvg;
+                Count = Rating[0].Count;
+                console.log("Count", Count);
+                console.log("rate", rate);
+                console.log("ProviderRate", ProviderRate);
+                newRate = ((Count * rate) + ProviderRate) / (Count + 1);
+                console.log("newRate", newRate);
+                this.updateRate(ProviderName, newRate, Count + 1);
+            })
+
+    }
 
 
     render() {
@@ -161,6 +235,31 @@ export default class Feedbacks extends Component {
                         {" "}Feedback
                     </Text>
                 </View>
+
+                <View style={{
+                    flexDirection: 'column', alignItems: 'center',
+                    justifyContent: 'center', padding: 30,backgroundColor: 'white'
+                }}>
+
+                    <StarRating
+                        disabled={false}
+                        emptyStar="ios-star-outline"
+                        fullStar="ios-star"
+                        halfStar="ios-star-half"
+                        iconSet="Ionicons"
+                        maxStars={5}
+                        rating={this.props.route.params.Rate}
+                        selectedStar={(rating) => this.onStarRatingPress(rating,this.props.route.params.ProviderName)}
+                        fullStarColor="#38700F"
+                        halfStarColor="#38700F"
+                        emptyStarColor="#38700F"
+                        halfStarEnabled
+                        starPadding={20}
+                        starSize={55}
+                    />
+                </View>
+
+                <View style={styles.separator} />
 
                 <FlatList
                     style={styles.root}

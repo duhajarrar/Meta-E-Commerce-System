@@ -26,6 +26,7 @@
     "expo-google-sign-in": "~10.1.0",
     "expo-image-picker": "~12.0.1",
     "expo-status-bar": "~1.2.0",
+    "express": "^4.17.3",
     "firebase": "^9.6.1",
     "formik": "^2.2.9",
     "native-base": "^3.2.2",
@@ -50,6 +51,7 @@
     "react-navigation-stack": "^2.10.4",
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
+    "stripe": "^8.218.0",
     "whatwg-fetch": "^3.6.2"
   },
   "devDependencies": {

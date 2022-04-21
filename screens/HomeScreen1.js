@@ -5,6 +5,7 @@ import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
 
+
 var db = firebase.firestore();
 export default class HomeScreen1 extends Component {
 
@@ -24,7 +25,7 @@ export default class HomeScreen1 extends Component {
     }
 
     componentDidMount() {
-      this.update();
+        this.update();
     }
 
     update() {
@@ -64,36 +65,43 @@ export default class HomeScreen1 extends Component {
             .get()
             .then(function (querySnapshot) {
                 querySnapshot.forEach(function (doc) {
-                    doc.ref.update({ StarCountAvg: rate });
-                    doc.ref.update({ Count: Count });
+                    doc.ref.update({ test: "test"+1 });
                 });
             })
-            this.update();
+        this.update();
     }
 
-    onStarRatingPress(ProviderRate, ProviderName) {
-        let Rating;
-        let rate;
-        let Count;
-        let newRate;
-        db.collection("ProvidersRank")
-            .where('ProviderName', '==', ProviderName)
-            .get()
-            .then((querySnapshot) => {
-                Rating = querySnapshot.docs.map(doc => doc.data());
-                console.log("rating", Rating[0]);
-                rate = Rating[0].StarCountAvg;
-                Count = Rating[0].Count;
-                console.log("Count", Count);
-                console.log("rate", rate);
-                console.log("ProviderRate", ProviderRate);
-                newRate = ((Count * rate) + ProviderRate) / (Count + 1);
-                console.log("newRate", newRate);
-                this.updateRate(ProviderName, newRate, Count + 1);
-            })
+
+    addComment() {
+
+        firebase.firestore().collection("FeedBack").where("comment", "==", "test").get()
+            .then(querySnapshot => {
+                querySnapshot.docs[0].ref.delete();
+            });
+
+
+        db.collection("FeedBack").add({
+            userName: "test",
+            comment: "test",
+            photoURL: "test",
+            Provider: "tst",
+        })
+            .catch(function (error) {
+                console.error("Error adding document: ", error);
+            });
 
     }
-
+   
+    onLoginFeedbackSuccess(Provider, rate) {
+        console.log("feedback successful --------------------");
+        this.addComment();
+        this.updateRate("Brothers");
+        this.props.navigation.navigate('Feedbacks', {
+            ProviderName: Provider,
+            Rate: rate,
+            isLoading: false
+        })
+    }
 
 
     render = () => {
@@ -105,62 +113,48 @@ export default class HomeScreen1 extends Component {
 
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
-                        {/* <Image style={styles.logo} source={require('../images/logo1.png')} /> */}
+
                         <TouchableOpacity onPress={() => { this.props.navigation.navigate("pageOne"); }}>
                             <View style={styles.container}>
                                 <Image style={styles.image} source={require('../images/alshini.jpg')} />
 
 
                                 <View style={styles.textContainer}>
-                                    <Text style={styles.text}>
-                                        Al-Shini
-                                    </Text>
+                                    <TouchableOpacity onPress={() => { this.onLoginFeedbackSuccess("Al-Shini", this.state.ShiniRate); }}>
+                                        <Text>
+                                            <Image style={styles.icon} source={require('../assets/rating.png')} />
+                                            {" "}
+                                            <View>
+                                                <Text style={{ paddingBottom: 5, fontSize: 15, color: "#800C69", fontWeight: 'bold', }}>
+                                                    Add Feedback & Reviews </Text>
+                                            </View>
+                                        </Text>
+                                    </TouchableOpacity>
 
-                                    <StarRating
-                                        disabled={false}
-                                        emptyStar="ios-star-outline"
-                                        fullStar="ios-star"
-                                        halfStar="ios-star-half"
-                                        iconSet="Ionicons"
-                                        maxStars={5}
-                                        rating={this.state.ShiniRate}
-                                        selectedStar={(rating) => this.onStarRatingPress(rating, "Al-Shini")}
-                                        fullStarColor="#38700F"
-                                        halfStarColor="#38700F"
-                                        emptyStarColor="#38700F"
-                                        halfStarEnabled
-                                        starPadding={10}
-                                        starSize={35}
-                                    />
                                 </View>
                             </View>
                         </TouchableOpacity>
+
 
                         <TouchableOpacity onPress={() => { this.props.navigation.navigate("pageTwo"); }}>
                             <View style={styles.container}>
                                 <Image style={styles.image} source={require('../images/bravo.png')} />
 
 
+
                                 <View style={styles.textContainer}>
-                                    <Text style={styles.text}>
-                                        Bravo
-                                    </Text>
-                                
-                                    <StarRating
-                                        disabled={false}
-                                        emptyStar="ios-star-outline"
-                                        fullStar="ios-star"
-                                        halfStar="ios-star-half"
-                                        iconSet="Ionicons"
-                                        maxStars={5}
-                                        rating={this.state.BravoRate}
-                                        selectedStar={(rating) => this.onStarRatingPress(rating, "Bravo")}
-                                        fullStarColor="#38700F"
-                                        halfStarColor="#38700F"
-                                        emptyStarColor="#38700F"
-                                        starPadding={10}
-                                        starSize={35}
-                                    />
+                                    <TouchableOpacity onPress={() => { this.onLoginFeedbackSuccess("Bravo", this.state.BravoRate); }}>
+                                        <Text>
+                                            <Image style={styles.icon} source={require('../assets/rating.png')} />
+                                            {" "}
+                                            <View>
+                                                <Text style={{ paddingBottom: 5, fontSize: 15, color: "#800C69", fontWeight: 'bold', }}>
+                                                    Add Feedback & Reviews </Text>
+                                            </View>
+                                        </Text>
+                                    </TouchableOpacity>
+
+
 
                                 </View>
                             </View>
@@ -172,25 +166,17 @@ export default class HomeScreen1 extends Component {
 
 
                                 <View style={styles.textContainer}>
-                                    <Text style={styles.text}>
-                                        Brothers
-                                    </Text>
-                                    <StarRating
-                                        disabled={false}
-                                        emptyStar="ios-star-outline"
-                                        fullStar="ios-star"
-                                        halfStar="ios-star-half"
-                                        iconSet="Ionicons"
-                                        maxStars={5}
-                                        rating={this.state.BrothersRate}
-                                        selectedStar={(rating) => this.onStarRatingPress(rating, "Brothers")}
-                                        fullStarColor="#38700F"
-                                        halfStarColor="#38700F"
-                                        emptyStarColor="#38700F"
-                                        halfStarEnabled
-                                        starPadding={10}
-                                        starSize={35}
-                                    />
+                                    <TouchableOpacity onPress={() => { this.onLoginFeedbackSuccess("Brothers", this.state.BrothersRate); }}>
+                                        <Text>
+                                            <Image style={styles.icon} source={require('../assets/rating.png')} />
+                                            {" "}
+                                            <View>
+                                                <Text style={{ paddingBottom: 5, fontSize: 15, color: "#800C69", fontWeight: 'bold', }}>
+                                                    Add Feedback & Reviews </Text>
+                                            </View>
+                                        </Text>
+                                    </TouchableOpacity>
+
                                 </View>
                             </View>
                         </TouchableOpacity>
@@ -202,26 +188,18 @@ export default class HomeScreen1 extends Component {
 
 
                                 <View style={styles.textContainer}>
-                                    <Text style={styles.text}>
-                                        Gardens
-                                    </Text>
+                                    <TouchableOpacity onPress={() => { this.onLoginFeedbackSuccess("Gardens", this.state.GardensRate); }}>
+                                        <Text>
+                                            <Image style={styles.icon} source={require('../assets/rating.png')} />
+                                            {" "}
+                                            <View>
+                                                <Text style={{ paddingBottom: 5, fontSize: 15, color: "#800C69", fontWeight: 'bold', }}>
+                                                    Add Feedback & Reviews </Text>
+                                            </View>
+                                        </Text>
+                                    </TouchableOpacity>
 
-                                    <StarRating
-                                        disabled={false}
-                                        emptyStar="ios-star-outline"
-                                        fullStar="ios-star"
-                                        halfStar="ios-star-half"
-                                        iconSet="Ionicons"
-                                        maxStars={5}
-                                        rating={this.state.GardensRate}
-                                        selectedStar={(rating) => this.onStarRatingPress(rating, "Gardens")}
-                                        fullStarColor="#38700F"
-                                        halfStarColor="#38700F"
-                                        emptyStarColor="#38700F"
-                                        halfStarEnabled
-                                        starPadding={10}
-                                        starSize={35}
-                                    />
+
                                 </View>
                             </View>
                         </TouchableOpacity>
@@ -258,6 +236,11 @@ const styles = StyleSheet.create({
     text: {
         fontWeight: 'bold',
         fontSize: 20,
+        color: "#800C69"
+    },
+    icon: {
+        width: 35,
+        height: 35,
         color: "#800C69"
     },
     logo: {
