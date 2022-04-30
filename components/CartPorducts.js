@@ -279,7 +279,12 @@ class CartProducts extends Component {
 
 
         <View style={styles.cardFooter}>
-          <Text style={styles.buyNow}>Total Price = {this.props.TotalAmount}</Text>
+
+          <TouchableOpacity style={styles.socialBarButton}>
+            <Image style={styles.icon} source={require('../assets/money2.png')} />
+            <Text style={styles.buyNow}>  Total Price = {this.props.TotalAmount}</Text>
+          </TouchableOpacity>
+
 
           <TouchableOpacity style={styles.socialBarButton}
             onPress={() => {
@@ -288,13 +293,13 @@ class CartProducts extends Component {
               // this.props.onPressClearCart();
               this.props.navigation.navigate("CheckOut",
                 {
-                  TotalAmount:this.props.TotalAmount,
+                  TotalAmount: this.props.TotalAmount,
                   products: this.props.products.products,
                   clearCart: this.props.onPressClearCart()
                 })
             }}
           >
-            <Image style={styles.icon} source={{ uri: 'https://cdn-icons-png.flaticon.com/512/6313/6313304.png' }} />
+           <Image style={styles.icon} source={require('../assets/booking.png')} />
             <Text style={[styles.socialBarLabel, styles.buyNow]}>  Make Order  </Text>
           </TouchableOpacity>
         </View>
@@ -404,8 +409,8 @@ const styles = StyleSheet.create({
     color: "#800C69",
   },
   icon: {
-    width: 25,
-    height: 25,
+    width: 30,
+    height: 30,
   },
   /******** social bar ******************/
   socialBarContainer: {

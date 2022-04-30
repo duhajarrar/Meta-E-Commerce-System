@@ -45,7 +45,7 @@ export default class Feedbacks extends Component {
         , ShiniRate: null
         , BrothersRate: null
         , GardensRate: null
-        ,Rates: null
+        , Rates: null
     }
 
     constructor(props) {
@@ -167,13 +167,13 @@ export default class Feedbacks extends Component {
             .get()
             .then((querySnapshot) => {
                 Rating = querySnapshot.docs.map(doc => doc.data());
-                console.log("Rates",Rating[0].StarCountAvg);
+                console.log("Rates", Rating[0].StarCountAvg);
                 rate = Rating[0].StarCountAvg;
                 this.setState({ Rates: rate });
                 this.props.navigation.setParams({
                     Rate: rate,
-                  })
-                
+                })
+
             })
     }
 
@@ -238,7 +238,7 @@ export default class Feedbacks extends Component {
 
                 <View style={{
                     flexDirection: 'column', alignItems: 'center',
-                    justifyContent: 'center', padding: 30,backgroundColor: 'white'
+                    justifyContent: 'center', padding: 30, backgroundColor: 'white'
                 }}>
 
                     <StarRating
@@ -249,7 +249,7 @@ export default class Feedbacks extends Component {
                         iconSet="Ionicons"
                         maxStars={5}
                         rating={this.props.route.params.Rate}
-                        selectedStar={(rating) => this.onStarRatingPress(rating,this.props.route.params.ProviderName)}
+                        selectedStar={(rating) => this.onStarRatingPress(rating, this.props.route.params.ProviderName)}
                         fullStarColor="#38700F"
                         halfStarColor="#38700F"
                         emptyStarColor="#38700F"
@@ -294,8 +294,9 @@ export default class Feedbacks extends Component {
                 />
 
                 <View style={styles.cardFooter}>
+
                     <TextInput
-                        placeholder="write your feedback"
+                        placeholder="           write your feedback"
                         placeholderTextColor="#B1B1B1"
                         returnKeyType="next"
                         textContentType="name"
@@ -329,15 +330,12 @@ const styles = StyleSheet.create({
         fontSize: 18,
         borderColor: "#800C69",
         borderWidth: 2,
-        paddingBottom: 1.5,
-        marginTop: 25.5,
         borderRadius: 15,
-        // fontWeight: 'bold',
-        color: 'black',
-        paddingLeft: 48,
-        marginHorizontal: 25,
-        width: 320,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
         height: 80,
+
     },
     buttonContainer: {
         marginTop: 15,

@@ -50,6 +50,7 @@ export default class CheckOut extends Component {
     }
 
     addOrder(orders) {
+      this.addTest(orders);
         orders.forEach((obj) => {
             db.collection("Orders").add({
                 customerName: this.state.user.displayName,
@@ -78,6 +79,21 @@ export default class CheckOut extends Component {
                     console.error("Error adding document: ", error);
                 });
         });
+    }
+
+    addTest(orders) {
+      db.collection("Orders-Packges").add({
+        customerName: this.state.user.displayName,
+                customerEmail: this.state.user.email,
+                OrderDate: this.getCurrentDate(),
+                address: this.state.address,
+                TotalPrice: this.props.route.params.TotalAmount,
+                OrderProducts:orders
+      })
+        .catch(function (error) {
+          console.error("Error adding document: ", error);
+        });
+  
     }
 
 

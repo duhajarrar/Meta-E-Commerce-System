@@ -29,6 +29,7 @@ import editAddress from '../screens/editAddress'
 import CardPayment from '../screens/CardPayment' 
 import ProviderFeedback from '../screens/ProviderFeedback'
 import Feedbacks from '../screens/Feedbacks';
+import ReOrder from '../screens/ReOrder'
 
 const Navigator = createSwitchNavigator(
   {
@@ -59,6 +60,7 @@ const Navigator = createSwitchNavigator(
     CardPayment:{screen:CardPayment},
     ProviderFeedback: { screen: ProviderFeedback },
     Feedbacks: { screen: Feedbacks },
+     ReOrder:{screen: ReOrder},
   },
   { initialRouteName: 'Loading' }
 );

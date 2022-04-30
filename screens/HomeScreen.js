@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Button } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Button, Image } from 'react-native';
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
@@ -34,6 +34,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ProviderFeedback from './ProviderFeedback'
 import Feedbacks from '../screens/Feedbacks'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import ReOrder from '../screens/ReOrder' 
+
 const Tab = createBottomTabNavigator();
 
 const Drawer = createDrawerNavigator();
@@ -45,8 +47,8 @@ function CustomDrawerContent(props) {
 
       <DrawerItemList {...props} />
       <DrawerItem
-        icon={() => <AntDesignIcon name="logout" size={23} color={'#800C69'} style={{ padding: 5 }} />}
-        style={{ marginTop: '110%' }}
+        icon={() => <AntDesignIcon name="logout" size={25} color={'#800C69'} style={{ padding: 5 }} />}
+        style={{ marginTop: '90%' }}
         label="Logout" onPress={() => {
           firebase.auth().signOut();
         }
@@ -81,14 +83,14 @@ class HomeScreen extends React.Component {
             options={{
               title: 'Shops',
               drawerIcon: ({ focused, size }) => (
-                <EntypoIcon name="shop" size={20} color={'#800C69'} style={{ padding: 0 }} />
+                <EntypoIcon name="shop" size={25} color={'#800C69'} style={{ padding: 0 }} />
               ),
             }} />
           <Drawer.Screen name="Cart" component={Cart} style={{ color: "#800C69" }}
             options={{
               title: 'My Cart',
               drawerIcon: ({ focused, size }) => (
-                <AntDesignIcon name="shoppingcart" size={20} color={'#800C69'} style={{ padding: 0 }} />
+                <AntDesignIcon name="shoppingcart" size={25} color={'#800C69'} style={{ padding: 0 }} />
               ),
             }}
           />
@@ -96,7 +98,7 @@ class HomeScreen extends React.Component {
             options={{
               title: 'My Profile',
               drawerIcon: ({ focused, size }) => (
-                <AntDesignIcon name="user" size={20} color={'#800C69'} style={{ padding: 0 }} />
+                <AntDesignIcon name="user" size={25} color={'#800C69'} style={{ padding: 0 }} />
               ),
             }}
           />
@@ -104,15 +106,25 @@ class HomeScreen extends React.Component {
             options={{
               title: 'My Addresses',
               drawerIcon: ({ focused, size }) => (
-                <EntypoIcon name="location" size={20} color={'#800C69'} style={{ padding: 0 }} />
+                <EntypoIcon name="location" size={25} color={'#800C69'} style={{ padding: 0 }} />
               ),
             }}
           />
+
+          <Drawer.Screen name="orderHistory" component={orderHistory}
+            options={{
+              title: 'Orders History',
+              drawerIcon: ({ focused, size }) => (
+                <MaterialIcons name="history" size={25} color={'#800C69'} style={{ padding: 2 }} />
+                //   <Image style={styles.icon} source={require('../assets/clock.png')} />
+              ),
+            }} />
+
           <Drawer.Screen name="Setting" component={SettingScreen} style={{ color: "#800C69" }}
             options={{
               title: 'Setting',
               drawerIcon: ({ focused, size }) => (
-                <Icon name="settings" size={20} color={'#800C69'} style={{ padding: 2 }} />
+                <Icon name="settings" size={25} color={'#800C69'} style={{ padding: 2 }} />
               ),
             }}
           />
@@ -173,12 +185,6 @@ class HomeScreen extends React.Component {
               drawerLabel: () => null
             }} />
 
-          <Drawer.Screen name="orderHistory" component={orderHistory}
-            options={{
-              drawerItemStyle: { height: 0 },
-              title: 'Order History',
-              drawerLabel: () => null
-            }} />
 
           <Drawer.Screen name="CardPayment" component={CardPayment} style={{ color: "#800C69" }}
             options={{
@@ -245,6 +251,13 @@ class HomeScreen extends React.Component {
             options={{
               drawerItemStyle: { height: 0 },
               title: ' ',
+              drawerLabel: () => null
+            }} />
+
+          <Drawer.Screen name="ReOrder" component={ReOrder}
+            options={{
+              drawerItemStyle: { height: 0 },
+              title: 'Products Details',
               drawerLabel: () => null
             }} />
 
