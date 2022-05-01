@@ -20,16 +20,47 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const GOOGLE_MAPS_APIKEY = "AIzaSyDjKKs_oh-Yhlilngt6EmiRnn8CbRECmBA";
 
 export default class setLocation extends Component {
-  state = { user: {}, city: {}, country: {}, street: {}, moreDescription: {} };
+  state = { user: {}, recipientName: {}, recipientPhone: {}, recipientEmail: {}, city: {}, country: {}, street: {}, moreDescription: {} };
+
+  // componentDidMount() {
+  //  console.log("USERDAAAAAAAAAta",this.props.route.params.userData.displayName)
+  //  const recipientName1=this.props.route.params.userData.displayName
+  //  this.setState({ recipientName: recipientName1 });
+
+  //  console.log("xxxxxxxxxxx",this.state.recipientName,
+  //     this.state.recipientEmail,
+  //     this.state.recipientPhone)
+  //   firebase.auth().onAuthStateChanged((user) => {
+
+  //     if (user != null) {
+  //       this.setState({ user: user });
+  //       this.setState({recipientName:user.displayName}) 
+  //       this.setState({recipientEmail:user.email}); 
+  //       console.log("xxxxxxxxxxx",this.state.recipientName)
+  //     }
+  //   })
+  // }
+
   componentDidMount() {
-
     firebase.auth().onAuthStateChanged((user) => {
-
       if (user != null) {
+       // this.setState({ email: user.email });
         this.setState({ user: user });
+        let userInf;
+        db.collection('userList')
+          .where('email', '==', user.email)
+          .get()
+          .then((querySnapshot) => {
+            userInf = querySnapshot.docs.map(doc => doc.data());
+            this.setState({ userinfo: userInf[0] });
+            console.log("USEEr", this.state.userinfo)
+            this.setState({ recipientName: userInf[0].displayName });
+            this.setState({ recipientEmail: userInf[0].email });
+            this.setState({ recipientPhone: userInf[0].phoneNumber });
+
+          })
       }
     })
-
   }
 
 
@@ -38,9 +69,16 @@ export default class setLocation extends Component {
   }
 
   addAddress() {
-    if (this.state.user.email != null) {
+    console.log("xxxxxxxxxxx",this.state.recipientName,
+      this.state.recipientEmail,
+      this.state.recipientPhone)
+
+    if (this.state.recipientName != null) {
       db.collection("usersAddresses").add({
-        email: this.state.user.email,
+        email:  this.state.user.email,
+        recipientName: this.state.recipientName,
+        recipientEmail: this.state.recipientEmail,
+        recipientPhone: this.state.recipientPhone,
         // address: this.getAddress(),
         city: this.state.city,
         country: this.state.country,
@@ -54,35 +92,57 @@ export default class setLocation extends Component {
   }
 
 
-  // constructor(props) {
-  //   super(props);
-
-  //   // AirBnB's Office, and Apple Park
-  //   this.state = {
-  //     coordinates: [
-  //       {
-  //         latitude: 37.3317876,
-  //         longitude: -122.0054812
-  //       },
-  //       {
-  //         latitude: 37.771707,
-  //         longitude: -122.4053769
-  //       }
-  //     ]
-  //   };
-
-  //   this.mapView = null;
-  // }
-
-  // onMapPress = e => {
-  //   this.setState({
-  //     coordinates: [...this.state.coordinates, e.nativeEvent.coordinate]
-  //   });
-  // };
 
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
+          <View>
+            <Text style={{ width: 170, textAlign: 'center', fontSize: 25 }}>Recipient Info</Text>
+          </View>
+          <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
+        </View>
+
+        <TextInput
+          placeholder={"Recipient Name: " + this.props.route.params.userData.displayName}
+          placeholderTextColor="#B1B1B1"
+          returnKeyType="next"
+          textContentType="recipientName"
+          defaultValue={this.state.recipientName}
+          onChangeText={recipientName => this.setState({ recipientName })}
+          style={styles.input}
+        />
+
+        <TextInput
+          placeholder={"Recipient Email"}
+          placeholderTextColor="#B1B1B1"
+          returnKeyType="next"
+          keyboardType='email-address'
+          textContentType="recipientEmail"
+          defaultValue={this.state.recipientEmail}
+          onChangeText={recipientEmail => this.setState({ recipientEmail })}
+          style={styles.input}
+        />
+
+        <TextInput
+          placeholder={"Recipient Phone"}
+          placeholderTextColor="#B1B1B1"
+          returnKeyType="next"
+          keyboardType='numeric'
+          textContentType="recipientPhone"
+          defaultValue={this.state.recipientPhone}
+          onChangeText={recipientPhone => this.setState({ recipientPhone })}
+          style={styles.input}
+        />
+
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
+          <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
+          <View>
+            <Text style={{ width: 170, textAlign: 'center', fontSize: 25 }}>Address Info</Text>
+          </View>
+          <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
+        </View>
         <TextInput
           placeholder="Country"
           placeholderTextColor="#B1B1B1"
@@ -136,70 +196,13 @@ export default class setLocation extends Component {
         </TouchableOpacity>
 
         <TouchableOpacity
-          // style={styles.buttonContainer}
-          // onPress={() => this.addAddress() & this.props.navigation.navigate("Locations")
-          //   & Alert.alert('Address added')
-          // }
-          >
+        >
           <Text style={{
             color: "white",
             padding: 5,
             fontSize: 18
           }}>Use Current Location</Text>
         </TouchableOpacity>
-
-        {/* <MapView
-        initialRegion={{
-          latitude: LATITUDE,
-          longitude: LONGITUDE,
-          latitudeDelta: LATITUDE_DELTA,
-          longitudeDelta: LONGITUDE_DELTA
-        }}
-        style={StyleSheet.absoluteFill}
-        ref={c => (this.mapView = c)}
-        onPress={this.onMapPress}>
-        {this.state.coordinates.map((coordinate, index) => (
-          <MapView.Marker key={`coordinate_${index}`} coordinate={coordinate} />
-        ))}
-        {this.state.coordinates.length >= 2 && (
-          <MapViewDirections
-            origin={this.state.coordinates[0]}
-            waypoints={
-              this.state.coordinates.length > 2
-                ? this.state.coordinates.slice(1, -1) : this.state.coordinates.slice(1, 1)
-            }
-            destination={
-              this.state.coordinates[this.state.coordinates.length - 1]
-            }
-            apikey={GOOGLE_MAPS_APIKEY}
-            strokeWidth={3}
-            strokeColor="hotpink"
-            optimizeWaypoints={true}
-            onStart={params => {
-              console.log(
-                `Started routing between "${params.origin}" and "${params.destination
-                }"`
-              );
-            }}
-            onReady={result => {
-              console.log("Distance: ${result.distance} km");
-              console.log("Duration: ${result.duration} min.");
-
-              this.mapView.fitToCoordinates(result.coordinates, {
-                edgePadding: {
-                  right: width / 20,
-                  bottom: height / 20,
-                  left: width / 20,
-                  top: height / 20
-                }
-              });
-            }}
-            onError={errorMessage => {
-              // console.log('GOT AN ERROR');
-            }}
-          />
-        )}
-      </MapView> */}
       </View>
 
     );
@@ -361,6 +364,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
 
   }, input: {
+    backgroundColor: "white",
     fontSize: 18,
     borderColor: "#707070",
     borderWidth: 1,

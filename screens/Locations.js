@@ -15,12 +15,12 @@ import { color } from 'react-native-reanimated';
 var db = firebase.firestore();
 
 export default class Locations extends Component {
-
+    state = { user: {},recipientName:{},recipientPhone:{},recipientEmail:{}, city: {}, country: {}, street: {}, moreDescription: {} };
     constructor() {
         super();
         this.docs = firebase.firestore().collection('usersAddresses');
         this.state = {
-            // email:{},
+            userData:{},
             isLoading: true,
             addressDB: [],
             // id:{}
@@ -38,7 +38,7 @@ export default class Locations extends Component {
     getAddressDBData = () => {
         firebase.auth().onAuthStateChanged((user) => {
             if (user != null) {
-                this.setState({ email: user.email });
+                this.setState({userData: user});
                 let AddressInf;
                 let idDoc;
                 db.collection('usersAddresses')
@@ -47,10 +47,10 @@ export default class Locations extends Component {
                     .then((querySnapshot) => {
                         AddressInf = querySnapshot.docs.map(doc => doc);
                         // idDoc = querySnapshot.docs.map(doc => doc.id);
-                        console.log("address", AddressInf)
+                        // console.log("address", AddressInf)
                         this.setState({ addressDB: AddressInf });
                         // this.setState({ id: idDoc });
-                        console.log("user-address", this.state.addressDB)
+                        // console.log("user-address", this.state.addressDB)
                     })
             }
         })
@@ -105,7 +105,7 @@ export default class Locations extends Component {
                             </View>
                             <View style={{flex: 1, flexDirection: "row", marginLeft:50}}>
                             <TouchableOpacity style={styles.buttonContainer1}
-                                    onPress={() => { this.props.navigation.navigate("editAddress",{itemData:item.data(),itemId:item.id}) }}
+                                    onPress={() => { console.log(item.data(),"****************************") & this.props.navigation.navigate("editAddress",{itemData:item.data(),itemId:item.id}) }}
                                     >
                                     <Text style={{
                                         color: "white",
@@ -138,7 +138,7 @@ export default class Locations extends Component {
                 />
                 
             <TouchableOpacity style={styles.buttonContainer}
-              onPress={() => { this.props.navigation.navigate("setLocation") }}
+              onPress={() => { this.props.navigation.navigate("setLocation",{userData:this.state.userData})}}
             >
               <Text style={{
                 color: "white",

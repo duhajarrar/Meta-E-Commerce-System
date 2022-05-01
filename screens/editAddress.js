@@ -1,4 +1,3 @@
-
 import React, { Component } from "react";
 import { StyleSheet, SafeAreaView, Text, Image, View, TouchableOpacity, FlatList } from 'react-native';
 import { Dimensions } from "react-native";
@@ -14,8 +13,24 @@ var db = firebase.firestore();
 const GOOGLE_MAPS_APIKEY = "AIzaSyDjKKs_oh-Yhlilngt6EmiRnn8CbRECmBA";
 
 export default class editLocation extends Component {
-  state = { user: {}, city: '', country: '', street: '', moreDescription: '' };
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      user: {}, recipientName: '', recipientPhone: '', recipientEmail: '', city: '', country: '', street: '', moreDescription: ''
+    }
+  }
+
   componentDidMount() {
+    this.state.city = this.props.route.params.itemData.city;
+    this.state.country = this.props.route.params.itemData.country;
+    this.state.street = this.props.route.params.itemData.street;
+    this.state.moreDescription = this.props.route.params.itemData.moreDescription;
+    this.state.recipientName = this.props.route.params.itemData.recipientName;
+    this.state.recipientPhone = this.props.route.params.itemData.recipientPhone;
+    this.state.recipientEmail = this.props.route.params.itemData.recipientEmail;
+
+
 
     firebase.auth().onAuthStateChanged((user) => {
 
@@ -23,16 +38,26 @@ export default class editLocation extends Component {
         this.setState({ user: user });
       }
     })
-
   }
+
 
 
   getAddress() {
     return this.state.city + ',' + this.state.country + ':' + this.state.street + ',' + this.state.moreDescription;//format: Palestine,Ramallah,Irsal street:buliding No. 10;
   }
+
+
   editAddress() {
+    console.log("333333333333333 ", this.state);
+
+    console.log(this.state.recipientName);
+    console.log(this.state.city);
+
     db.collection("usersAddresses").doc(this.props.route.params.itemId).update({
       email: this.state.user.email,
+      recipientName: this.state.recipientName,
+      recipientEmail: this.state.recipientEmail,
+      recipientPhone: this.state.recipientPhone,
       city: this.state.city,
       country: this.state.country,
       moreDescription: this.state.moreDescription,
@@ -46,51 +71,113 @@ export default class editLocation extends Component {
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
+          <View>
+            <Text style={{ width: 170, textAlign: 'center', fontSize: 25 }}>Recipient Info</Text>
+          </View>
+          <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
+        </View>
         <TextInput
-          placeholder={"Country: " + this.props.route.params.itemData.country}
+          placeholder={"Recipient Name"}
           placeholderTextColor="#B1B1B1"
           returnKeyType="next"
-          textContentType="country"
+          // textContentType="recipientName"
+
+          onChangeText={(recipientName) => { this.setState({ recipientName }) }}
+          // defaultValue={this.props.route.params.itemData.recipientName}
+          value={this.state.recipientName}
+          style={styles.input}
+        />
+
+        <TextInput
+          placeholder={"Recipient Email"}
+          placeholderTextColor="#B1B1B1"
+          returnKeyType="next"
+          keyboardType='email-address'
+          // textContentType="recipientEmail"
+          value={this.state.recipientEmail}
+          // defaultValue={this.props.route.params.itemData.recipientEmail}
+          onChangeText={(recipientEmail) => { this.setState({ recipientEmail }) }}
+
+          style={styles.input}
+        />
+
+
+
+        <TextInput
+          placeholder={"Recipient Phone"}
+          placeholderTextColor="#B1B1B1"
+          returnKeyType="next"
+          keyboardType='numeric'
+          // textContentType="recipientPhone"
+          value={this.state.recipientPhone}
+          onChangeText={(recipientPhone) => { this.setState({ recipientPhone }) }}
+          // defaultValue={this.props.route.params.itemData.recipientPhone}
+
+          style={styles.input}
+        />
+
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
+          <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
+          <View>
+            <Text style={{ width: 170, textAlign: 'center', fontSize: 25 }}>Address Info</Text>
+          </View>
+          <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
+        </View>
+
+        <TextInput
+          placeholder={"Country"}
+          placeholderTextColor="#B1B1B1"
+          returnKeyType="next"
+          // textContentType="country"
+
+          onChangeText={(country) => { this.setState({ country }) }}
+          // defaultValue={this.props.route.params.itemData.country}
           value={this.state.country}
-          onChangeText={country => this.setState({ country })}
           style={styles.input}
         />
         <TextInput
-          placeholder={"City: " + this.props.route.params.itemData.city}
+          placeholder={"City"}
           placeholderTextColor="#B1B1B1"
           returnKeyType="next"
-          textContentType="city"
+          // textContentType="city"
+          onChangeText={(city) => { this.setState({ city }) }}
+          // defaultValue={this.props.route.params.itemData.city}
           value={this.state.city}
-          onChangeText={city => this.setState({ city })}
           style={styles.input}
         />
 
 
         <TextInput
-          placeholder={"Street: " + this.props.route.params.itemData.street}
+          placeholder={"Street"}
           placeholderTextColor="#B1B1B1"
           returnKeyType="next"
-          textContentType="street"
-          //   text={dataItem.street}
+          // textContentType="street"
+          onChangeText={(street) => { this.setState({ street }) }}
+          // defaultValue={this.props.route.params.itemData.street}
           value={this.state.street}
-          onChangeText={street => this.setState({ street })}
           style={styles.input}
         />
 
         <TextInput
-          placeholder={"More Description:" + this.props.route.params.itemData.moreDescription}
+          placeholder={"More Description"}
           placeholderTextColor="#B1B1B1"
           returnKeyType="next"
-          textContentType="moreDescription"
+          // textContentType="moreDescription"
+          onChangeText={(moreDescription) => { this.setState({ moreDescription }) }}
+          // defaultValue={this.props.route.params.itemData.moreDescription}
+
           value={this.state.moreDescription}
-          onChangeText={moreDescription => this.setState({ moreDescription })}
           style={styles.input}
         />
 
         <TouchableOpacity
           style={styles.buttonContainer}
           onPress={() => this.editAddress() & this.props.navigation.navigate("Locations")
-            & Alert.alert('Address updated')
+            & Alert.alert('Address updated') & console.log(this.state.recipientName) &
+            console.log(this.state.city)
           }>
           <Text style={{
             color: "white",
