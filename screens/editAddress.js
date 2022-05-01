@@ -40,6 +40,11 @@ export default class editLocation extends Component {
     })
   }
 
+  changeName(name) {
+    this.props.navigation.setParams({
+      recipientName: rate,
+    })
+  }
 
 
   getAddress() {
@@ -55,18 +60,58 @@ export default class editLocation extends Component {
 
     db.collection("usersAddresses").doc(this.props.route.params.itemId).update({
       email: this.state.user.email,
-      recipientName: this.state.recipientName,
-      recipientEmail: this.state.recipientEmail,
-      recipientPhone: this.state.recipientPhone,
-      city: this.state.city,
-      country: this.state.country,
-      moreDescription: this.state.moreDescription,
-      street: this.state.street
+      recipientName: this.props.route.params.recipientName,
+      recipientEmail: this.props.route.params.recipientEmail,
+      recipientPhone: this.props.route.params.recipientPhone,
+      city: this.props.route.params.city,
+      country: this.props.route.params.country,
+      moreDescription: this.props.route.params.moreDescription,
+      street: this.props.route.params.street
     })
       .catch(function (error) {
         console.error("Error updating document: ", error);
       });
   }
+
+
+
+  updateCity(city) {
+    this.props.navigation.setParams({
+      city: city,
+    })
+  }
+
+  updateCountry(country) {
+    this.props.navigation.setParams({
+      country: country,
+    })
+  }
+
+  updateMoreDescription(moreDescription) {
+    this.props.navigation.setParams({
+      moreDescription: moreDescription,
+    })
+  }
+
+  updateRecipientName(recipientName) {
+    this.props.navigation.setParams({
+      recipientName: recipientName,
+    })
+  }
+
+  updateRecipientEmail(recipientEmail) {
+    this.props.navigation.setParams({
+      recipientEmail: recipientEmail,
+    })
+  }
+
+  updateRecipientPhone(recipientPhone) {
+    this.props.navigation.setParams({
+      recipientPhone: recipientPhone,
+    })
+  }
+
+
 
   render() {
     return (
@@ -79,15 +124,13 @@ export default class editLocation extends Component {
           </View>
           <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
         </View>
+
         <TextInput
           placeholder={"Recipient Name"}
           placeholderTextColor="#B1B1B1"
           returnKeyType="next"
-          // textContentType="recipientName"
-
-          onChangeText={(recipientName) => { this.setState({ recipientName }) }}
-          // defaultValue={this.props.route.params.itemData.recipientName}
-          value={this.state.recipientName}
+          onChangeText={(recipientName) => { this.updateRecipientName(recipientName) }}
+          value={this.props.route.params.recipientName}
           style={styles.input}
         />
 
@@ -96,26 +139,18 @@ export default class editLocation extends Component {
           placeholderTextColor="#B1B1B1"
           returnKeyType="next"
           keyboardType='email-address'
-          // textContentType="recipientEmail"
-          value={this.state.recipientEmail}
-          // defaultValue={this.props.route.params.itemData.recipientEmail}
-          onChangeText={(recipientEmail) => { this.setState({ recipientEmail }) }}
-
+          value={this.props.route.params.recipientEmail}
+          onChangeText={(recipientEmail) => { this.updateRecipientEmail(recipientEmail) }}
           style={styles.input}
         />
-
-
 
         <TextInput
           placeholder={"Recipient Phone"}
           placeholderTextColor="#B1B1B1"
           returnKeyType="next"
           keyboardType='numeric'
-          // textContentType="recipientPhone"
-          value={this.state.recipientPhone}
-          onChangeText={(recipientPhone) => { this.setState({ recipientPhone }) }}
-          // defaultValue={this.props.route.params.itemData.recipientPhone}
-
+          value={this.props.route.params.recipientPhone}
+          onChangeText={(recipientPhone) => { this.updateRecipientPhone(recipientPhone) }}
           style={styles.input}
         />
 
@@ -133,19 +168,19 @@ export default class editLocation extends Component {
           returnKeyType="next"
           // textContentType="country"
 
-          onChangeText={(country) => { this.setState({ country }) }}
+          onChangeText={(country) => { this.updateCountry(country) }}
           // defaultValue={this.props.route.params.itemData.country}
-          value={this.state.country}
+          value={this.props.route.params.country}
           style={styles.input}
         />
+
         <TextInput
           placeholder={"City"}
           placeholderTextColor="#B1B1B1"
           returnKeyType="next"
           // textContentType="city"
-          onChangeText={(city) => { this.setState({ city }) }}
-          // defaultValue={this.props.route.params.itemData.city}
-          value={this.state.city}
+          onChangeText={(city) => { this.updateCity(city) }}
+          value={this.props.route.params.city}
           style={styles.input}
         />
 
@@ -156,8 +191,7 @@ export default class editLocation extends Component {
           returnKeyType="next"
           // textContentType="street"
           onChangeText={(street) => { this.setState({ street }) }}
-          // defaultValue={this.props.route.params.itemData.street}
-          value={this.state.street}
+          value={this.props.route.params.street}
           style={styles.input}
         />
 
@@ -165,11 +199,8 @@ export default class editLocation extends Component {
           placeholder={"More Description"}
           placeholderTextColor="#B1B1B1"
           returnKeyType="next"
-          // textContentType="moreDescription"
-          onChangeText={(moreDescription) => { this.setState({ moreDescription }) }}
-          // defaultValue={this.props.route.params.itemData.moreDescription}
-
-          value={this.state.moreDescription}
+          onChangeText={(moreDescription) => { this.updateMoreDescriptio(moreDescription) }}
+          value={this.props.route.params.moreDescription}
           style={styles.input}
         />
 
