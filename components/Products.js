@@ -91,7 +91,7 @@ class Products extends Component {
           contentContainerStyle={styles.listContainer}
           data={this.props.products}
           horizontal={false}
-          numColumns={2}
+          numColumns={3}
           keyExtractor={(item) => {
             return item.id;
           }}
@@ -121,9 +121,11 @@ class Products extends Component {
                   <View style={styles.socialBarContainer}>
                     <View >
 
-                      <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center" }} onPress={() => this.props.onPress(item) &
-                        Alert.alert('Added to Cart successfully')}>
-                        <Text style={{ fontSize: 16, color: "#800C69", }}>
+                    <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center" }} 
+                    onPress={() => this.props.onPress(item) &
+                        Alert.alert('Added to Cart successfully') 
+                        }>
+                        <Text style={{ fontSize: 13, color: "#800C69", }}>
                           <MaterialCommunityIcons name="cart-plus" size={16} color={'#2E922E'} />
                           {' '}Buy Now</Text>
                       </TouchableOpacity>
@@ -178,66 +180,69 @@ export default Products;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 20,
+    marginTop: 10,
   },
   list: {
-    paddingHorizontal: 5,
+    // paddingHorizontal: 5,
     backgroundColor: "#E6E6E6",
   },
   listContainer: {
     alignItems: 'center'
   },
   separator: {
-    marginTop: 10,
+    marginTop: 5,
   },
   /******** card **************/
   card: {
+    height:190,
     shadowColor: '#00000021',
     shadowOffset: {
-      width: 2
+      width: 1
     },
     shadowOpacity: 0.5,
     shadowRadius: 4,
     marginVertical: 8,
     backgroundColor: "white",
-    flexBasis: '47%',
+    flexBasis: '30%',
     marginHorizontal: 5,
   },
   cardHeader: {
-    paddingVertical: 17,
+    paddingVertical: 10,
     paddingHorizontal: 16,
     borderTopLeftRadius: 1,
     borderTopRightRadius: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    height:"30%"
   },
   cardContent: {
-    paddingVertical: 12.5,
-    paddingHorizontal: 16,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
   },
   cardFooter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingTop: 12.5,
-    paddingBottom: 25,
+    paddingTop: 10,
+    paddingBottom: 10,
     paddingHorizontal: 16,
     borderBottomLeftRadius: 1,
     borderBottomRightRadius: 1,
+    height:"20%"
   },
   cardImage: {
     flex: 1,
-    height: 250,
-    width: null,
+    height: "50%",
+    // width: null,
   },
   /******** card components **************/
   title: {
-    fontSize: 18,
+    fontSize: 14,
     flex: 1,
   },
   price: {
-    fontSize: 16,
+    fontSize: 14,
     color: "#38700F",
-    marginTop: 5
+    // marginTop: 5
   },
   buyNow: {
     color: "#800C69",
