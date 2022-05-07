@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, Button, FlatList,TouchableOpacity,ScrollView } 
 import Products from '../components/Products'
 import firebase from "firebase/compat/app"
 import { connect } from 'react-redux'
+import { ListItem, SearchBar } from "react-native-elements";
 
 
 
@@ -54,13 +55,19 @@ function pageOne(props) {
 
   // Keep a statue of the current selected category
   const [category, setCategory] = useState('NONE')
+  const [searchValue, setSearchValue] = useState("")
+  const [list, setList] = useState([])
+
+  // const [list, setList] = useState([])
 
   // the filtered list, cached with useMemo
   // the callback is call each time the category or the fullList changes
   const filteredList = useMemo(
     () => {
-      if (category === 'NONE' ) return fullList
-      return fullList.filter(item => category === item.category)
+      if (category === 'NONE' ) {setList(fullList); return fullList}
+      else{
+        setList(fullList.filter(item => category === item.category));
+      return fullList.filter(item => category === item.category)}
     },
     [category, fullList]
   )
@@ -71,11 +78,41 @@ function pageOne(props) {
       setCategory(category)
   }
 
-  
+ 
+  const searchFunction = (text) => {
+    if(text !== ""){
+      const updatedData = list.filter((item) => {
+      const item_data = `${item.name.toUpperCase()})`;
+      const text_data = text.toUpperCase();
+      console.log(text_data);
+      console.log(item_data);
+      console.log(item_data===text_data);
+      console.log(item_data.indexOf(text_data));
+      return item_data.indexOf(text_data) > -1;
+      });
+      setSearchValue(text);
+      console.log(text,"++++++++++++++++++++++");
+      console.log(updatedData);
+      setList(updatedData)
+    }else{
+      setSearchValue("");
+      setList(filteredList)
+    }
+  };
 
   // render list using flat list, and the filter bar using standard buttons
   return (
     <View style={styles.container}>
+      	<SearchBar 
+         containerStyle={{backgroundColor: 'white'}}
+  
+		placeholder="ابحث عن منتج من هنا .."
+		lightTheme
+		round
+		value={searchValue}
+		onChangeText={(text) => searchFunction(text)}
+		autoCorrect={false}
+		/>
       {/* <Text>Selected category: {category}</Text> */}
       <View style={{display: 'flex', flexDirection: 'row'}}>
       <ScrollView
@@ -92,14 +129,8 @@ function pageOne(props) {
         </ScrollView>
 
       </View>
-      {/* <FlatList
-        style={styles.list}
-        renderItem={Item}
-        keyExtractor={(item) => item.id}
-        data={filteredList}
-      /> */}
 
-<Products products={filteredList}
+<Products products={list}
           onPress={props.addItemToCart}
           ButtonTitle="Buy Now" 
           navigation={props.navigation}
