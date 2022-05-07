@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, Button, FlatList,TouchableOpacity,ScrollView } 
 import Products from '../components/Products'
 import firebase from "firebase/compat/app"
 import { connect } from 'react-redux'
+import { ListItem, SearchBar } from "react-native-elements";
 
 
 
@@ -45,6 +46,7 @@ function useLists() {
 // Main App
 function pageTwo(props) {
 
+ 
   // There are a lot of different ways to keep this info,
   // for the sake of this answer, I've put it in a useState hook
 
@@ -52,13 +54,19 @@ function pageTwo(props) {
 
   // Keep a statue of the current selected category
   const [category, setCategory] = useState('NONE')
+  const [searchValue, setSearchValue] = useState("")
+  const [list, setList] = useState([])
+
+  // const [list, setList] = useState([])
 
   // the filtered list, cached with useMemo
   // the callback is call each time the category or the fullList changes
   const filteredList = useMemo(
     () => {
-      if (category === 'NONE' ) return fullList
-      return fullList.filter(item => category === item.category)
+      if (category === 'NONE' ) {setList(fullList); return fullList}
+      else{
+        setList(fullList.filter(item => category === item.category));
+      return fullList.filter(item => category === item.category)}
     },
     [category, fullList]
   )
@@ -69,17 +77,47 @@ function pageTwo(props) {
       setCategory(category)
   }
 
-  
+ 
+  const searchFunction = (text) => {
+    if(text !== ""){
+      const updatedData = list.filter((item) => {
+      const item_data = `${item.name.toUpperCase()})`;
+      const text_data = text.toUpperCase();
+      console.log(text_data);
+      console.log(item_data);
+      console.log(item_data===text_data);
+      console.log(item_data.indexOf(text_data));
+      return item_data.indexOf(text_data) > -1;
+      });
+      setSearchValue(text);
+      console.log(text,"++++++++++++++++++++++");
+      console.log(updatedData);
+      setList(updatedData)
+    }else{
+      setSearchValue("");
+      setList(filteredList)
+    }
+  };
 
   // render list using flat list, and the filter bar using standard buttons
   return (
     <View style={styles.container}>
+      	<SearchBar 
+         containerStyle={{backgroundColor: 'white'}}
+  
+		placeholder="ابحث عن منتج من هنا .."
+		lightTheme
+		round
+		value={searchValue}
+		onChangeText={(text) => searchFunction(text)}
+		autoCorrect={false}
+		/>
       {/* <Text>Selected category: {category}</Text> */}
       <View style={{display: 'flex', flexDirection: 'row'}}>
       <ScrollView
   horizontal={true}
   >
-         <TouchableOpacity style={category == "NONE" ? styles.buttonContainer1 :styles.buttonContainer} onPress={onClick('NONE')} ><Text style={{color: "white",padding: 5,fontSize: 14}}>Clear</Text></TouchableOpacity>
+        <TouchableOpacity style={category == "NONE" ? styles.buttonContainer1 :styles.buttonContainer} onPress={onClick('NONE')} ><Text style={{color: "white",padding: 5,fontSize: 14}}>Clear</Text></TouchableOpacity>
         <TouchableOpacity style={category == "مواد تموينية" ? styles.buttonContainer1 : styles.buttonContainer} onPress={onClick("مواد تموينية")} ><Text style={{color: "white",padding: 5,fontSize: 14}}>مواد تموينية</Text></TouchableOpacity>
         <TouchableOpacity style={category == "لحوم طازجة" ? styles.buttonContainer1 :styles.buttonContainer} onPress={onClick("لحوم طازجة")} ><Text style={{color: "white",padding: 5,fontSize: 14}}>لحوم طازجة</Text></TouchableOpacity>
         <TouchableOpacity style={category == "خضار وفواكه" ? styles.buttonContainer1 :styles.buttonContainer} onPress={onClick("خضار وفواكه")} ><Text style={{color: "white",padding: 5,fontSize: 14}}>خضار وفواكه</Text></TouchableOpacity>
@@ -89,16 +127,9 @@ function pageTwo(props) {
         <TouchableOpacity style={category == "مواد تنظيف" ? styles.buttonContainer1 :styles.buttonContainer} onPress={onClick("مواد تنظيف")}><Text style={{color: "white",padding: 5,fontSize: 14}}>مواد تنظيف</Text></TouchableOpacity>
         </ScrollView>
 
-
       </View>
-      {/* <FlatList
-        style={styles.list}
-        renderItem={Item}
-        keyExtractor={(item) => item.id}
-        data={filteredList}
-      /> */}
 
-<Products products={filteredList}
+<Products products={list}
           onPress={props.addItemToCart}
           ButtonTitle="Buy Now" 
           navigation={props.navigation}
