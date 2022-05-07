@@ -24,7 +24,7 @@ function useLists() {
           .onSnapshot(snapshot => {
             const fullList = [];
             snapshot.forEach((res) => {
-              const { id, name,provider, price, image, quantity } = res.data();
+              const { id, name,provider, price, image, quantity,category } = res.data();
               fullList.push({
                 key:id+provider,
                 id,
@@ -32,7 +32,8 @@ function useLists() {
                 provider,
                 price,
                 image,
-                quantity
+                quantity,
+                category
               });
             });
 
