@@ -344,4 +344,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#800C69",
   },
+  socialBarButton: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    // alignItems: 'center',
+    // backgroundColor: '#FFFFFF',
+},
 });

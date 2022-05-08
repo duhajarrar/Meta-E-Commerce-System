@@ -30,6 +30,11 @@ import CardPayment from '../screens/CardPayment'
 import ProviderFeedback from '../screens/ProviderFeedback'
 import Feedbacks from '../screens/Feedbacks';
 import ReOrder from '../screens/ReOrder'
+import addOffer from '../screens/addOffer'
+import viewProviderOffers from '../screens/viewProviderOffers'
+import editOffer from '../screens/editOffer'
+import specialOffers from '../screens/specialOffers'
+
 
 const Navigator = createSwitchNavigator(
   {
@@ -60,7 +65,11 @@ const Navigator = createSwitchNavigator(
     CardPayment:{screen:CardPayment},
     ProviderFeedback: { screen: ProviderFeedback },
     Feedbacks: { screen: Feedbacks },
-     ReOrder:{screen: ReOrder},
+    ReOrder:{screen: ReOrder},
+    addOffer:{screen: addOffer},
+    viewProviderOffers:{screen: viewProviderOffers},
+    editOffer:{screen: editOffer},
+    specialOffers:{screen: specialOffers},
   },
   { initialRouteName: 'Loading' }
 );

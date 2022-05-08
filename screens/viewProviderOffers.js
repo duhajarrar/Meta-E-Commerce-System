@@ -11,28 +11,22 @@ import {
     TouchableRipple,
 } from 'react-native-paper';
 import { AntDesign, Entypo, MaterialIcons, Fontisto } from '@expo/vector-icons'
-import { color } from 'react-native-reanimated';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+
 var db = firebase.firestore();
 
-export default class viewProducts extends Component {
+export default class viewProviderOffers extends Component {
 
 
     constructor() {
         super();
         console.log(this.props)
-        this.docs = firebase.firestore().collection("Brothers-DB");
+        this.docs = firebase.firestore().collection("Offers");
         this.state = {
             isLoading: true,
             orderDB: []
         };
     }
-
-    get MyDB() {
-        const yourParam = this.props.navigation.state.params.ProviderName
-        console.log(yourParam)
-        return yourParam;
-    }
-
 
     componentDidMount() {
         this.MyDB
@@ -46,7 +40,7 @@ export default class viewProducts extends Component {
     getorderDBData = () => {
 
         let OrderInf;
-        db.collection(this.MyDB)
+        db.collection("Offers").where('provider', '==', this.props.navigation.state.params.ProviderName)
             .get()
             .then((querySnapshot) => {
                 OrderInf = querySnapshot.docs.map(doc => doc.data());
@@ -55,9 +49,20 @@ export default class viewProducts extends Component {
 
     }
 
-    goToAddOffer(item) {
-        console.log("add offer");
-        this.props.navigation.navigate('addOffer', {
+    deleteOffer(items) {
+        console.log('deleteOffer',items);
+     //   console.log('deleteOffer',items.id);
+        firebase.firestore().collection("Offers").where("id", "==", items.id).where("provider", "==", items.provider)
+            .get()
+            .then(querySnapshot => {
+                querySnapshot.docs[0].ref.delete();
+            });
+
+    }
+
+    goToEditOffer(item) {
+        console.log("edit offer");
+        this.props.navigation.navigate('editOffer', {
             userName: this.props.navigation.state.params.userName,
             ProviderName: this.props.navigation.state.params.ProviderName,
             item: item
@@ -66,13 +71,14 @@ export default class viewProducts extends Component {
 
 
     render() {
+       // console.log(this.state.orderDB)
         return (
 
             <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
 
                 <View style={styles.cardHeader}>
                     <Text style={styles.buyNow}>
-                        {this.props.navigation.state.params.ProviderName} Products
+                       Edit {this.props.navigation.state.params.ProviderName} Offers
                     </Text>
                 </View>
 
@@ -81,17 +87,14 @@ export default class viewProducts extends Component {
                     data={this.state.orderDB}
                     renderItem={({ item }) =>
 
-
-
                         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
 
-
-
                             <TouchableOpacity
-                                onPress={() => { this.goToAddOffer(item) }}
+                            onPress={() => { this.goToEditOffer(item) }}
                             >
 
                                 <View style={styles.container}>
+
 
                                     <View style={styles.infoBoxWrapper}>
 
@@ -117,15 +120,34 @@ export default class viewProducts extends Component {
 
                                             <Text style={{ color: "#38700F", paddingLeft: 20, fontSize: 16 }}>
                                                 {`Name: `}{item.name}
-
-                                                {`                    Price: `}{item.price}
-                                                {`                                  Quantity: `}{item.quantity}
-
+                                                {`                    Price: `} <Text style={{ textDecorationLine: 'line-through',color: 'red' }}>{item.originalPrice}{" "}</Text>
+                                                <Text style={{ fontSize: 20, fontWeight: 'bold' }}> {item.price}</Text>
                                             </Text>
                                         </View>
+
                                     </View>
+
+                                    <View style={styles.separator} />
+
+                                    <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+                                       onPress={() => this.deleteOffer(item)
+                                        }
+                                    >
+                                        <Text style={{ fontSize: 16, color: "#800C69", fontWeight: 'bold', }}>
+                                            {/* <Image style={styles.icon} source={require('../assets/product.png')} /> */}
+                                            <MaterialCommunityIcons name="delete" size={20} color={'#800C69'} style={{ padding: 5 }} />
+                                            {' '}Delete Offer</Text>
+
+                                    </TouchableOpacity>
+
                                 </View>
                             </TouchableOpacity>
+
+
+
+
+
+
                         </View>
                     }
                 />
@@ -172,6 +194,10 @@ const styles = StyleSheet.create({
         // padding: 8,
         // flexDirection: 'column',
         // alignItems: 'center'
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: 50,
+        height: 50,
     },
 
     userInfoSection: {
@@ -197,7 +223,7 @@ const styles = StyleSheet.create({
         borderTopColor: '#dddddd',
         borderTopWidth: 1,
         flexDirection: 'row',
-        height: 200,
+        height: 150,
     },
     infoBox: {
         width: '50%',
@@ -348,7 +374,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         overflow: 'hidden'
     },
-
     image: {
         alignSelf: 'flex-start',
         width: '100%',
@@ -363,20 +388,8 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
         // justifyContent: 'center'
     },
-
-    text: {
-        fontWeight: 'bold',
-        fontSize: 20,
-        color: "#800C69",
-        alignSelf: 'flex-end',
-        textAlign: 'right'
-    },
-    logo: {
-        marginTop: 50,
-        height: "20%",
-        // height: 400,
-        width: "100%",
-        // flex: 1,
-        resizeMode: 'contain'
+    separator: {
+        height: 1,
+        backgroundColor: "#800C69"
     },
 });

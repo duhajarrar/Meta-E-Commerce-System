@@ -60,6 +60,14 @@ export default class ProviderHome extends Component {
     });
   }
 
+  goToViewOffers() {
+    this.props.navigation.navigate('viewProviderOffers', {
+      userName: this.props.navigation.state.params.userName,
+      ProviderName: this.props.navigation.state.params.ProviderName
+    });
+
+  }
+
 
 
   render() {
@@ -82,9 +90,7 @@ export default class ProviderHome extends Component {
               {this.props.navigation.state.params.ProviderName}
             </Text>
 
-
-
-            <TouchableOpacity style={[styles.buttonContainer, { marginTop: 95 }]}
+            <TouchableOpacity style={[styles.buttonContainer, { marginTop: 50 }]}
               onPress={() => this.goToaAdd()
               }
             >
@@ -119,7 +125,20 @@ export default class ProviderHome extends Component {
                 color: "white",
                 padding: 5,
                 fontSize: 18
-              }}>View Products</Text>
+              }}>Add to Offers</Text>
+            </TouchableOpacity>
+
+
+            <TouchableOpacity style={styles.buttonContainer}
+              onPress={() =>
+                this.goToViewOffers()
+              }
+            >
+              <Text style={{
+                color: "white",
+                padding: 5,
+                fontSize: 18
+              }}>Edit Offers</Text>
             </TouchableOpacity>
 
 
@@ -220,7 +239,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 10,
-    marginTop: 15,
+    marginTop: 10,
     width: 250,
     borderRadius: 30,
     backgroundColor: "#800C69",

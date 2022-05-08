@@ -6,6 +6,7 @@ import "firebase/compat/firestore"
 import Icon from 'react-native-vector-icons/Ionicons'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 import AntDesignIcon from 'react-native-vector-icons/AntDesign'
+import  Fontisto  from 'react-native-vector-icons/Fontisto'
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen1 from '../screens/HomeScreen1'
@@ -34,9 +35,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ProviderFeedback from './ProviderFeedback'
 import Feedbacks from '../screens/Feedbacks'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import ReOrder from '../screens/ReOrder' 
+import ReOrder from '../screens/ReOrder'
+import addOffer from '../screens/addOffer'
+import viewProviderOffers from './viewProviderOffers'
+import editOffer from '../screens/editOffer'
+import specialOffers from '../screens/specialOffers'
 
-const Tab = createBottomTabNavigator();
 
 const Drawer = createDrawerNavigator();
 function CustomDrawerContent(props) {
@@ -48,7 +52,7 @@ function CustomDrawerContent(props) {
       <DrawerItemList {...props} />
       <DrawerItem
         icon={() => <AntDesignIcon name="logout" size={25} color={'#800C69'} style={{ padding: 5 }} />}
-        style={{ marginTop: '90%' }}
+        style={{ marginTop: '65%' }}
         label="Logout" onPress={() => {
           firebase.auth().signOut();
         }
@@ -119,6 +123,15 @@ class HomeScreen extends React.Component {
                 //   <Image style={styles.icon} source={require('../assets/clock.png')} />
               ),
             }} />
+          <Drawer.Screen name="specialOffers" component={specialOffers} style={{ color: "#800C69" }}
+            options={{
+              title: 'Special Offers',
+              drawerIcon: ({ focused, size }) => (
+                <Fontisto name="shopping-sale" size={25} color={'#800C69'} style={{ padding: 2 }} />
+              ),
+            }}
+          />
+
 
           <Drawer.Screen name="Setting" component={SettingScreen} style={{ color: "#800C69" }}
             options={{
@@ -260,6 +273,31 @@ class HomeScreen extends React.Component {
               title: 'Products Details',
               drawerLabel: () => null
             }} />
+
+          <Drawer.Screen name="addOffer" component={addOffer}
+            options={{
+              drawerItemStyle: { height: 0 },
+              title: 'add to Offers',
+              drawerLabel: () => null
+            }} />
+
+          <Drawer.Screen name="viewProviderOffers" component={viewProviderOffers}
+            options={{
+              drawerItemStyle: { height: 0 },
+              title: 'Offers',
+              drawerLabel: () => null
+            }} />
+
+
+          <Drawer.Screen name="editOffer" component={editOffer}
+            options={{
+              drawerItemStyle: { height: 0 },
+              title: 'edit Offer',
+              drawerLabel: () => null
+            }} />
+
+
+
 
 
 

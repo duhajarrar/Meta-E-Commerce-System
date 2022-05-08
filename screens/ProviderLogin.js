@@ -113,8 +113,6 @@ class ProviderLogin extends React.Component {
   }
 }
 
-
-
   renderLoading() {
     if (this.state.loading) {
       return (
@@ -173,6 +171,7 @@ class ProviderLogin extends React.Component {
                 />
 
               </View>
+           
               <Text
                 style={{
                   fontSize: 18,
@@ -185,7 +184,6 @@ class ProviderLogin extends React.Component {
               </Text>
 
               <TouchableOpacity activeOpacity={.5} style={styles.btnLogin}
-
                 onPress={() => {
                   this.ProviderLogin()
                 }}
@@ -339,7 +337,7 @@ const styles = StyleSheet.create({
     right: 43
   },
   btnLogin: {
-    width: 320,
+    width: 340,
     height: 45,
     borderRadius: 45,
     backgroundColor: '#800C69',

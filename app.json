@@ -1,13 +1,14 @@
 {
   "expo": {
-    "name": "secondTest",
-    "slug": "secondTest",
+    "name": "MetaMartApp",
+    "slug": "metamartapp",
+    "privacy":"public",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "facebookDisplayName": "Project",
     "facebookAppId": "337956678166688",
-    "facebookScheme" :"fb337956678166688",
+    "facebookScheme": "fb337956678166688",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -19,7 +20,6 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-  
     "ios": {
       "bundleIdentifier": "host.exp.exponent",
       "supportsTablet": true
@@ -33,7 +33,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
-
+    },
+    "description": ""
   }
 }

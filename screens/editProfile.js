@@ -43,9 +43,9 @@ export default class editProfile extends Component {
   }
 
   update() {
-  this.updateName();
-  this.updateAddress();
-  this.updatePhone();
+    this.updateName();
+    this.updateAddress();
+    this.updatePhone();
 
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
@@ -130,7 +130,7 @@ export default class editProfile extends Component {
               returnKeyType="next"
               textContentType="name"
               onChangeText={displayName => this.setState({ displayName })
-               // & this.updateName()
+                // & this.updateName()
               }
               value={this.state.displayName}
             // onSubmitEditing ={
@@ -198,7 +198,7 @@ export default class editProfile extends Component {
               placeholderTextColor='grey'
               value={this.state.phoneNumber}
               onTextChange={phoneNumber => this.setState({ phoneNumber })
-             //   & this.updatePhone()
+                //   & this.updatePhone()
               }
             // onSubmitEditing={phoneNumber => this.setState({ phoneNumber })
             //   & this.updatePhone()
@@ -263,7 +263,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: "#800C69",
     fontSize: 18,
-
   },
   detailsWrapper: {
     margin: 15,

@@ -1,74 +1,89 @@
-import React, { Component } from 'react';
-import { useState, useEffect } from 'react';
-import firebase from "firebase/compat/app"
-import "firebase/compat/auth"
-import "firebase/compat/firestore"
-import { StyleSheet, SafeAreaView, Text, Image, View, TouchableOpacity, FlatList } from 'react-native';
+import React, { Component } from "react";
+import { useState, useEffect } from "react";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import "firebase/compat/firestore";
 import {
-  Avatar,
-  Title,
-  Caption,
-  TouchableRipple,
-} from 'react-native-paper';
-import { AntDesign, Entypo, MaterialIcons, Fontisto } from '@expo/vector-icons'
-import { color } from 'react-native-reanimated';
+  StyleSheet,
+  SafeAreaView,
+  Text,
+  Image,
+  View,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
+import { Avatar, Title, Caption, TouchableRipple } from "react-native-paper";
+import { AntDesign, Entypo, MaterialIcons, Fontisto } from "@expo/vector-icons";
+import { color } from "react-native-reanimated";
 
-import {TextInput,KeyboardAvoidingView,ActivityIndicator,Keyboard,TouchableWithoutFeedback,Platform,Button, Alert } from 'react-native';
+import {
+  TextInput,
+  KeyboardAvoidingView,
+  ActivityIndicator,
+  Keyboard,
+  TouchableWithoutFeedback,
+  Platform,
+  Button,
+  Alert,
+} from "react-native";
 
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from "expo-image-picker";
 var db = firebase.firestore();
 export default class addProduct extends Component {
-
-
-  state = { id:{},name:{},uri: {},provider:{},price:{},quantity:{}};
+  state = { id: {}, name: {}, uri: {}, provider: {}, price: {}, quantity: {} };
   componentDidMount() {
-    this.MyDB
-}
-  addNewProduct() {
-    
-    if(this.state.name !==null && this.state.name.length > 0 && this.state.price !== null && this.state.price.length > 0){
-    const name = this.state.name;
-    console.log(this.state.price);
-    console.log(this.state.name);
-    firebase.firestore().collection(this.MyDB).add({
-      price:this.state.price,
-      name:this.state.name,
-      provider: this.MyDB,
-      // image:this.state.uri,
-      image:'https://media.istockphoto.com/photos/new-product-round-red-seal-picture-id188020497?k=20&m=188020497&s=612x612&w=0&h=14l5TS8674-Q2dx3PHcciIEuTZ9ULXH4lUObdWmBOIY=',
-      quantity:this.state.quantity,
-      id:this.state.id
-    })
-    .catch(function (error) {
-      console.error("Error adding document: ", error);
-    });
-    console.log("name1 : ",name);
+    this.MyDB;
   }
-}
+  addNewProduct() {
+    if (
+      this.state.name !== null &&
+      this.state.name.length > 0 &&
+      this.state.price !== null &&
+      this.state.price.length > 0
+    ) {
+      const name = this.state.name;
+      console.log(this.state.price);
+      console.log(this.state.name);
+      firebase
+        .firestore()
+        .collection(this.MyDB)
+        .add({
+          price: this.state.price,
+          name: this.state.name,
+          provider: this.MyDB,
+          // image:this.state.uri,
+          image:
+            "https://media.istockphoto.com/photos/new-product-round-red-seal-picture-id188020497?k=20&m=188020497&s=612x612&w=0&h=14l5TS8674-Q2dx3PHcciIEuTZ9ULXH4lUObdWmBOIY=",
+          quantity: this.state.quantity,
+          id: this.state.id,
+        })
+        .catch(function (error) {
+          console.error("Error adding document: ", error);
+        });
+      console.log("name1 : ", name);
+    }
+  }
 
+  get MyDB() {
+    const yourParam = this.props.navigation.state.params.ProviderName;
+    console.log(yourParam);
+    return yourParam;
+  }
 
-get MyDB() {
-  const yourParam = this.props.navigation.state.params.ProviderName
-  console.log(yourParam)
-  return yourParam;
-}
-
-
-render() {
-  firebase.firestore().collection("Al-Shini-DB").get().then((querySnapshot) => { 
-    // console.log(querySnapshot.size);
-    this.setState({id:querySnapshot.size});
-    // console.log(this.state.id);
-  }); 
-  console.log(this.state.uri);
+  render() {
+    firebase
+      .firestore()
+      .collection("Al-Shini-DB")
+      .get()
+      .then((querySnapshot) => {
+        // console.log(querySnapshot.size);
+        this.setState({ id: querySnapshot.size });
+        // console.log(this.state.id);
+      });
+    console.log(this.state.uri);
 
     return (
-
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
-
-
-
-
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#F5F5F5" }}>
         {/* Header */}
         <View style={styles.cardHeader}>
           <Text style={styles.buyNow}>
@@ -76,10 +91,8 @@ render() {
           </Text>
         </View>
 
-        <View style={{style:styles.container,alignItems: 'center'}}>
-          <View style={{style:styles.details,justifyContent: 'center' }}>
-
-
+        <View style={{ style: styles.container, alignItems: "center" }}>
+          <View style={{ style: styles.details, justifyContent: "center" }}>
             {/* /* 
             PUT YOUR CODE HERE !!!!!!!!!!!!!!!!!!          
             .
@@ -87,103 +100,113 @@ render() {
             .
             .
          */}
-            <View style={{alignItems: 'center', justifyContent: 'center' }}>
-            <Image style={{width: 200, height: 200, marginTop:50}} source={{uri: 'https://media.istockphoto.com/photos/new-product-round-red-seal-picture-id188020497?k=20&m=188020497&s=612x612&w=0&h=14l5TS8674-Q2dx3PHcciIEuTZ9ULXH4lUObdWmBOIY='}} />        
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <Image
+                style={{ width: 200, height: 200, marginTop: 50 }}
+                source={{
+                  uri: "https://media.istockphoto.com/photos/new-product-round-red-seal-picture-id188020497?k=20&m=188020497&s=612x612&w=0&h=14l5TS8674-Q2dx3PHcciIEuTZ9ULXH4lUObdWmBOIY=",
+                }}
+              />
 
-  {/* <TouchableOpacity onPress={openImagePickerAsync} style={{alignItems: 'center', justifyContent: 'center',width: 200, height: 20}}>
+              {/* <TouchableOpacity onPress={openImagePickerAsync} style={{alignItems: 'center', justifyContent: 'center',width: 200, height: 20}}>
   <View style={styles.cameraWrapper}>
             <AntDesign style={styles.camera} name='camera' size={22} color='white' />
         </View>
   </TouchableOpacity> */}
 
-  {/* <Image style={{width: 100, height: 100}} source={{uri:this.state.uri}} /> */}
+              {/* <Image style={{width: 100, height: 100}} source={{uri:this.state.uri}} /> */}
 
-<TextInput
-  placeholder="Product Name"
-  placeholderTextColor="#B1B1B1"
-  returnKeyType="next"
-  textContentType="name"
-  value={this.state.name}
-  onChangeText={name => this.setState({ name })}
-  style={styles.input}
-/>
+              <TextInput
+                placeholder="Product Name"
+                placeholderTextColor="#B1B1B1"
+                returnKeyType="next"
+                textContentType="name"
+                value={this.state.name}
+                onChangeText={(name) => this.setState({ name })}
+                style={styles.input}
+              />
 
-<TextInput
-  placeholder="Quantity"
-  placeholderTextColor="#B1B1B1"
-  returnKeyType="next"
-  keyboardType="number"
-  textContentType="number"
-  value={this.state.quantity}
-  onChangeText={quantity => this.setState({ quantity })}
-  style={styles.input}
-/>
+              <TextInput
+                placeholder="Quantity"
+                placeholderTextColor="#B1B1B1"
+                returnKeyType="next"
+                keyboardType="number"
+                textContentType="number"
+                value={this.state.quantity}
+                onChangeText={(quantity) => this.setState({ quantity })}
+                style={styles.input}
+              />
 
-<TextInput
-  placeholder="Price"
-  placeholderTextColor="#B1B1B1"
-  returnKeyType="next"
-  keyboardType="number"
-  textContentType="number"
-  value={this.state.price}
-  onChangeText={price => this.setState({ price })}
-  style={styles.input}
-/>
+              <TextInput
+                placeholder="Price"
+                placeholderTextColor="#B1B1B1"
+                returnKeyType="next"
+                keyboardType="number"
+                textContentType="number"
+                value={this.state.price}
+                onChangeText={(price) => this.setState({ price })}
+                style={styles.input}
+              />
 
-
-<TouchableOpacity 
-   style={styles.buttonContainer}
-    onPress={() => this.addNewProduct()
-    & Alert.alert('Product added')
-    }>
-     <Text style={{
-                color: "white",
-                padding: 5,
-                fontSize: 18
-              }}>Add product</Text>
-            </TouchableOpacity>
-</View>
-
-
+              <TouchableOpacity
+                style={styles.buttonContainer}
+                onPress={() =>
+                  this.addNewProduct() & Alert.alert("Product added")
+                }
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    padding: 5,
+                    fontSize: 18,
+                  }}
+                >
+                  Add product
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
 
-
-
-
-
-
         {/* Footer */}
         <View style={styles.cardFooter}>
-
-          <TouchableOpacity style={styles.socialBarButton}
+          <TouchableOpacity
+            style={styles.socialBarButton}
             onPress={() => {
-              this.props.navigation.navigate("ProviderLogin")
+              this.props.navigation.navigate("ProviderLogin");
             }}
           >
             {/* <Image style={styles.icon} source={{ uri: 'https://cdn-icons-png.flaticon.com/512/6313/6313304.png' }} /> */}
-            <AntDesign name="logout" size={23} color={'#800C69'} style={{ padding: 5 }} />
+            <AntDesign
+              name="logout"
+              size={23}
+              color={"#800C69"}
+              style={{ padding: 5 }}
+            />
 
-            <Text style={[styles.socialBarLabel, styles.buyNow]}>  Logout </Text>
+            <Text style={[styles.socialBarLabel, styles.buyNow]}> Logout </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.socialBarButton}
+          <TouchableOpacity
+            style={styles.socialBarButton}
             onPress={() => {
-              this.props.navigation.navigate('ProviderHome', {
+              this.props.navigation.navigate("ProviderHome", {
                 userName: this.props.navigation.state.params.userName,
-                ProviderName: this.props.navigation.state.params.ProviderName
+                ProviderName: this.props.navigation.state.params.ProviderName,
               });
             }}
           >
             {/* <Image style={styles.icon} source={{ uri: 'https://cdn-icons-png.flaticon.com/512/6313/6313304.png' }} /> */}
-            <AntDesign name="home" size={23} color={'#800C69'} style={{ padding: 5 }} />
-            <Text style={[styles.socialBarLabel, styles.buyNow]}>  Home </Text>
+            <AntDesign
+              name="home"
+              size={23}
+              color={"#800C69"}
+              style={{ padding: 5 }}
+            />
+            <Text style={[styles.socialBarLabel, styles.buyNow]}> Home </Text>
           </TouchableOpacity>
         </View>
-
       </SafeAreaView>
-
-
     );
   }
 }
@@ -200,15 +223,15 @@ const styles = StyleSheet.create({
   buttonContainer: {
     // marginBottom: 50,
     height: 45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 10,
     marginTop: 15,
     width: 250,
     borderRadius: 30,
     backgroundColor: "#800C69",
-    color: 'white'
+    color: "white",
   },
 
   userInfoSection: {
@@ -217,43 +240,43 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   caption: {
     fontSize: 14,
     lineHeight: 14,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 10,
   },
   infoBoxWrapper: {
     //borderBottomColor: 'white',
     borderBottomWidth: 1,
-    borderTopColor: '#dddddd',
+    borderTopColor: "#dddddd",
     borderTopWidth: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     height: 200,
   },
   infoBox: {
-    width: '50%',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: "50%",
+    alignItems: "center",
+    justifyContent: "center",
     //margin: 2
   },
   menuWrapper: {
     marginTop: 10,
   },
   menuItem: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingVertical: 15,
     paddingHorizontal: 30,
   },
   menuItemText: {
-    color: '#777777',
+    color: "#777777",
     marginLeft: 20,
-    fontWeight: '600',
+    fontWeight: "600",
     fontSize: 16,
     lineHeight: 26,
   },
@@ -266,23 +289,23 @@ const styles = StyleSheet.create({
     backgroundColor: "#E6E6E6",
   },
   listContainer: {
-    flexDirection: 'column',
-    alignItems: 'center'
+    flexDirection: "column",
+    alignItems: "center",
   },
   separator: {
     marginTop: 10,
   },
   /******** card **************/
   card: {
-    shadowColor: '#00000021',
+    shadowColor: "#00000021",
     shadowOffset: {
-      width: 2
+      width: 2,
     },
     shadowOpacity: 0.5,
     shadowRadius: 4,
     marginVertical: 8,
     backgroundColor: "white",
-    flexBasis: '47%',
+    flexBasis: "47%",
     marginHorizontal: 5,
   },
   cardHeader: {
@@ -290,11 +313,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderTopLeftRadius: 1,
     borderTopRightRadius: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     // paddingLeft: "10%",
-    backgroundColor: '#ECD4EA',
+    backgroundColor: "#ECD4EA",
     //fontcolor: 'black'
   },
   cardContent: {
@@ -302,19 +325,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   cardFooter: {
-    marginTop:110,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    marginTop: 110,
+    flexDirection: "row",
+    justifyContent: "space-between",
     paddingTop: 10,
     paddingBottom: 10,
     paddingHorizontal: 20,
     borderBottomLeftRadius: 1,
     borderBottomRightRadius: 1,
-    backgroundColor: '#ECD4EA',
-    position: 'absolute',
+    backgroundColor: "#ECD4EA",
+    position: "absolute",
     left: 0,
     right: 0,
-    bottom: 0
+    bottom: 0,
   },
   cardImage: {
     flex: 1,
@@ -329,7 +352,7 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 16,
     color: "#38700F",
-    marginTop: 5
+    marginTop: 5,
   },
   shop: {
     fontSize: 18,
@@ -341,11 +364,11 @@ const styles = StyleSheet.create({
     color: "#38700F",
     marginTop: 5,
     marginLeft: "30%",
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
     textAlign: "center",
-
-  },  input: {
+  },
+  input: {
     fontSize: 18,
     borderColor: "#707070",
     borderWidth: 1,
@@ -353,11 +376,11 @@ const styles = StyleSheet.create({
     marginTop: 25.5,
     borderRadius: 15,
     // fontWeight: 'bold',
-    color: 'black',
+    color: "black",
     paddingLeft: 48,
     marginHorizontal: 25,
-    width:300,
-    height:40,
+    width: 300,
+    height: 40,
   },
   buyNow: {
     fontSize: 18,
@@ -371,23 +394,22 @@ const styles = StyleSheet.create({
   socialBarContainer: {
     // justifyContent: 'center',
     // alignItems: 'center',
-    flexDirection: 'column',
-    flex: 1
+    flexDirection: "column",
+    flex: 1,
   },
   socialBarSection: {
     marginTop: 10,
-    flexDirection: 'row',
+    flexDirection: "row",
     flex: 2,
-    justifyContent: 'space-between',
-
+    justifyContent: "space-between",
   },
   socialBarlabel: {
-    alignSelf: 'flex-end',
-    justifyContent: 'space-between',
+    alignSelf: "flex-end",
+    justifyContent: "space-between",
   },
   socialBarButton: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     // alignItems: 'center',
     // backgroundColor: '#FFFFFF',
   },
@@ -396,44 +418,44 @@ const styles = StyleSheet.create({
     height: 200,
     marginBottom: 25,
     borderRadius: 15,
-    backgroundColor: '#FFFFFF',
-    overflow: 'hidden'
+    backgroundColor: "#FFFFFF",
+    overflow: "hidden",
   },
 
   image: {
-    alignSelf: 'flex-start',
-    width: '100%',
-    height: '100%'
+    alignSelf: "flex-start",
+    width: "100%",
+    height: "100%",
   },
 
   textContainer: {
     flex: 1,
-    alignSelf: 'flex-end',
-    textAlign: 'right'
+    alignSelf: "flex-end",
+    textAlign: "right",
 
     // alignItems: 'center',
     // justifyContent: 'center'
   },
-    camera: {
-    alignSelf: 'center',
+  camera: {
+    alignSelf: "center",
     margin: 8,
-
-  }, cameraWrapper: {
-    position: 'absolute',
+  },
+  cameraWrapper: {
+    position: "absolute",
     top: 150,
     left: 225,
-    backgroundColor: '#800C69',
+    backgroundColor: "#800C69",
     width: 40,
     height: 40,
-    borderRadius: 100
+    borderRadius: 100,
   },
 
   text: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 20,
     color: "#800C69",
-    alignSelf: 'flex-end',
-    textAlign: 'right'
+    alignSelf: "flex-end",
+    textAlign: "right",
   },
   logo: {
     marginTop: 50,
@@ -441,17 +463,13 @@ const styles = StyleSheet.create({
     // height: 400,
     width: "100%",
     // flex: 1,
-    resizeMode: 'contain'
+    resizeMode: "contain",
   },
 });
 
-
-
-
-
-
 let openImagePickerAsync = async () => {
-  let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  let permissionResult =
+    await ImagePicker.requestMediaLibraryPermissionsAsync();
 
   if (permissionResult.granted === false) {
     alert("Permission to access camera roll is required!");
@@ -460,14 +478,14 @@ let openImagePickerAsync = async () => {
 
   let pickerResult = await ImagePicker.launchImageLibraryAsync();
   console.log(pickerResult);
-  console.log(pickerResult.uri," before ++++")
-  pickerResult.uri=pickerResult.uri.replace('file://', '')
-  console.log(pickerResult.uri," after ++++")
-  this.setState({uri:pickerResult});
-}
+  console.log(pickerResult.uri, " before ++++");
+  pickerResult.uri = pickerResult.uri.replace("file://", "");
+  console.log(pickerResult.uri, " after ++++");
+  this.setState({ uri: pickerResult });
+};
 
 // const openImagePickerAsync = async () => {
-//   // Ask the user for the permission to access the media library 
+//   // Ask the user for the permission to access the media library
 //   const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
 //   if (permissionResult.granted === false) {
@@ -485,8 +503,6 @@ let openImagePickerAsync = async () => {
 //     console.log(result.uri);
 //   }
 // }
-
-
 
 // const styles = StyleSheet.create({
 //     container: {
@@ -548,15 +564,14 @@ let openImagePickerAsync = async () => {
 
 //   });
 
-  // export default addProduct;
-
+// export default addProduct;
 
 // import React, { Component } from "react";
 // import { Permissions, ImagePicker } from "expo";
 // import {View, Text, StyleSheet, Dimensions, Button, Image } from "react-native";
 
 // class addProduct extends Component {
-  
+
 //   constructor(props) {
 //     super(props);
 //     this.state = {
@@ -596,8 +611,8 @@ let openImagePickerAsync = async () => {
 //         )}
 //       </View>
 //       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-//        <Button 
-//          onPress={this._getPhotoLibrary.bind(this)} 
+//        <Button
+//          onPress={this._getPhotoLibrary.bind(this)}
 //          title="Photo Picker Screen!"
 //        />
 //       </View>
