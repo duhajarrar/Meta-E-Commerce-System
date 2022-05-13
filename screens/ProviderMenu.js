@@ -23,6 +23,8 @@ import orderHistory from '../screens/orderHistory';
 import ProviderLogin from '../screens/ProviderLogin';
 import ProviderHome from '../screens/ProviderHome';
 import addProduct from '../screens/addProduct';
+import ImportProducts from '../screens/ImportProducts'
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Tab = createBottomTabNavigator();
@@ -63,7 +65,7 @@ class ProviderMenu extends React.Component {
 
     }
     render() {
-        console.log("testttttttt",this.props.navigation.state.params.ProviderName)
+        console.log("testttttttt",this.props.route.params.ProviderName)
         return (
             <NavigationContainer style={{ backgroundColor: "#800C69", color: "#800C69" }}>
                 <Drawer.Navigator initialRouteName="ProviderHome" 
@@ -157,6 +159,13 @@ class ProviderMenu extends React.Component {
                            // drawerLabel: () => null
                         }} />
 
+
+                    <Drawer.Screen name="ImportProducts" component={ImportProducts}
+                        options={{
+                        drawerItemStyle: { height: 0 },
+                            title: 'ImportProducts',
+                        //   drawerLabel: () => null
+                        }} />
                     {/* <Drawer.Screen name="ProviderLogin" component={ProviderLogin}
                         options={{
                             title: 'ProviderLogin',

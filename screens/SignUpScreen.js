@@ -32,7 +32,7 @@ class SignUpScreen extends React.Component {
 
   onLoginSuccess() {
     this.addUser();
-    this.props.navigation.navigate('App');
+    this.props.navigation.navigate('App',{ ProviderName:"customer", userName:"customer"});
   }
 
   addUser() {

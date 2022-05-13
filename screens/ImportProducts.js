@@ -29,7 +29,7 @@ import {
 
 import * as ImagePicker from "expo-image-picker";
 var db = firebase.firestore();
-export default class addProduct extends Component {
+export default class ImportProducts extends Component {
   state = { id: {}, name: {}, uri: {}, provider: {}, price: {}, quantity: {} };
   componentDidMount() {
     this.MyDB;
@@ -87,124 +87,11 @@ export default class addProduct extends Component {
         {/* Header */}
         <View style={styles.cardHeader}>
           <Text style={styles.buyNow}>
-            Add to {this.props.route.params.ProviderName} Products
+            Import products data to {this.props.route.params.ProviderName}
           </Text>
-        </View>
+            
 
-        <View style={{ style: styles.container, alignItems: "center" }}>
-          <View style={{ style: styles.details, justifyContent: "center" }}>
-            {/* /* 
-            PUT YOUR CODE HERE !!!!!!!!!!!!!!!!!!          
-            .
-            .
-            .
-            .
-         */}
-            <View style={{ alignItems: "center", justifyContent: "center" }}>
-              <Image
-                style={{ width: 200, height: 200, marginTop: 50 }}
-                source={{
-                  uri: "https://media.istockphoto.com/photos/new-product-round-red-seal-picture-id188020497?k=20&m=188020497&s=612x612&w=0&h=14l5TS8674-Q2dx3PHcciIEuTZ9ULXH4lUObdWmBOIY=",
-                }}
-              />
 
-              {/* <TouchableOpacity onPress={openImagePickerAsync} style={{alignItems: 'center', justifyContent: 'center',width: 200, height: 20}}>
-  <View style={styles.cameraWrapper}>
-            <AntDesign style={styles.camera} name='camera' size={22} color='white' />
-        </View>
-  </TouchableOpacity> */}
-
-              {/* <Image style={{width: 100, height: 100}} source={{uri:this.state.uri}} /> */}
-
-              <TextInput
-                placeholder="Product Name"
-                placeholderTextColor="#B1B1B1"
-                returnKeyType="next"
-                textContentType="name"
-                value={this.state.name}
-                onChangeText={(name) => this.setState({ name })}
-                style={styles.input}
-              />
-
-              <TextInput
-                placeholder="Quantity"
-                placeholderTextColor="#B1B1B1"
-                returnKeyType="next"
-                keyboardType="number"
-                textContentType="number"
-                value={this.state.quantity}
-                onChangeText={(quantity) => this.setState({ quantity })}
-                style={styles.input}
-              />
-
-              <TextInput
-                placeholder="Price"
-                placeholderTextColor="#B1B1B1"
-                returnKeyType="next"
-                keyboardType="number"
-                textContentType="number"
-                value={this.state.price}
-                onChangeText={(price) => this.setState({ price })}
-                style={styles.input}
-              />
-
-              <TouchableOpacity
-                style={styles.buttonContainer}
-                onPress={() =>
-                  this.addNewProduct() & Alert.alert("Product added")
-                }
-              >
-                <Text
-                  style={{
-                    color: "white",
-                    padding: 5,
-                    fontSize: 18,
-                  }}
-                >
-                  Add product
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-
-        {/* Footer */}
-        <View style={styles.cardFooter}>
-          <TouchableOpacity
-            style={styles.socialBarButton}
-            onPress={() => {
-              this.props.navigation.navigate("ProviderLogin");
-            }}
-          >
-            {/* <Image style={styles.icon} source={{ uri: 'https://cdn-icons-png.flaticon.com/512/6313/6313304.png' }} /> */}
-            <AntDesign
-              name="logout"
-              size={23}
-              color={"#800C69"}
-              style={{ padding: 5 }}
-            />
-
-            <Text style={[styles.socialBarLabel, styles.buyNow]}> Logout </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.socialBarButton}
-            onPress={() => {
-              this.props.navigation.navigate("ProviderHome", {
-                userName: this.props.route.params.userName,
-                ProviderName: this.props.route.params.ProviderName,
-              });
-            }}
-          >
-            {/* <Image style={styles.icon} source={{ uri: 'https://cdn-icons-png.flaticon.com/512/6313/6313304.png' }} /> */}
-            <AntDesign
-              name="home"
-              size={23}
-              color={"#800C69"}
-              style={{ padding: 5 }}
-            />
-            <Text style={[styles.socialBarLabel, styles.buyNow]}> Home </Text>
-          </TouchableOpacity>
         </View>
       </SafeAreaView>
     );
@@ -564,13 +451,13 @@ let openImagePickerAsync = async () => {
 
 //   });
 
-// export default addProduct;
+// export default ImportProducts;
 
 // import React, { Component } from "react";
 // import { Permissions, ImagePicker } from "expo";
 // import {View, Text, StyleSheet, Dimensions, Button, Image } from "react-native";
 
-// class addProduct extends Component {
+// class ImportProducts extends Component {
 
 //   constructor(props) {
 //     super(props);
@@ -621,7 +508,7 @@ let openImagePickerAsync = async () => {
 //     }
 //    }
 //   }
-//   export default addProduct;
+//   export default ImportProducts;
 
 //   const styles = StyleSheet.create({
 //    activeImageContainer: {

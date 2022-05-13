@@ -117,15 +117,15 @@ class Products extends Component {
 
                 <Image style={styles.cardImage} source={{ uri: item.image }} />
 
-                <View style={styles.cardFooter}>
+                <View style={styles.cardFooter1}>
                   <View style={styles.socialBarContainer}>
                     <View >
 
-                    <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center" }} 
-                    onPress={() => this.props.onPress(item) &
-                        Alert.alert('Added to Cart successfully') 
+                      <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+                        onPress={() => this.props.onPress(item) &
+                          Alert.alert('Added to Cart successfully')
                         }>
-                        <Text style={{ fontSize: 13, color: "#800C69", }}>
+                        <Text style={{ fontSize: 12, color: "#800C69", fontWeight: 'bold', }}>
                           <MaterialCommunityIcons name="cart-plus" size={16} color={'#2E922E'} />
                           {' '}Buy Now</Text>
                       </TouchableOpacity>
@@ -142,9 +142,8 @@ class Products extends Component {
             )
           }}
         />
+
         <View style={styles.cardFooter}>
-
-
           <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
             onPress={() => { this.props.navigation.navigate("Cart") }} >
             <Text style={{ fontSize: 16, color: "#800C69", }}>
@@ -153,7 +152,7 @@ class Products extends Component {
             </Text>
           </TouchableOpacity>
 
-{/* 
+          {/* 
           <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
             onPress={() => {
               this.onLoginFeedbackSuccess();
@@ -194,7 +193,7 @@ const styles = StyleSheet.create({
   },
   /******** card **************/
   card: {
-    height:190,
+    height: 190,
     shadowColor: '#00000021',
     shadowOffset: {
       width: 1
@@ -203,21 +202,38 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     marginVertical: 8,
     backgroundColor: "white",
-    flexBasis: '30%',
+    flexBasis: '31%',
     marginHorizontal: 5,
   },
   cardHeader: {
-    paddingVertical: 10,
-    paddingHorizontal: 16,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
     borderTopLeftRadius: 1,
     borderTopRightRadius: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height:"30%"
+    height: "33%"
   },
   cardContent: {
     paddingVertical: 10,
     paddingHorizontal: 10,
+  },
+  cardFooter1: {
+    // flexDirection: 'row',
+    // justifyContent: 'space-between',
+    // paddingTop: 12.5,
+    // paddingBottom: 25,
+    // paddingHorizontal: 16,
+    // borderBottomLeftRadius: 1,
+    // borderBottomRightRadius: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 5,
+    //paddingBottom: 5,
+    paddingHorizontal: 10,
+    borderBottomLeftRadius: 1,
+    borderBottomRightRadius: 1,
+    height: "20%"
   },
   cardFooter: {
     flexDirection: 'row',
@@ -227,25 +243,29 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderBottomLeftRadius: 1,
     borderBottomRightRadius: 1,
-    height:"20%"
+   // height: "20%"
   },
   cardImage: {
-    flex: 1,
-    height: "50%",
-    // width: null,
+    //flex: 1,
+    aspectRatio: 1.5,
+    resizeMode: 'contain',
   },
   /******** card components **************/
   title: {
-    fontSize: 14,
+    fontSize: 12,
+    fontWeight: 'bold',
     flex: 1,
+    
   },
   price: {
     fontSize: 14,
     color: "#38700F",
+    
     // marginTop: 5
   },
   buyNow: {
     color: "#800C69",
+    fontWeight: 'bold',
 
   },
   icon: {

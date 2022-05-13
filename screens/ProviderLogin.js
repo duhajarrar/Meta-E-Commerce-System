@@ -54,7 +54,8 @@ class ProviderLogin extends React.Component {
 
 
   onLoginSuccess() {
-    this.props.navigation.navigate('ProviderHome', {
+    
+    this.props.navigation.navigate('App', {
       userName: this.state.userName,
       ProviderName:this.state.Provider.ProviderName
     });

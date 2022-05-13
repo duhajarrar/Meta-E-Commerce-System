@@ -9,7 +9,7 @@ class LoadingScreen extends React.Component {
     componentDidMount() {
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
-                this.props.navigation.navigate('App');
+                this.props.navigation.navigate('App',{ ProviderName:"customer", userName:"customer" });
             } else {
                 this.props.navigation.navigate('SignUp');
             }

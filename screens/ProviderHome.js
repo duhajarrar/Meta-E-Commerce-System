@@ -5,7 +5,8 @@ import {
   Text,
   View,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo'
 
@@ -13,7 +14,7 @@ export default class ProviderHome extends Component {
 
 
   get Image() {
-    switch (this.props.navigation.state.params.ProviderName) {
+    switch (this.props.route.params.ProviderName) {
       case "Bravo":
         return require('../images/bravo.png');
       case "Brothers":
@@ -21,49 +22,56 @@ export default class ProviderHome extends Component {
       case "Al-Shini":
         return require('../images/alshini.jpg');
       default:
-        return require('../images/alshini.jpg');
+        return require('../images/gardens.jpg');
     }
   }
 
   goToView() {
     this.props.navigation.navigate('viewProducts', {
-      userName: this.props.navigation.state.params.userName,
-      ProviderName: this.props.navigation.state.params.ProviderName
+      userName: this.props.route.params.userName,
+      ProviderName: this.props.route.params.ProviderName
     });
   }
 
   goToEdit() {
     this.props.navigation.navigate('editProducts', {
-      userName: this.props.navigation.state.params.userName,
-      ProviderName: this.props.navigation.state.params.ProviderName
+      userName: this.props.route.params.userName,
+      ProviderName: this.props.route.params.ProviderName
     });
   }
 
   goToaAdd() {
     this.props.navigation.navigate('addProduct', {
-      userName: this.props.navigation.state.params.userName,
-      ProviderName: this.props.navigation.state.params.ProviderName
+      userName: this.props.route.params.userName,
+      ProviderName: this.props.route.params.ProviderName
     });
   }
 
+  importDataFromCSV(){
+    // console.log("HHHHHHHHHHHHHere");
+    this.props.navigation.navigate('ImportProducts', {
+      userName: this.props.route.params.userName,
+      ProviderName: this.props.route.params.ProviderName
+    });
+  }
   goToOrders() {
     this.props.navigation.navigate('ProviderOrders', {
-      userName: this.props.navigation.state.params.userName,
-      ProviderName: this.props.navigation.state.params.ProviderName
+      userName: this.props.route.params.userName,
+      ProviderName: this.props.route.params.ProviderName
     });
   }
 
   goToFeedback() {
     this.props.navigation.navigate('ProviderFeedback', {
-      userName: this.props.navigation.state.params.userName,
-      ProviderName: this.props.navigation.state.params.ProviderName
+      userName: this.props.route.params.userName,
+      ProviderName: this.props.route.params.ProviderName
     });
   }
 
   goToViewOffers() {
     this.props.navigation.navigate('viewProviderOffers', {
-      userName: this.props.navigation.state.params.userName,
-      ProviderName: this.props.navigation.state.params.ProviderName
+      userName: this.props.route.params.userName,
+      ProviderName: this.props.route.params.ProviderName
     });
 
   }
@@ -71,8 +79,10 @@ export default class ProviderHome extends Component {
 
 
   render() {
+    console.log(this.props.route.params);
     return (
       <View style={styles.container}>
+         <ScrollView>
         <View style={styles.header}></View>
         <Image style={styles.avatar}
           source={this.Image}
@@ -87,10 +97,21 @@ export default class ProviderHome extends Component {
             <Text style={styles.name}>
               <Entypo name='shop' size={28} />
               {" "}
-              {this.props.navigation.state.params.ProviderName}
+              {this.props.route.params.ProviderName}
             </Text>
 
             <TouchableOpacity style={[styles.buttonContainer, { marginTop: 50 }]}
+              onPress={() => this.importDataFromCSV()
+              }
+            >
+              <Text style={{
+                color: "white",
+                padding: 10,
+                fontSize: 18
+              }}>Import Products</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={[styles.buttonContainer]}
               onPress={() => this.goToaAdd()
               }
             >
@@ -179,6 +200,7 @@ export default class ProviderHome extends Component {
 
           </View>
         </View>
+        </ScrollView>
       </View>
     );
   }

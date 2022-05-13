@@ -5,12 +5,18 @@ import "firebase/compat/auth"
 import "firebase/compat/firestore"
 import Icon from 'react-native-vector-icons/Ionicons'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
+import MaterialCommunityIcons from 'react-native-vector-icons/Foundation'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+
+
 import AntDesignIcon from 'react-native-vector-icons/AntDesign'
 import  Fontisto  from 'react-native-vector-icons/Fontisto'
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen1 from '../screens/HomeScreen1'
 import SettingScreen from '../screens/SettingScreen'
+import SignInScreen from '../screens/SignInScreen'
+
 import pageOne from '../screens/pageOne';
 import pageTwo from '../screens/pageTwo';
 import pageThree from '../screens/pageThree';
@@ -24,6 +30,7 @@ import setLocation from '../screens/setLocation.js';
 import orderHistory from '../screens/orderHistory';
 import ProviderLogin from '../screens/ProviderLogin';
 import ProviderHome from '../screens/ProviderHome';
+import ImportProducts from '../screens/ImportProducts'
 import addProduct from '../screens/addProduct';
 import editProducts from '../screens/editProducts'
 import viewProducts from '../screens/viewProducts'
@@ -63,6 +70,27 @@ function CustomDrawerContent(props) {
   );
 }
 
+
+function CustomDrawerContent1(props) {
+
+  return (
+
+    <DrawerContentScrollView {...props}>
+
+      <DrawerItemList {...props} />
+      <DrawerItem
+        icon={() => <AntDesignIcon name="logout" size={25} color={'#800C69'} style={{ padding: 5 }} />}
+        style={{ marginTop: '65%' }}
+        label="Logout" onPress={() => {
+          props.navigation.navigate("ProviderLogin")
+        }
+
+        } />
+
+    </DrawerContentScrollView>
+  );
+}
+
 class HomeScreen extends React.Component {
 
   state = { user: {} };
@@ -78,11 +106,14 @@ class HomeScreen extends React.Component {
   render() {
 
     return (
-      <NavigationContainer style={{ backgroundColor: "#800C69", color: "#800C69" }}>
-        <Drawer.Navigator initialRouteName="HomeScreen1" drawerContent={props => <CustomDrawerContent {...props} />}>
+          // {console.log(this.props.navigation.state.params.ProviderName,"++++++++++++++++++++++")}
+          (this.props.navigation.state.params.ProviderName !== "Al-Shini" & 
+          this.props.navigation.state.params.ProviderName !== "Bravo" &
+          this.props.navigation.state.params.ProviderName !== "Gardens" &
+          this.props.navigation.state.params.ProviderName !== "Brothers") ?(
+            <NavigationContainer style={{ backgroundColor: "#800C69", color: "#800C69" }}>
 
-
-
+<Drawer.Navigator initialRouteName="HomeScreen1" drawerContent={props => <CustomDrawerContent {...props} />}>
           <Drawer.Screen name="Shops" component={HomeScreen1} style={{ color: "#800C69" }}
             options={{
               title: 'Shops',
@@ -90,6 +121,7 @@ class HomeScreen extends React.Component {
                 <EntypoIcon name="shop" size={25} color={'#800C69'} style={{ padding: 0 }} />
               ),
             }} />
+
           <Drawer.Screen name="Cart" component={Cart} style={{ color: "#800C69" }}
             options={{
               title: 'My Cart',
@@ -141,16 +173,7 @@ class HomeScreen extends React.Component {
               ),
             }}
           />
-
-          <Drawer.Screen name="ProviderFeedback" component={ProviderFeedback}
-            options={{
-              drawerItemStyle: { height: 0 },
-              title: 'Feedbacks and Reviews',
-              drawerIcon: ({ focused, size }) => (
-                <MaterialIcons name="feedback" size={20} color={'#800C69'} />
-              ),
-            }} />
-
+          
           <Drawer.Screen name="pageOne" component={pageOne}
             options={{
               drawerItemStyle: { height: 0 },
@@ -177,12 +200,15 @@ class HomeScreen extends React.Component {
               drawerLabel: () => null
             }} />
 
-          <Drawer.Screen name="CheckOut" component={CheckOut}
+
+<Drawer.Screen name="CheckOut"  initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName,  userName:this.props.navigation.state.params.userName }} component={CheckOut}
             options={{
               drawerItemStyle: { height: 0 },
               title: 'CheckOut',
               drawerLabel: () => null
             }} />
+
+
 
           <Drawer.Screen name="edit" component={edit}
             options={{
@@ -199,7 +225,7 @@ class HomeScreen extends React.Component {
             }} />
 
 
-          <Drawer.Screen name="CardPayment" component={CardPayment} style={{ color: "#800C69" }}
+<Drawer.Screen name="CardPayment" component={CardPayment} style={{ color: "#800C69" }}
             options={{
               title: 'Credit Card Payment',
               drawerLabel: () => null
@@ -211,54 +237,154 @@ class HomeScreen extends React.Component {
               title: 'Set Location',
               drawerLabel: () => null
             }} />
-          <Drawer.Screen name="ProviderLogin" component={ProviderLogin}
+
+                 </Drawer.Navigator>
+      </NavigationContainer>
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+         
+         ):(
+          <NavigationContainer style={{ backgroundColor: "#800C69", color: "#800C69" }}>
+
+          <Drawer.Navigator initialRouteName="ProviderHome" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName, userName:this.props.navigation.state.params.userName }} drawerContent={props => <CustomDrawerContent1 {...props} />}>
+          {/* <Drawer.Navigator initialRouteName="ProviderHome" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName,  userName:this.props.navigation.state.params.userName }}> */}
+
+          <Drawer.Screen name="ProviderHome"   initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName,  userName:this.props.navigation.state.params.userName }} component={ProviderHome}
             options={{
-              drawerItemStyle: { height: 0 },
-              title: 'ProviderLogin',
-              drawerLabel: () => null
+              drawerIcon: ({ focused, size }) => (
+                <EntypoIcon name="home" size={22} color={'#800C69'} />
+              ),
+              // drawerItemStyle: { height: 0 },
+              title: 'Home',
             }} />
 
-          <Drawer.Screen name="ProviderHome" component={ProviderHome}
+
+          <Drawer.Screen name="ImportProducts"    initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName,  userName:this.props.navigation.state.params.userName }} component={ImportProducts} style={{ color: "#800C69" }}
             options={{
-              drawerItemStyle: { height: 0 },
-              title: 'ProviderHome',
-              drawerLabel: () => null
+              drawerIcon: ({ focused, size }) => (
+                <MaterialCommunityIcons name="folder-add" size={25} color={'#800C69'} style={{ padding: 0 }} />
+              ),
+              title: 'Import Products',
+            
+            }}
+          />
+
+          <Drawer.Screen name="addProducts" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName,  userName:this.props.navigation.state.params.userName }} component={addProduct}
+            options={{
+              drawerIcon: ({ focused, size }) => (
+                <Icon name="add-circle" size={25} color={'#800C69'} style={{ padding: 0 }} />
+              ),
+              title: 'Add Products',
             }} />
 
-          <Drawer.Screen name="addProduct" component={addProduct}
+
+          <Drawer.Screen name="editProducts" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName,  userName:this.props.navigation.state.params.userName }} component={editProducts}
             options={{
-              drawerItemStyle: { height: 0 },
-              title: 'addProduct',
-              drawerLabel: () => null
+              drawerIcon: ({ focused, size }) => (
+                <FontAwesome5 name="edit" size={20} color={'#800C69'} />
+              ),
+              // drawerItemStyle: { height: 0 },
+              title: 'Edit Products',
+              // drawerLabel: () => null
             }} />
 
-          <Drawer.Screen name="editProducts" component={editProducts}
+
+
+          <Drawer.Screen name="viewProducts" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName,  userName:this.props.navigation.state.params.userName }} component={viewProducts}
             options={{
-              drawerItemStyle: { height: 0 },
-              title: 'editProducts',
-              drawerLabel: () => null
+              drawerIcon: ({ focused, size }) => (
+                <MaterialIcons name="local-offer" size={20} color={'#800C69'} />
+              ),
+              // drawerItemStyle: { height: 0 },
+              title: 'Add to Offers',
+              // drawerLabel: () => null
             }} />
 
-          <Drawer.Screen name="viewProducts" component={viewProducts}
+      
+<Drawer.Screen name="viewProviderOffers" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName,  userName:this.props.navigation.state.params.userName }} component={viewProviderOffers}
+            options={{
+              drawerIcon: ({ focused, size }) => (
+                <MaterialCommunityIcons name="burst-sale" size={25} color={'#800C69'} style={{ padding: 0 }} />
+              ),
+              title: 'View/Edit Offers',
+            }} />
+
+           <Drawer.Screen name="ProviderOrders"  initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName,  userName:this.props.navigation.state.params.userName }} component={ProviderOrders}
+            options={{
+              drawerIcon: ({ focused, size }) => (
+                <MaterialIcons
+                name="point-of-sale" size={25} color={'#800C69'} style={{ padding: 0 }} />
+              ),
+              title: 'Provider Orders',
+            }} />
+
+   
+         
+
+          <Drawer.Screen name="ProviderFeedback"   initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName,  userName:this.props.navigation.state.params.userName }} component={ProviderFeedback}
+            options={{
+           
+              title: 'Feedbacks and Reviews',
+              drawerIcon: ({ focused, size }) => (
+                <MaterialIcons name="feedback" size={20} color={'#800C69'} />
+              ),
+            }} />
+
+          
+          {/* <Drawer.Screen name="SignInScreen" component={SignInScreen}
+            options={{
+              drawerIcon:({ focused, size }) => (<AntDesignIcon name="logout" size={25} color={'#800C69'}
+               style={{ padding: 5 }} />),
+              title: 'Logout',
+            }} /> */}
+
+          
+         
+
+          {/* <Drawer.Screen name="ImportProducts" component={ImportProducts}
             options={{
               drawerItemStyle: { height: 0 },
+              title: 'ImportProducts',
+              drawerLabel: () => null
+            }} /> */}
+
+          
+
+          <Drawer.Screen name="viewProducts1" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName,  userName:this.props.navigation.state.params.userName }} component={viewProducts}
+            options={{
               title: 'viewProducts',
-              drawerLabel: () => null
+              drawerItemStyle: { height: 0 },
+
             }} />
 
-          <Drawer.Screen name="editProd" component={editProd}
+          <Drawer.Screen name="editProd" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName,  userName:this.props.navigation.state.params.userName }} component={editProd}
+            options={{
+              title: 'editProd',
+              drawerItemStyle: { height: 0 },
+
+            }} />
+
+<Drawer.Screen name="editOffer" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName,  userName:this.props.navigation.state.params.userName }} component={editOffer}
+            options={{
+              title: 'editOffer',
+              drawerItemStyle: { height: 0 },
+
+            }} />
+
+<Drawer.Screen name="addOffer" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName,  userName:this.props.navigation.state.params.userName }} component={addOffer}
             options={{
               drawerItemStyle: { height: 0 },
-              title: 'editProd',
-              drawerLabel: () => null
+
+              title: 'addOffer',
             }} />
 
-          <Drawer.Screen name="ProviderOrders" component={ProviderOrders}
+
+          {/* <Drawer.Screen name="ProviderOrders" component={ProviderOrders}
             options={{
               drawerItemStyle: { height: 0 },
               title: 'ProviderOrders',
               drawerLabel: () => null
-            }} />
+            }} /> */}
 
           <Drawer.Screen name="Feedbacks" component={Feedbacks}
             options={{
@@ -274,35 +400,24 @@ class HomeScreen extends React.Component {
               drawerLabel: () => null
             }} />
 
-          <Drawer.Screen name="addOffer" component={addOffer}
-            options={{
-              drawerItemStyle: { height: 0 },
-              title: 'add to Offers',
-              drawerLabel: () => null
-            }} />
+         
 
-          <Drawer.Screen name="viewProviderOffers" component={viewProviderOffers}
+          {/* <Drawer.Screen name="viewProviderOffers" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName,  userName:this.props.navigation.state.params.userName }} component={viewProviderOffers}
             options={{
-              drawerItemStyle: { height: 0 },
+              // drawerItemStyle: { height: 0 },
               title: 'Offers',
-              drawerLabel: () => null
-            }} />
+            }} /> */}
 
 
-          <Drawer.Screen name="editOffer" component={editOffer}
-            options={{
-              drawerItemStyle: { height: 0 },
-              title: 'edit Offer',
-              drawerLabel: () => null
-            }} />
+         
 
+</Drawer.Navigator>
+</NavigationContainer>
 
+)
 
 
 
-
-        </Drawer.Navigator>
-      </NavigationContainer>
     );
   }
 

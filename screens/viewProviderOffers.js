@@ -40,7 +40,7 @@ export default class viewProviderOffers extends Component {
     getorderDBData = () => {
 
         let OrderInf;
-        db.collection("Offers").where('provider', '==', this.props.navigation.state.params.ProviderName)
+        db.collection("Offers").where('provider', '==', this.props.route.params.ProviderName)
             .get()
             .then((querySnapshot) => {
                 OrderInf = querySnapshot.docs.map(doc => doc.data());
@@ -63,8 +63,8 @@ export default class viewProviderOffers extends Component {
     goToEditOffer(item) {
         console.log("edit offer");
         this.props.navigation.navigate('editOffer', {
-            userName: this.props.navigation.state.params.userName,
-            ProviderName: this.props.navigation.state.params.ProviderName,
+            userName: this.props.route.params.userName,
+            ProviderName: this.props.route.params.ProviderName,
             item: item
         });
     }
@@ -78,7 +78,7 @@ export default class viewProviderOffers extends Component {
 
                 <View style={styles.cardHeader}>
                     <Text style={styles.buyNow}>
-                       Edit {this.props.navigation.state.params.ProviderName} Offers
+                       Edit {this.props.route.params.ProviderName} Offers
                     </Text>
                 </View>
 
@@ -168,8 +168,8 @@ export default class viewProviderOffers extends Component {
                     <TouchableOpacity style={styles.socialBarButton}
                         onPress={() => {
                             this.props.navigation.navigate('ProviderHome', {
-                                userName: this.props.navigation.state.params.userName,
-                                ProviderName: this.props.navigation.state.params.ProviderName
+                                userName: this.props.route.params.userName,
+                                ProviderName: this.props.route.params.ProviderName
                             });
                         }}
                     >

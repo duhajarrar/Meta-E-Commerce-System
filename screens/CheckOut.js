@@ -98,7 +98,10 @@ export default class CheckOut extends Component {
 
 
     render() {
-      
+      console.log(this.props.route.params.ProviderName," ++++ duha1111");
+      console.log(this.props.route.params.userName," ++++ duha2222");
+
+
         this.getAddressDBData();
         let pickerItems = this.state.addressDB.map((s, i) => {
             // console.log(s);

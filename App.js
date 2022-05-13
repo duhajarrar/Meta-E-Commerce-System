@@ -31,9 +31,10 @@ firebase.initializeApp(firebaseConfig);
 
 export default class App extends React.Component {
   render() {
+    // console.log("+*+*+*+ ",this.props.route.params.ProviderName);
     return (
       <Provider store={store}>
-        <AuthNavigator />
+        <AuthNavigator  initialParams={{ ProviderName: "Bravo", userName:"Bravo.admin" }}/>
       </Provider>
     );
   }

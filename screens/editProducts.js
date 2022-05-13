@@ -27,7 +27,7 @@ export default class editProducts extends Component {
     }
 
     get MyDB() {
-        const yourParam = this.props.navigation.state.params.ProviderName
+        const yourParam = this.props.route.params.ProviderName
         console.log(yourParam)
         return yourParam;
     }
@@ -57,8 +57,8 @@ export default class editProducts extends Component {
 
     goToEdit(item) {
         this.props.navigation.navigate('editProd', {
-          userName: this.props.navigation.state.params.userName,
-          ProviderName:this.props.navigation.state.params.ProviderName,
+          userName: this.props.route.params.userName,
+          ProviderName:this.props.route.params.ProviderName,
           item: item
         });
       }
@@ -73,7 +73,7 @@ export default class editProducts extends Component {
 
                 <View style={styles.cardHeader}>
                     <Text style={styles.buyNow}>
-                        {/* {this.props.navigation.state.params.ProviderName}  */}
+                        {/* {this.props.route.params.ProviderName}  */}
                         Edit Products
                     </Text>
                 </View>
@@ -164,8 +164,8 @@ export default class editProducts extends Component {
                     <TouchableOpacity style={styles.socialBarButton}
                         onPress={() => {
                             this.props.navigation.navigate('ProviderHome', {
-                                userName: this.props.navigation.state.params.userName,
-                                ProviderName: this.props.navigation.state.params.ProviderName
+                                userName: this.props.route.params.userName,
+                                ProviderName: this.props.route.params.ProviderName
                             });
                         }}
                     >

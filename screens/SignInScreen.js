@@ -43,7 +43,12 @@ class SignInScreen extends React.Component {
   };
 
   onLoginSuccess() {
-    this.props.navigation.navigate('App');
+    // this.props.navigation.navigate('App',{ProviderName:"customer"});
+    this.props.navigation.navigate('App', {
+      // userName: this.state.userName,
+      ProviderName:"customer",
+      userName:"customer"
+    });
   }
   onLoginFailure(errorMessage) {
     this.setState({ error: errorMessage, loading: false });

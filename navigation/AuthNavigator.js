@@ -18,6 +18,7 @@ import orderHistory from '../screens/orderHistory'
 import ProviderLogin from '../screens/ProviderLogin'
 import ProviderHome from '../screens/ProviderHome'
 import addProduct from '../screens/addProduct'
+import ImportProducts from '../screens/ImportProducts'
 import ProviderMenu from '../screens/ProviderMenu';
 import editProducts from '../screens/editProducts'
 import viewProducts from '../screens/viewProducts'
@@ -53,6 +54,7 @@ const Navigator = createSwitchNavigator(
     ProviderLogin:{ screen: ProviderLogin},
     ProviderHome:{screen: ProviderHome},
     addProduct:{screen: addProduct},
+    ImportProducts:{screen: ImportProducts},
     ProviderMenu:{screen: ProviderMenu},
     editProducts:{screen: editProducts},
     viewProducts:{screen: viewProducts},
@@ -87,7 +89,7 @@ export default createAppContainer(
     {
       Auth: Navigator,
       App: HomeScreen,
-      AppProvider: ProviderMenu
+      // AppProvider: ProviderMenu
     },
     {
       initialRouteName: 'Auth'

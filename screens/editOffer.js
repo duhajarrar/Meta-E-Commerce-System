@@ -18,7 +18,7 @@ export default class editOffer extends Component {
     }
 
     componentDidMount() {
-        const yourParam = this.props.navigation.state.params.item
+        const yourParam = this.props.route.params.item
         this.setState({ item: yourParam });
         this.setState({ offerPrice: yourParam.price })
         const text= "Offer Price: "+yourParam.price
@@ -56,7 +56,7 @@ export default class editOffer extends Component {
 
                 <View style={styles.cardHeader}>
                     <Text style={styles.buyNow}>
-                        {/* {this.props.navigation.state.params.ProviderName}  */}
+                        {/* {this.props.route.params.ProviderName}  */}
                         Edit Offer
                     </Text>
                 </View>
@@ -160,8 +160,8 @@ export default class editOffer extends Component {
                     <TouchableOpacity style={styles.socialBarButton}
                         onPress={() => {
                             this.props.navigation.navigate('ProviderHome', {
-                                userName: this.props.navigation.state.params.userName,
-                                ProviderName: this.props.navigation.state.params.ProviderName
+                                userName: this.props.route.params.userName,
+                                ProviderName: this.props.route.params.ProviderName
                             });
                         }}
                     >

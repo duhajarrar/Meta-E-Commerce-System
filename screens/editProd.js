@@ -22,7 +22,7 @@ export default class editProd extends Component {
 
 
     componentDidMount() {
-        const yourParam = this.props.navigation.state.params.item
+        const yourParam = this.props.route.params.item
         //this.setState({ items: yourParam });
         this.setState({ id: yourParam.id })
         this.setState({ name: yourParam.name })
@@ -50,7 +50,7 @@ export default class editProd extends Component {
 
 
     get MyDB() {
-        const yourParam = this.props.navigation.state.params.ProviderName
+        const yourParam = this.props.route.params.ProviderName
         console.log(yourParam)
         return yourParam;
     }
@@ -141,7 +141,7 @@ export default class editProd extends Component {
 
                 <View style={styles.cardHeader}>
                     <Text style={styles.buyNow}>
-                        {/* {this.props.navigation.state.params.ProviderName}  */}
+                        {/* {this.props.route.params.ProviderName}  */}
 
                         Edit Products
                     </Text>
@@ -284,8 +284,8 @@ export default class editProd extends Component {
                     <TouchableOpacity style={styles.socialBarButton}
                         onPress={() => {
                             this.props.navigation.navigate('ProviderHome', {
-                                userName: this.props.navigation.state.params.userName,
-                                ProviderName: this.props.navigation.state.params.ProviderName
+                                userName: this.props.route.params.userName,
+                                ProviderName: this.props.route.params.ProviderName
                             });
                         }}
                     >

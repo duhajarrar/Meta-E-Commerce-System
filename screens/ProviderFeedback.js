@@ -71,9 +71,9 @@ export default class ProviderFeedback extends Component {
 
   getDBData = () => {
     let OrderInf;
-    console.log("Provider", this.props.navigation.state.params.ProviderName)
+    console.log("Provider", this.props.route.params.ProviderName)
     db.collection('FeedBack')
-      .where('Provider', '==', this.props.navigation.state.params.ProviderName)
+      .where('Provider', '==', this.props.route.params.ProviderName)
       .get()
       .then((querySnapshot) => {
         OrderInf = querySnapshot.docs.map(doc => doc.data());
@@ -96,7 +96,7 @@ export default class ProviderFeedback extends Component {
     let rate;
     let count;
     db.collection("ProvidersRank")
-      .where('ProviderName', '==', this.props.navigation.state.params.ProviderName)
+      .where('ProviderName', '==', this.props.route.params.ProviderName)
       .get()
       .then((querySnapshot) => {
         Rating = querySnapshot.docs.map(doc => doc.data());
@@ -112,14 +112,14 @@ export default class ProviderFeedback extends Component {
 
 
   render() {
-    console.log("TESSSST", this.props.navigation.state.params.ProviderName)
+    console.log("TESSSST", this.props.route.params.ProviderName)
     return (
 
       <SafeAreaView style={{ flex: 1 }}>
 
         <View style={styles.cardHeader}>
           <Text style={styles.buyNow}>
-            {this.props.navigation.state.params.ProviderName}
+            {this.props.route.params.ProviderName}
             {" "}Feedback
           </Text>
         </View>
@@ -202,8 +202,8 @@ export default class ProviderFeedback extends Component {
           <TouchableOpacity style={styles.socialBarButton}
             onPress={() => {
               this.props.navigation.navigate('ProviderHome', {
-                userName: this.props.navigation.state.params.userName,
-                ProviderName: this.props.navigation.state.params.ProviderName
+                userName: this.props.route.params.userName,
+                ProviderName: this.props.route.params.ProviderName
               });
             }}
           >
