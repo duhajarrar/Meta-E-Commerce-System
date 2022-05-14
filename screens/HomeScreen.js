@@ -237,6 +237,19 @@ class HomeScreen extends React.Component {
               title: 'Set Location',
               drawerLabel: () => null
             }} />
+             <Drawer.Screen name="Feedbacks" component={Feedbacks}
+            options={{
+              drawerItemStyle: { height: 0 },
+              title: ' ',
+              drawerLabel: () => null
+            }} />
+
+<Drawer.Screen name="ReOrder" component={ReOrder}
+            options={{
+              drawerItemStyle: { height: 0 },
+              title: 'Products Details',
+              drawerLabel: () => null
+            }} />
 
                  </Drawer.Navigator>
       </NavigationContainer>
@@ -386,19 +399,7 @@ class HomeScreen extends React.Component {
               drawerLabel: () => null
             }} /> */}
 
-          <Drawer.Screen name="Feedbacks" component={Feedbacks}
-            options={{
-              drawerItemStyle: { height: 0 },
-              title: ' ',
-              drawerLabel: () => null
-            }} />
-
-          <Drawer.Screen name="ReOrder" component={ReOrder}
-            options={{
-              drawerItemStyle: { height: 0 },
-              title: 'Products Details',
-              drawerLabel: () => null
-            }} />
+         
 
          
 
