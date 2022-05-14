@@ -47,7 +47,8 @@ class SignInScreen extends React.Component {
     this.props.navigation.navigate('App', {
       // userName: this.state.userName,
       ProviderName:"customer",
-      userName:"customer"
+      userName:"customer",
+      email: this.state.email
     });
   }
   onLoginFailure(errorMessage) {
