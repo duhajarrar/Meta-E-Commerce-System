@@ -54,8 +54,10 @@ class ProviderLogin extends React.Component {
 
 
   onLoginSuccess() {
-    
+    firebase.auth().signInWithEmailAndPassword("test@gmail.com", "123456");
     this.props.navigation.navigate('App', {
+      // logged:true,
+      email:"test@gmail.com",
       userName: this.state.userName,
       ProviderName:this.state.Provider.ProviderName
     });
@@ -90,7 +92,7 @@ class ProviderLogin extends React.Component {
    signInWithEmail() {
     const result =firebase
       .auth()
-      .signInWithEmailAndPassword("test@gmail.com", "testtest")
+      .signInWithEmailAndPassword("test@gmail.com", "123456")
     }
 
   Login() {
