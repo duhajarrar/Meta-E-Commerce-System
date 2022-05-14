@@ -40,12 +40,6 @@ export default class editLocation extends Component {
     })
   }
 
-  changeName(name) {
-    this.props.navigation.setParams({
-      recipientName: rate,
-    })
-  }
-
 
   getAddress() {
     return this.state.city + ',' + this.state.country + ':' + this.state.street + ',' + this.state.moreDescription;//format: Palestine,Ramallah,Irsal street:buliding No. 10;
@@ -87,6 +81,12 @@ export default class editLocation extends Component {
     })
   }
 
+  updateStreet(street) {
+    this.props.navigation.setParams({
+      street: street,
+    })
+  }
+
   updateMoreDescription(moreDescription) {
     this.props.navigation.setParams({
       moreDescription: moreDescription,
@@ -110,6 +110,8 @@ export default class editLocation extends Component {
       recipientPhone: recipientPhone,
     })
   }
+
+
 
 
 
@@ -190,7 +192,7 @@ export default class editLocation extends Component {
           placeholderTextColor="#B1B1B1"
           returnKeyType="next"
           // textContentType="street"
-          onChangeText={(street) => { this.setState({ street }) }}
+          onChangeText={(street) => { this.updateStreet(street) }}
           value={this.props.route.params.street}
           style={styles.input}
         />
@@ -199,7 +201,7 @@ export default class editLocation extends Component {
           placeholder={"More Description"}
           placeholderTextColor="#B1B1B1"
           returnKeyType="next"
-          onChangeText={(moreDescription) => { this.updateMoreDescriptio(moreDescription) }}
+          onChangeText={(moreDescription) => { this.updateMoreDescription(moreDescription) }}
           value={this.props.route.params.moreDescription}
           style={styles.input}
         />
@@ -207,8 +209,7 @@ export default class editLocation extends Component {
         <TouchableOpacity
           style={styles.buttonContainer}
           onPress={() => this.editAddress() & this.props.navigation.navigate("Locations")
-            & Alert.alert('Address updated') & console.log(this.state.recipientName) &
-            console.log(this.state.city)
+            & Alert.alert('Address updated') 
           }>
           <Text style={{
             color: "white",
@@ -216,18 +217,7 @@ export default class editLocation extends Component {
             fontSize: 18
           }}>Update Address</Text>
         </TouchableOpacity>
-        {/* 
-            <TouchableOpacity 
-   style={styles.buttonContainer}
-    onPress={() => this.addAddress() &  this.props.navigation.navigate("Locations") 
-    & Alert.alert('Address added')
-    }>
-     <Text style={{
-                color: "white",
-                padding: 5,
-                fontSize: 18
-              }}>Use Current Location</Text>
-            </TouchableOpacity> */}
+  
       </View>
 
     );

@@ -58,22 +58,6 @@ class specialOffers extends Component {
     }
 
 
-    // getDBData = () => {
-    //     let OrderInf;
-    //     //console.log("Provider", this.props.route.params.ProviderName)
-    //     db.collection('Offers')
-    //         .get()
-    //         .then((querySnapshot) => {
-    //             OrderInf = querySnapshot.docs.map(doc => doc.data());
-    //             console.log("orders", OrderInf)
-    //             this.setState({ productDB: OrderInf });
-    //             //console.log("user-orders", this.state.FeedBackDB)
-    //         })
-    //     this.setState({
-    //         //   FeedBackDB,
-    //         isLoading: false
-    //     });
-    // }
 
 
     getDBData = (querySnapshot) => {
@@ -131,15 +115,7 @@ class specialOffers extends Component {
                                         flexDirection: 'column',
                                         flex: 1,
                                     }}>
-                                        {/* <SafeAreaView style={styles.socialBarButton}>
-                                            <EntypoIcon name="shop" size={24} color={'#2E922E'} />
-                                            <Text style={styles.price}>{" "}{item.item.provider}</Text>
-                                        </SafeAreaView>
-
-                                        <SafeAreaView style={styles.socialBarButton}>
-                                            <Text style={styles.title}>{" "}{item.item.name}</Text>
-                                        </SafeAreaView> */}
-
+                                        
                                         <View style={{
                                             flexDirection: 'row',
                                             flex: 1,
@@ -154,11 +130,11 @@ class specialOffers extends Component {
                                             flex: 1,
                                         }}>
                                             <Text style={{
-                                                textDecorationLine: 'line-through', fontSize: 16,
+                                                textDecorationLine: 'line-through', fontSize: 14,
                                                 color: "red",
                                                 marginTop: 5
                                             }}>{item.originalPrice}{" ₪"}</Text>
-                                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: "#38700F", marginTop: 5 }}> {item.price}{" ₪"}</Text>
+                                            <Text style={{ fontSize: 16, fontWeight: 'bold', color: "#38700F", marginTop: 5 }}> {item.price}{" ₪"}</Text>
                                         </View>
 
 
@@ -175,9 +151,9 @@ class specialOffers extends Component {
                                             <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
                                                 onPress={() => this.props.addItemToCart(item) &
                                                     Alert.alert('Added to Cart successfully')}>
-                                                <Text style={{ fontSize: 16, color: "#800C69", }}>
+                                                <Text style={{ fontSize: 14, color: "#800C69",fontWeight: 'bold',}}>
                                                     <MaterialCommunityIcons name="cart-plus" size={16} color={'#2E922E'} />
-                                                    {' '}Buy Now</Text>
+                                                    {' '}Add To Cart</Text>
                                             </TouchableOpacity>
 
 
@@ -250,8 +226,8 @@ const styles = StyleSheet.create({
         marginHorizontal: 5,
     },
     cardHeader: {
-        paddingVertical: 17,
-        paddingHorizontal: 16,
+        paddingVertical: 12,
+        paddingHorizontal: 12,
         borderTopLeftRadius: 1,
         borderTopRightRadius: 1,
         flexDirection: 'row',
@@ -271,19 +247,24 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 1,
     },
     cardImage: {
-        flex: 1,
-        height: 180,
-        width: null,
+        //flex: 1,
+        height: 60,
+        // width: null,
+        // flex: 1,
+        aspectRatio: 1.8, 
+        resizeMode: 'contain',
     },
     /******** card components **************/
     title: {
-        fontSize: 18,
+        fontSize: 14,
         flex: 1,
+        fontWeight: "bold",
     },
     price: {
-        fontSize: 16,
+        fontSize: 14,
         color: "#38700F",
-        marginTop: 5
+        marginTop: 5,
+        fontWeight: "bold",
     },
     buyNow: {
         color: "#800C69",

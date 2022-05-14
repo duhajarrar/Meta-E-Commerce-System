@@ -38,7 +38,7 @@ export default class editProd extends Component {
 
         let userInf;
         db.collection(this.MyDB)
-            .where('id', '==', this.state.id)
+            .where('id', '==', this.props.route.params.itemId)
             .get()
             .then((querySnapshot) => {
                 userInf = querySnapshot.docs.map(doc => doc.data());
@@ -51,30 +51,31 @@ export default class editProd extends Component {
 
     get MyDB() {
         const yourParam = this.props.route.params.ProviderName
-        console.log(yourParam)
+        //console.log(yourParam)
         return yourParam;
     }
 
 
     updateName() {
-        const name = this.state.name
-        console.log(name);
-        firebase.firestore().collection(this.MyDB).where('id', '==', this.state.id)
+        const name = this.props.route.params.itemName
+        //console.log(name);
+        firebase.firestore().collection(this.MyDB).where('id', '==', this.props.route.params.itemId)
             .get()
             .then(function (querySnapshot) {
                 querySnapshot.forEach(function (doc) {
                     doc.ref.update({ name: name });
-                    console.log(doc.id, " => ", doc.data());
+                    //console.log(doc.id, " => ", doc.data());
                 });
             })
     }
 
     onPressMinus() {
-        if (this.state.quantity > 0) {
-            const quantity = this.state.quantity - 1
-            this.setState({ quantity: quantity })
-            console.log(quantity);
-            firebase.firestore().collection(this.MyDB).where('id', '==', this.state.id)
+        if (this.props.route.params.itemQuantity  > 0) {
+            const quantity = this.props.route.params.itemQuantity  - 1
+            this.props.navigation.setParams({
+                itemQuantity: quantity
+            });
+            firebase.firestore().collection(this.MyDB).where('id', '==', this.props.route.params.itemId)
                 .get()
                 .then(function (querySnapshot) {
                     querySnapshot.forEach(function (doc) {
@@ -86,10 +87,12 @@ export default class editProd extends Component {
     }
 
     onPressPlus() {
-        const quantity = this.state.quantity + 1
-        this.setState({ quantity: quantity })
+        const quantity = this.props.route.params.itemQuantity + 1
+        this.props.navigation.setParams({
+            itemQuantity: quantity
+        });
         console.log(quantity);
-        firebase.firestore().collection(this.MyDB).where('id', '==', this.state.id)
+        firebase.firestore().collection(this.MyDB).where('id', '==', this.props.route.params.itemId)
             .get()
             .then(function (querySnapshot) {
                 querySnapshot.forEach(function (doc) {
@@ -100,11 +103,12 @@ export default class editProd extends Component {
     }
 
     onPressMinusPrice() {
-        if (this.state.price > 0) {
-            const price = this.state.price - 1
-            this.setState({ price: price })
-            console.log(price);
-            firebase.firestore().collection(this.MyDB).where('id', '==', this.state.id)
+        if (this.props.route.params.itemPrice > 0) {
+            const price = this.props.route.params.itemPrice - 1
+            this.props.navigation.setParams({
+                itemPrice: price,
+            });
+            firebase.firestore().collection(this.MyDB).where('id', '==', this.props.route.params.itemId)
                 .get()
                 .then(function (querySnapshot) {
                     querySnapshot.forEach(function (doc) {
@@ -116,10 +120,12 @@ export default class editProd extends Component {
     }
 
     onPressPlusPrice() {
-        const price = this.state.price + 1
-        this.setState({ price: price })
+        const price = this.props.route.params.itemPrice + 1
+        this.props.navigation.setParams({
+            itemPrice: price,
+        });
         console.log(price);
-        firebase.firestore().collection(this.MyDB).where('id', '==', this.state.id)
+        firebase.firestore().collection(this.MyDB).where('id', '==', this.props.route.params.itemId)
             .get()
             .then(function (querySnapshot) {
                 querySnapshot.forEach(function (doc) {
@@ -129,24 +135,44 @@ export default class editProd extends Component {
             })
     }
 
+    updateNamePrams(name) {
+        this.props.navigation.setParams({
+            itemName: name,
+        })
+    }
+
+    updatePrice(price) {
+        this.props.navigation.setParams({
+            itemPrice: price,
+        })
+    }
+
+    updateQuantity(quantity) {
+        this.props.navigation.setParams({
+            itemQuantity: quantity
+        })
+    }
 
 
     render = () => {
-        console.log(this.state.name)
-        console.log(this.state.price)
-        console.log(this.state.id)
+        // console.log(this.state.name)
+        // console.log(this.state.price)
+        // console.log(this.state.id)
+        //
+        console.log("Item......")
+        console.log(this.props.route.params.item.name)
+        console.log(this.props.route.params.item.price)
+        console.log(this.props.route.params.item.id)
+
+        console.log("id", this.props.route.params.itemId)
+        console.log(this.props.route.params.itemName)
+        console.log(this.props.route.params.itemPrice)
+        console.log(this.props.route.params.itemQuantity)
         return (
 
             <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
 
-                <View style={styles.cardHeader}>
-                    <Text style={styles.buyNow}>
-                        {/* {this.props.route.params.ProviderName}  */}
-
-                        Edit Products
-                    </Text>
-                </View>
-
+            
 
                 <View style={styles.container}>
                     <View style={styles.details}>
@@ -159,15 +185,14 @@ export default class editProd extends Component {
                                 {/* <AntDesign name='user' size={20} /> */}
                                 Product Name
                             </Text>
+
                             <TextInput style={styles.textInput}
                                 placeholderTextColor='grey'
-                                placeholder={this.state.name}
+                                placeholder={this.props.route.params.itemName}
                                 returnKeyType="next"
                                 textContentType="name"
-                                onChangeText={name => this.setState({ name })
-                                    // & this.updateName()
-                                }
-                                value={this.state.name}
+                                onChangeText={(name) => { this.updateNamePrams(name) }}
+                                value={this.props.route.params.itemName}
                             />
 
                             <MaterialIcons style={styles.phone} name='edit' size={35} />
@@ -182,8 +207,8 @@ export default class editProd extends Component {
                                 style={styles.detailsLabel}>
                                 Product Quantity
                             </Text>
-                            <View style={{ flexDirection: 'row' }}>
 
+                            <View style={{ flexDirection: 'row' }}>
                                 <TouchableOpacity style={styles.socialBarButton}
                                     onPress={() => {
                                         this.onPressMinus();
@@ -206,7 +231,7 @@ export default class editProd extends Component {
                                     padding: 5,
                                     fontSize: 15,
                                     fontWeight: "bold"
-                                }}>{"      × "}{this.state.quantity}</Text>
+                                }}>{"      × "}{this.props.route.params.itemQuantity}</Text>
 
                             </View>
 
@@ -244,14 +269,10 @@ export default class editProd extends Component {
                                     padding: 5,
                                     fontSize: 15,
                                     fontWeight: "bold"
-                                }}>{"      × "}{this.state.price}</Text>
+                                }}>{"      × "}{this.props.route.params.itemPrice}</Text>
 
                             </View>
                         </View>
-
-
-
-
 
 
                         <View style={styles.button}>
@@ -268,32 +289,6 @@ export default class editProd extends Component {
                 </View>
 
 
-                <View style={styles.cardFooter}>
-
-                    <TouchableOpacity style={styles.socialBarButton}
-                        onPress={() => {
-                            this.props.navigation.navigate("ProviderLogin")
-                        }}
-                    >
-                        {/* <Image style={styles.icon} source={{ uri: 'https://cdn-icons-png.flaticon.com/512/6313/6313304.png' }} /> */}
-                        <AntDesign name="logout" size={23} color={'#800C69'} style={{ padding: 5 }} />
-
-                        <Text style={[styles.socialBarLabel, styles.buyNow]}>  Logout </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.socialBarButton}
-                        onPress={() => {
-                            this.props.navigation.navigate('ProviderHome', {
-                                userName: this.props.route.params.userName,
-                                ProviderName: this.props.route.params.ProviderName
-                            });
-                        }}
-                    >
-                        {/* <Image style={styles.icon} source={{ uri: 'https://cdn-icons-png.flaticon.com/512/6313/6313304.png' }} /> */}
-                        <AntDesign name="home" size={23} color={'#800C69'} style={{ padding: 5 }} />
-                        <Text style={[styles.socialBarLabel, styles.buyNow]}>  Home </Text>
-                    </TouchableOpacity>
-                </View>
 
             </SafeAreaView>
 

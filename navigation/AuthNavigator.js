@@ -35,6 +35,7 @@ import addOffer from '../screens/addOffer'
 import viewProviderOffers from '../screens/viewProviderOffers'
 import editOffer from '../screens/editOffer'
 import specialOffers from '../screens/specialOffers'
+import viewSoldOut from '../screens/viewSoldOut'
 
 
 const Navigator = createSwitchNavigator(
@@ -72,6 +73,7 @@ const Navigator = createSwitchNavigator(
     viewProviderOffers:{screen: viewProviderOffers},
     editOffer:{screen: editOffer},
     specialOffers:{screen: specialOffers},
+    viewSoldOut:{screen: viewSoldOut},
   },
   { initialRouteName: 'Loading' }
 );

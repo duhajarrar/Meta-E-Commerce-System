@@ -21,8 +21,8 @@ export default class ProviderHome extends Component {
         return require('../images/brothers.jpg');
       case "Al-Shini":
         return require('../images/alshini.jpg');
-      default:
-        return require('../images/gardens.jpg');
+      case "Gardens":
+        return require('../images/alshini.jpg');
     }
   }
 
@@ -47,7 +47,7 @@ export default class ProviderHome extends Component {
     });
   }
 
-  importDataFromCSV(){
+  importDataFromCSV() {
     // console.log("HHHHHHHHHHHHHere");
     this.props.navigation.navigate('ImportProducts', {
       userName: this.props.route.params.userName,
@@ -82,124 +82,124 @@ export default class ProviderHome extends Component {
     console.log(this.props.route.params);
     return (
       <View style={styles.container}>
-         <ScrollView>
-        <View style={styles.header}></View>
-        <Image style={styles.avatar}
-          source={this.Image}
-        />
+        <ScrollView>
+          <View style={styles.header}></View>
+          <Image style={styles.avatar}
+            source={this.Image}
+          />
 
-        <View
-          style={styles.body}
-        >
           <View
-            style={styles.bodyContent}
+            style={styles.body}
           >
-            <Text style={styles.name}>
-              <Entypo name='shop' size={28} />
-              {" "}
-              {this.props.route.params.ProviderName}
-            </Text>
-
-            <TouchableOpacity style={[styles.buttonContainer, { marginTop: 50 }]}
-              onPress={() => this.importDataFromCSV()
-              }
+            <View
+              style={styles.bodyContent}
             >
-              <Text style={{
-                color: "white",
-                padding: 10,
-                fontSize: 18
-              }}>Import Products</Text>
-            </TouchableOpacity>
+              <Text style={styles.name}>
+                <Entypo name='shop' size={28} />
+                {" "}
+                {this.props.route.params.ProviderName}
+              </Text>
+{/* 
+              <TouchableOpacity style={[styles.buttonContainer, { marginTop: 50 }]}
+                onPress={() => this.importDataFromCSV()
+                }
+              >
+                <Text style={{
+                  color: "white",
+                  padding: 10,
+                  fontSize: 18
+                }}>Import Products</Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity style={[styles.buttonContainer]}
-              onPress={() => this.goToaAdd()
-              }
-            >
-              <Text style={{
-                color: "white",
-                padding: 10,
-                fontSize: 18
-              }}>Add Product</Text>
-            </TouchableOpacity>
-
-
-            <TouchableOpacity style={styles.buttonContainer}
-              onPress={() =>
-                this.goToEdit()
-              }
-            >
-              <Text style={{
-                color: "white",
-                padding: 5,
-                fontSize: 18
-              }}>Edit Product</Text>
-            </TouchableOpacity>
+              <TouchableOpacity style={[styles.buttonContainer]}
+                onPress={() => this.goToaAdd()
+                }
+              >
+                <Text style={{
+                  color: "white",
+                  padding: 10,
+                  fontSize: 18
+                }}>Add Product</Text>
+              </TouchableOpacity>
 
 
-
-            <TouchableOpacity style={styles.buttonContainer}
-              onPress={() =>
-                this.goToView()
-              }
-            >
-              <Text style={{
-                color: "white",
-                padding: 5,
-                fontSize: 18
-              }}>Add to Offers</Text>
-            </TouchableOpacity>
-
-
-            <TouchableOpacity style={styles.buttonContainer}
-              onPress={() =>
-                this.goToViewOffers()
-              }
-            >
-              <Text style={{
-                color: "white",
-                padding: 5,
-                fontSize: 18
-              }}>Edit Offers</Text>
-            </TouchableOpacity>
+              <TouchableOpacity style={styles.buttonContainer}
+                onPress={() =>
+                  this.goToEdit()
+                }
+              >
+                <Text style={{
+                  color: "white",
+                  padding: 5,
+                  fontSize: 18
+                }}>Edit Product</Text>
+              </TouchableOpacity>
 
 
 
-
-            <TouchableOpacity style={styles.buttonContainer}
-              onPress={() => this.goToOrders()
-              }
-            >
-              <Text style={{
-                color: "white",
-                padding: 5,
-                fontSize: 18
-              }}>View Orders</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.buttonContainer}
-              onPress={() => this.goToFeedback()
-              }
-            >
-              <Text style={{
-                color: "white",
-                padding: 5,
-                fontSize: 18
-              }}>View Feedbacks</Text>
-            </TouchableOpacity>
+              <TouchableOpacity style={styles.buttonContainer}
+                onPress={() =>
+                  this.goToView()
+                }
+              >
+                <Text style={{
+                  color: "white",
+                  padding: 5,
+                  fontSize: 18
+                }}>Add to Offers</Text>
+              </TouchableOpacity>
 
 
-            <TouchableOpacity style={styles.buttonContainer}
-              onPress={() => { this.props.navigation.navigate("ProviderLogin") }}
-            >
-              <Text style={{
-                color: "white",
-                padding: 5,
-                fontSize: 18
-              }}>Log Out</Text>
-            </TouchableOpacity>
+              <TouchableOpacity style={styles.buttonContainer}
+                onPress={() =>
+                  this.goToViewOffers()
+                }
+              >
+                <Text style={{
+                  color: "white",
+                  padding: 5,
+                  fontSize: 18
+                }}>Edit Offers</Text>
+              </TouchableOpacity>
 
+
+
+
+              <TouchableOpacity style={styles.buttonContainer}
+                onPress={() => this.goToOrders()
+                }
+              >
+                <Text style={{
+                  color: "white",
+                  padding: 5,
+                  fontSize: 18
+                }}>View Orders</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.buttonContainer}
+                onPress={() => this.goToFeedback()
+                }
+              >
+                <Text style={{
+                  color: "white",
+                  padding: 5,
+                  fontSize: 18
+                }}>View Feedbacks</Text>
+              </TouchableOpacity>
+
+
+              <TouchableOpacity style={styles.buttonContainer}
+                onPress={() => { this.props.navigation.navigate("ProviderLogin") }}
+              >
+                <Text style={{
+                  color: "white",
+                  padding: 5,
+                  fontSize: 18
+                }}>Log Out</Text>
+              </TouchableOpacity> */}
+
+            </View>
           </View>
-        </View>
         </ScrollView>
       </View>
     );

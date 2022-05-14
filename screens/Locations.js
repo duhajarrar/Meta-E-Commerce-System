@@ -86,6 +86,7 @@ export default class Locations extends Component {
 
 
     render() {
+        console.log("tesssssst",this.state.addressDB)
         return (
             <SafeAreaView style={{ flex: 1, marginLeft: 30 }}>
                 <FlatList

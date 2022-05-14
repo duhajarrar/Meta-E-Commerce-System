@@ -14,7 +14,7 @@ import { AntDesign, Entypo, MaterialIcons, Fontisto } from '@expo/vector-icons'
 import { color } from 'react-native-reanimated';
 var db = firebase.firestore();
 
-export default class editProducts extends Component {
+export default class viewSoldOut extends Component {
 
     constructor() {
         super();
@@ -46,6 +46,7 @@ export default class editProducts extends Component {
 
         let OrderInf;
         db.collection(this.MyDB)
+            .where('quantity', '==', 0)
             .get()
             .then((querySnapshot) => {
                 OrderInf = querySnapshot.docs.map(doc => doc.data());
@@ -60,7 +61,7 @@ export default class editProducts extends Component {
         this.props.navigation.navigate('editProd', {
             userName: this.props.route.params.userName,
             ProviderName: this.props.route.params.ProviderName,
-            item:item,
+            item: item,
             itemId: item.id,
             itemPrice: item.price,
             itemName: item.name,
@@ -69,12 +70,15 @@ export default class editProducts extends Component {
     }
 
 
+
+
+
+
     render() {
         this.getorderDBData();
         return (
-            
-            <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
 
+            <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
 
                 <FlatList
                     data={this.state.orderDB}
@@ -129,13 +133,18 @@ export default class editProducts extends Component {
 
                                 </View>
 
+
+
+
+
+
+
                             </TouchableOpacity>
                         </View>
 
 
                     }
                 />
-
 
 
             </SafeAreaView>

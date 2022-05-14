@@ -42,8 +42,8 @@ export default class addProduct extends Component {
       this.state.price.length > 0
     ) {
       const name = this.state.name;
-      console.log(this.state.price);
-      console.log(this.state.name);
+      // console.log(this.state.price);
+      // console.log(this.state.name);
       firebase
         .firestore()
         .collection(this.MyDB)
@@ -60,13 +60,13 @@ export default class addProduct extends Component {
         .catch(function (error) {
           console.error("Error adding document: ", error);
         });
-      console.log("name1 : ", name);
+     // console.log("name1 : ", name);
     }
   }
 
   get MyDB() {
     const yourParam = this.props.route.params.ProviderName;
-    console.log(yourParam);
+    //console.log(yourParam);
     return yourParam;
   }
 
@@ -80,16 +80,12 @@ export default class addProduct extends Component {
         this.setState({ id: querySnapshot.size });
         // console.log(this.state.id);
       });
-    console.log(this.state.uri);
+    //console.log(this.state.uri);
 
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#F5F5F5" }}>
         {/* Header */}
-        <View style={styles.cardHeader}>
-          <Text style={styles.buyNow}>
-            Add to {this.props.route.params.ProviderName} Products
-          </Text>
-        </View>
+        
 
         <View style={{ style: styles.container, alignItems: "center" }}>
           <View style={{ style: styles.details, justifyContent: "center" }}>
@@ -108,14 +104,7 @@ export default class addProduct extends Component {
                 }}
               />
 
-              {/* <TouchableOpacity onPress={openImagePickerAsync} style={{alignItems: 'center', justifyContent: 'center',width: 200, height: 20}}>
-  <View style={styles.cameraWrapper}>
-            <AntDesign style={styles.camera} name='camera' size={22} color='white' />
-        </View>
-  </TouchableOpacity> */}
-
-              {/* <Image style={{width: 100, height: 100}} source={{uri:this.state.uri}} /> */}
-
+      
               <TextInput
                 placeholder="Product Name"
                 placeholderTextColor="#B1B1B1"
@@ -168,44 +157,7 @@ export default class addProduct extends Component {
           </View>
         </View>
 
-        {/* Footer */}
-        <View style={styles.cardFooter}>
-          <TouchableOpacity
-            style={styles.socialBarButton}
-            onPress={() => {
-              this.props.navigation.navigate("ProviderLogin");
-            }}
-          >
-            {/* <Image style={styles.icon} source={{ uri: 'https://cdn-icons-png.flaticon.com/512/6313/6313304.png' }} /> */}
-            <AntDesign
-              name="logout"
-              size={23}
-              color={"#800C69"}
-              style={{ padding: 5 }}
-            />
 
-            <Text style={[styles.socialBarLabel, styles.buyNow]}> Logout </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.socialBarButton}
-            onPress={() => {
-              this.props.navigation.navigate("ProviderHome", {
-                userName: this.props.route.params.userName,
-                ProviderName: this.props.route.params.ProviderName,
-              });
-            }}
-          >
-            {/* <Image style={styles.icon} source={{ uri: 'https://cdn-icons-png.flaticon.com/512/6313/6313304.png' }} /> */}
-            <AntDesign
-              name="home"
-              size={23}
-              color={"#800C69"}
-              style={{ padding: 5 }}
-            />
-            <Text style={[styles.socialBarLabel, styles.buyNow]}> Home </Text>
-          </TouchableOpacity>
-        </View>
       </SafeAreaView>
     );
   }
@@ -477,159 +429,10 @@ let openImagePickerAsync = async () => {
   }
 
   let pickerResult = await ImagePicker.launchImageLibraryAsync();
-  console.log(pickerResult);
-  console.log(pickerResult.uri, " before ++++");
+  // console.log(pickerResult);
+  // console.log(pickerResult.uri, " before ++++");
   pickerResult.uri = pickerResult.uri.replace("file://", "");
-  console.log(pickerResult.uri, " after ++++");
+  // console.log(pickerResult.uri, " after ++++");
   this.setState({ uri: pickerResult });
 };
 
-// const openImagePickerAsync = async () => {
-//   // Ask the user for the permission to access the media library
-//   const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-//   if (permissionResult.granted === false) {
-//     alert("You've refused to allow this appp to access your photos!");
-//     return;
-//   }
-
-//   const result = await ImagePicker.launchImageLibraryAsync();
-
-//   // Explore the result
-//   console.log(result);
-
-//   if (!result.cancelled) {
-//     this.setState({uri:result.uri});
-//     console.log(result.uri);
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//     container: {
-//       flex: 1,
-//       flexDirection: "column",
-//       alignItems: "center"
-//     },
-//     form: {
-//       width: "86%",
-//       marginTop: 15
-//     },
-//     input: {
-//       fontSize: 20,
-//       borderColor: "#707070",
-//       borderBottomWidth: 1,
-//       paddingBottom: 1.5,
-//       marginTop: 25.5,
-//       borderRadius: 45,
-//       fontWeight: 'bold',
-//       color: 'black',
-//       paddingLeft: 48,
-//       marginHorizontal: 25,
-//       width: 300
-//     },
-//     button: {
-//       backgroundColor: "#3A559F",
-//       height: 44,
-//       flexDirection: "row",
-//       justifyContent: "center",
-//       alignItems: "center",
-//       borderRadius: 22
-//     },
-//     googleButton: {
-//       backgroundColor: "#FFFFFF",
-//       height: 44,
-//       flexDirection: "row",
-//       justifyContent: "center",
-//       alignItems: "center",
-//       borderRadius: 22,
-//       borderWidth: 1,
-//       borderColor: "#707070",
-//       width: 320,
-//     },
-//     pass: {
-//       height: 20,
-//       width: 20
-//     },
-//     backgroundContainer: {
-//       flex: 1,
-//       width: null,
-//       height: null,
-//       justifyContent: 'center',
-//       alignItems: 'center',
-//     },
-//     logoLogin: {
-//       width: 120,
-//       height: 120,
-//     }
-
-//   });
-
-// export default addProduct;
-
-// import React, { Component } from "react";
-// import { Permissions, ImagePicker } from "expo";
-// import {View, Text, StyleSheet, Dimensions, Button, Image } from "react-native";
-
-// class addProduct extends Component {
-
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//      hasCameraPermission: null
-//     }
-//    }
-//    async componentDidMount() {
-//     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-//     this.setState({ hasCameraPermission: status === "granted" });
-
-//   }
-//    __getPhotoLibrary = async () => {
-//     let result = await ImagePicker.launchImageLibraryAsync({
-//      allowsEditing: true,
-//      aspect: [4, 3]
-//     });
-//     if (!result.cancelled) {
-//      this.setState({ image: result.uri });
-//     }
-//    }
-//    render() {
-//     const { image, hasCameraPermission } = this.state;
-//     if (hasCameraPermission === null) {
-//      return <View />
-//     }
-//     else if (hasCameraPermission === false) {
-//      return <Text>Access to camera has been denied.</Text>;
-//     }
-//     else {
-//      return (
-//       <View style={{ flex: 1 }}>
-//        <View style={styles.activeImageContainer}>
-//         {image ? (
-//          <Image source={{ uri: image }} style={{ flex: 1 }} />
-//         ) : (
-//          <View />
-//         )}
-//       </View>
-//       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-//        <Button
-//          onPress={this._getPhotoLibrary.bind(this)}
-//          title="Photo Picker Screen!"
-//        />
-//       </View>
-//      </View>
-//      );
-//     }
-//    }
-//   }
-//   export default addProduct;
-
-//   const styles = StyleSheet.create({
-//    activeImageContainer: {
-//     flex: 1,
-//     width: Dimensions.get("window").width,
-//     height: Dimensions.get("window").height / 2,
-//     backgroundColor: "#eee",
-//     borderBottomWidth: 0.5,
-//     borderColor: "#fff"
-//    },
-//   });

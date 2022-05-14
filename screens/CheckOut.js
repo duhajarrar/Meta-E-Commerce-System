@@ -98,8 +98,8 @@ export default class CheckOut extends Component {
 
 
     render() {
-      console.log(this.props.route.params.ProviderName," ++++ duha1111");
-      console.log(this.props.route.params.userName," ++++ duha2222");
+      // console.log(this.props.route.params.ProviderName," ++++ duha1111");
+      // console.log(this.props.route.params.userName," ++++ duha2222");
 
 
         this.getAddressDBData();

@@ -76,13 +76,7 @@ export default class viewProviderOffers extends Component {
 
             <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
 
-                <View style={styles.cardHeader}>
-                    <Text style={styles.buyNow}>
-                       Edit {this.props.route.params.ProviderName} Offers
-                    </Text>
-                </View>
-
-
+            
                 <FlatList
                     data={this.state.orderDB}
                     renderItem={({ item }) =>
@@ -142,42 +136,9 @@ export default class viewProviderOffers extends Component {
 
                                 </View>
                             </TouchableOpacity>
-
-
-
-
-
-
                         </View>
                     }
                 />
-
-                <View style={styles.cardFooter}>
-
-                    <TouchableOpacity style={styles.socialBarButton}
-                        onPress={() => {
-                            this.props.navigation.navigate("ProviderLogin")
-                        }}
-                    >
-                        {/* <Image style={styles.icon} source={{ uri: 'https://cdn-icons-png.flaticon.com/512/6313/6313304.png' }} /> */}
-                        <AntDesign name="logout" size={23} color={'#800C69'} style={{ padding: 5 }} />
-
-                        <Text style={[styles.socialBarLabel, styles.buyNow]}>  Logout </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.socialBarButton}
-                        onPress={() => {
-                            this.props.navigation.navigate('ProviderHome', {
-                                userName: this.props.route.params.userName,
-                                ProviderName: this.props.route.params.ProviderName
-                            });
-                        }}
-                    >
-                        {/* <Image style={styles.icon} source={{ uri: 'https://cdn-icons-png.flaticon.com/512/6313/6313304.png' }} /> */}
-                        <AntDesign name="home" size={23} color={'#800C69'} style={{ padding: 5 }} />
-                        <Text style={[styles.socialBarLabel, styles.buyNow]}>  Home </Text>
-                    </TouchableOpacity>
-                </View>
 
             </SafeAreaView>
 

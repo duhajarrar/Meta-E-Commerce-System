@@ -42,8 +42,8 @@ export default class ImportProducts extends Component {
       this.state.price.length > 0
     ) {
       const name = this.state.name;
-      console.log(this.state.price);
-      console.log(this.state.name);
+      // console.log(this.state.price);
+      // console.log(this.state.name);
       firebase
         .firestore()
         .collection(this.MyDB)
@@ -66,7 +66,7 @@ export default class ImportProducts extends Component {
 
   get MyDB() {
     const yourParam = this.props.route.params.ProviderName;
-    console.log(yourParam);
+    //console.log(yourParam);
     return yourParam;
   }
 
@@ -80,7 +80,7 @@ export default class ImportProducts extends Component {
         this.setState({ id: querySnapshot.size });
         // console.log(this.state.id);
       });
-    console.log(this.state.uri);
+    //console.log(this.state.uri);
 
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#F5F5F5" }}>
@@ -364,10 +364,10 @@ let openImagePickerAsync = async () => {
   }
 
   let pickerResult = await ImagePicker.launchImageLibraryAsync();
-  console.log(pickerResult);
-  console.log(pickerResult.uri, " before ++++");
+  // console.log(pickerResult);
+  // console.log(pickerResult.uri, " before ++++");
   pickerResult.uri = pickerResult.uri.replace("file://", "");
-  console.log(pickerResult.uri, " after ++++");
+  // console.log(pickerResult.uri, " after ++++");
   this.setState({ uri: pickerResult });
 };
 

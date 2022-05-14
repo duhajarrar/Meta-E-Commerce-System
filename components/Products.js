@@ -78,9 +78,6 @@ class Products extends Component {
       isLoading: false
     })
   }
-  // this.props.navigation.setOptions({
-  //   title: this.props.products[0].provider +" Feedback",
-  // })
 
   render() {
 
@@ -125,9 +122,9 @@ class Products extends Component {
                         onPress={() => this.props.onPress(item) &
                           Alert.alert('Added to Cart successfully')
                         }>
-                        <Text style={{ fontSize: 12, color: "#800C69", fontWeight: 'bold', }}>
-                          <MaterialCommunityIcons name="cart-plus" size={16} color={'#2E922E'} />
-                          {' '}Buy Now</Text>
+                        <Text style={{ fontSize: 10, color: "#800C69", fontWeight: 'bold', }}>
+                          <MaterialCommunityIcons name="cart-plus" size={12} color={'#2E922E'} />
+                          {' '}Add To Cart</Text>
                       </TouchableOpacity>
 
 
@@ -151,19 +148,6 @@ class Products extends Component {
               {" "}  My Cart
             </Text>
           </TouchableOpacity>
-
-          {/* 
-          <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-            onPress={() => {
-              this.onLoginFeedbackSuccess();
-            }
-            }
-          >
-            <Text style={{ fontSize: 16, color: "#800C69", }}>
-              <MaterialIcons name="feedback" size={20} color={'#2E922E'} />
-              {" "}  Feedback
-            </Text>
-          </TouchableOpacity> */}
 
         </View>
 
