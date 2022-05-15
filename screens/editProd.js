@@ -3,7 +3,14 @@ import "firebase/compat/firestore"
 import firebase from "firebase/compat/app"
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TextInput, Button, Alert, TouchableOpacity, SafeAreaView } from 'react-native';
+import {
+    StyleSheet, Text, View, Image, TextInput, Button,
+    Alert, TouchableOpacity, SafeAreaView,
+    KeyboardAvoidingView,
+    ActivityIndicator,
+    TouchableWithoutFeedback,
+    Keyboard
+} from 'react-native';
 import { AntDesign, Entypo, MaterialIcons, Fontisto } from '@expo/vector-icons'
 
 
@@ -70,8 +77,8 @@ export default class editProd extends Component {
     }
 
     onPressMinus() {
-        if (this.props.route.params.itemQuantity  > 0) {
-            const quantity = this.props.route.params.itemQuantity  - 1
+        if (this.props.route.params.itemQuantity > 0) {
+            const quantity = this.props.route.params.itemQuantity - 1
             this.props.navigation.setParams({
                 itemQuantity: quantity
             });
@@ -169,129 +176,132 @@ export default class editProd extends Component {
         console.log(this.props.route.params.itemPrice)
         console.log(this.props.route.params.itemQuantity)
         return (
+            <TouchableWithoutFeedback
+                onPress={() => {
+                    Keyboard.dismiss();
+                }}
+            >
 
-            <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
-
-            
-
-                <View style={styles.container}>
-                    <View style={styles.details}>
-
-
-
-                        <View style={styles.detailsWrapper}>
-                            <Text
-                                style={styles.detailsLabel}>
-                                {/* <AntDesign name='user' size={20} /> */}
-                                Product Name
-                            </Text>
-
-                            <TextInput style={styles.textInput}
-                                placeholderTextColor='grey'
-                                placeholder={this.props.route.params.itemName}
-                                returnKeyType="next"
-                                textContentType="name"
-                                onChangeText={(name) => { this.updateNamePrams(name) }}
-                                value={this.props.route.params.itemName}
-                            />
-
-                            <MaterialIcons style={styles.phone} name='edit' size={35} />
-                        </View>
+                <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
+                    <KeyboardAvoidingView style={styles.container} behavior="padding">
+                        <View style={styles.container}>
+                            <View style={styles.details}>
 
 
 
-                        <View style={styles.detailsWrapper}>
+                                <View style={styles.detailsWrapper}>
+                                    <Text
+                                        style={styles.detailsLabel}>
+                                        {/* <AntDesign name='user' size={20} /> */}
+                                        Product Name
+                                    </Text>
+
+                                    <TextInput style={styles.textInput}
+                                        placeholderTextColor='grey'
+                                        placeholder={this.props.route.params.itemName}
+                                        returnKeyType="next"
+                                        textContentType="name"
+                                        onChangeText={(name) => { this.updateNamePrams(name) }}
+                                        value={this.props.route.params.itemName}
+                                    />
+
+                                    <MaterialIcons style={styles.phone} name='edit' size={35} />
+                                </View>
 
 
-                            <Text
-                                style={styles.detailsLabel}>
-                                Product Quantity
-                            </Text>
 
-                            <View style={{ flexDirection: 'row' }}>
-                                <TouchableOpacity style={styles.socialBarButton}
-                                    onPress={() => {
-                                        this.onPressMinus();
-                                    }}
-                                >
-                                    <AntDesign name="minuscircleo" size={25} color={'#2E922E'} style={{ padding: 5 }} />
+                                <View style={styles.detailsWrapper}>
 
-                                </TouchableOpacity>
 
-                                <TouchableOpacity style={styles.socialBarButton}
-                                    onPress={() => {
-                                        this.onPressPlus();
-                                    }}
-                                >
-                                    <AntDesign name="pluscircleo" size={25} color={'#2E922E'} style={{ padding: 5 }} />
-                                </TouchableOpacity>
+                                    <Text
+                                        style={styles.detailsLabel}>
+                                        Product Quantity
+                                    </Text>
 
-                                <Text style={{
-                                    color: "#800C69",
-                                    padding: 5,
-                                    fontSize: 15,
-                                    fontWeight: "bold"
-                                }}>{"      × "}{this.props.route.params.itemQuantity}</Text>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <TouchableOpacity style={styles.socialBarButton}
+                                            onPress={() => {
+                                                this.onPressMinus();
+                                            }}
+                                        >
+                                            <AntDesign name="minuscircleo" size={25} color={'#2E922E'} style={{ padding: 5 }} />
 
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity style={styles.socialBarButton}
+                                            onPress={() => {
+                                                this.onPressPlus();
+                                            }}
+                                        >
+                                            <AntDesign name="pluscircleo" size={25} color={'#2E922E'} style={{ padding: 5 }} />
+                                        </TouchableOpacity>
+
+                                        <Text style={{
+                                            color: "#800C69",
+                                            padding: 5,
+                                            fontSize: 15,
+                                            fontWeight: "bold"
+                                        }}>{"      × "}{this.props.route.params.itemQuantity}</Text>
+
+                                    </View>
+
+                                </View>
+
+
+
+
+                                <View style={styles.detailsWrapper}>
+                                    <Text
+                                        style={styles.detailsLabel}>
+                                        Product Price
+                                    </Text>
+                                    <View style={{ flexDirection: 'row' }}>
+
+                                        <TouchableOpacity style={styles.socialBarButton}
+                                            onPress={() => {
+                                                this.onPressMinusPrice();
+                                            }}
+                                        >
+                                            <AntDesign name="minuscircleo" size={25} color={'#2E922E'} style={{ padding: 5 }} />
+
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity style={styles.socialBarButton}
+                                            onPress={() => {
+                                                this.onPressPlusPrice();
+                                            }}
+                                        >
+                                            <AntDesign name="pluscircleo" size={25} color={'#2E922E'} style={{ padding: 5 }} />
+                                        </TouchableOpacity>
+
+                                        <Text style={{
+                                            color: "#800C69",
+                                            padding: 5,
+                                            fontSize: 15,
+                                            fontWeight: "bold"
+                                        }}>{"      × "}{this.props.route.params.itemPrice}</Text>
+
+                                    </View>
+                                </View>
+
+
+                                <View style={styles.button}>
+                                    <Button
+                                        color='white'
+                                        title="UPDATE PRODUCT"
+                                        onPress={() => this.update()
+                                            & Alert.alert('product updated')
+                                        }
+                                    />
+
+                                </View>
                             </View>
-
                         </View>
 
 
-
-
-                        <View style={styles.detailsWrapper}>
-                            <Text
-                                style={styles.detailsLabel}>
-                                Product Price
-                            </Text>
-                            <View style={{ flexDirection: 'row' }}>
-
-                                <TouchableOpacity style={styles.socialBarButton}
-                                    onPress={() => {
-                                        this.onPressMinusPrice();
-                                    }}
-                                >
-                                    <AntDesign name="minuscircleo" size={25} color={'#2E922E'} style={{ padding: 5 }} />
-
-                                </TouchableOpacity>
-
-                                <TouchableOpacity style={styles.socialBarButton}
-                                    onPress={() => {
-                                        this.onPressPlusPrice();
-                                    }}
-                                >
-                                    <AntDesign name="pluscircleo" size={25} color={'#2E922E'} style={{ padding: 5 }} />
-                                </TouchableOpacity>
-
-                                <Text style={{
-                                    color: "#800C69",
-                                    padding: 5,
-                                    fontSize: 15,
-                                    fontWeight: "bold"
-                                }}>{"      × "}{this.props.route.params.itemPrice}</Text>
-
-                            </View>
-                        </View>
-
-
-                        <View style={styles.button}>
-                            <Button
-                                color='white'
-                                title="UPDATE PRODUCT"
-                                onPress={() => this.update()
-                                    & Alert.alert('product updated')
-                                }
-                            />
-
-                        </View>
-                    </View>
-                </View>
-
-
-
-            </SafeAreaView>
-
+                    </KeyboardAvoidingView>
+                </SafeAreaView>
+            </TouchableWithoutFeedback>
 
         );
     };
@@ -304,6 +314,8 @@ export default class editProd extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        flexDirection: "column",
+        alignItems: "center"
         // justifyContent: 'space-between',
         // backgroundColor: '#ecf0f1',
         // padding: 8,

@@ -3,7 +3,14 @@ import "firebase/compat/firestore"
 import firebase from "firebase/compat/app"
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TextInput, Button, Alert } from 'react-native';
+import {
+  StyleSheet, Text, View, Image, TextInput,
+  Button, Alert,
+  KeyboardAvoidingView,
+  SafeAreaView,
+  TouchableWithoutFeedback,
+  Keyboard
+} from 'react-native';
 import { AntDesign, Entypo, MaterialIcons, Fontisto } from '@expo/vector-icons'
 
 
@@ -107,119 +114,143 @@ export default class editProfile extends Component {
   render = () => {
 
     return (
-      <View style={styles.container}>
 
-        <View style={styles.imageWrapper}>
-          <Image source={{
-            uri: this.state.userinfo.photoURL
-          }} style={styles.thumb} />
-          <View style={styles.cameraWrapper}>
-            <AntDesign style={styles.camera} name='camera' size={22} color='white' />
-          </View>
-        </View>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          Keyboard.dismiss();
+        }}
+      >
+        <SafeAreaView style={{ flex: 1 }}>
+          <KeyboardAvoidingView style={styles.container} behavior="padding">
 
-        <View style={styles.details}>
-          <View style={styles.detailsWrapper}>
-            <Text
-              style={styles.detailsLabel}>
-              <AntDesign name='user' size={20} />
-            </Text>
-            <TextInput style={styles.textInput}
-              placeholderTextColor='grey'
-              placeholder={this.state.displayName}
-              returnKeyType="next"
-              textContentType="name"
-              onChangeText={displayName => this.setState({ displayName })
-                // & this.updateName()
-              }
-              value={this.state.displayName}
-            // onSubmitEditing ={
-            //   // displayName => this.setState({ displayName })
-            //   //  &
-            //    this.updateName()
-            //    & 
-            //    this.update()
-            // }
-            />
+            <View style={styles.container}>
 
-            <MaterialIcons style={styles.phone} name='edit' size={35} />
-          </View>
+              <View style={styles.imageWrapper}>
+                <Image source={{
+                  uri: this.state.userinfo.photoURL
+                }} style={styles.thumb} />
+                <View style={styles.cameraWrapper}>
+                  <AntDesign style={styles.camera} name='camera' size={20} color='white' />
+                </View>
+              </View>
 
+              <View style={styles.details}>
+                <View style={styles.detailsWrapper}>
+                  <Text
+                    style={styles.detailsLabel}>
+                    <AntDesign name='user' size={16} />
+                  </Text>
+                  <TextInput style={styles.textInput}
+                    placeholderTextColor='grey'
+                    placeholder={this.state.displayName}
+                    returnKeyType="next"
+                    textContentType="name"
+                    onChangeText={displayName => this.setState({ displayName })
+                    }
+                    value={this.state.displayName}
 
-          <View style={styles.detailsWrapper}>
-            <Text style={styles.detailsLabel}>
-              <Fontisto name='email' size={20} />
-              {" "}</Text>
-            <TextInput style={styles.textInput}
-              underlineColorAndroid='transparent'
-              //  editable={true}
-              keyboardType='email-address'
-              placeholder={this.state.userinfo.email}
-              placeholderTextColor='grey'
-            />
-            {/* <MaterialIcons style={styles.phone} name='edit' size={35} /> */}
-          </View>
+                  />
+
+                  <MaterialIcons style={styles.phone} name='edit' size={35} />
+                </View>
 
 
-          <View style={styles.detailsWrapper}>
-            <Text style={styles.detailsLabel}>
-              <Entypo name='location' size={20} />
-            </Text>
-            <TextInput style={styles.textInput}
-              underlineColorAndroid='transparent'
-              editable={true}
-              keyboardType='email-address'
-              placeholder={this.state.address}
-              placeholderTextColor='grey'
-              value={this.state.address}
-              onChangeText={address => this.setState({ address })
-                // & this.update() & this.updateAddress()
-              }
-            // onSubmitEditing ={address => this.setState({ address })
-            //   & this.updateAddress() 
-            // }
+                <View style={styles.detailsWrapper}>
+                  <Text style={styles.detailsLabel}>
+                    <Fontisto name='email' size={16} />
+                    {" "}</Text>
+                  <TextInput style={styles.textInput}
+                    underlineColorAndroid='transparent'
+                    editable={false}
+                    keyboardType='email-address'
+                    placeholder={this.state.userinfo.email}
+                    placeholderTextColor='grey'
+                  />
+                  {/* <MaterialIcons style={styles.phone} name='edit' size={35} /> */}
+                </View>
 
 
+                <View style={styles.detailsWrapper}>
+                  <Text style={styles.detailsLabel}>
+                    <Entypo name='location' size={16} />
+                  </Text>
+                  <TextInput style={styles.textInput}
+                    underlineColorAndroid='transparent'
+                    editable={true}
+                    keyboardType='email-address'
+                    placeholder={this.state.address}
+                    placeholderTextColor='grey'
+                    value={this.state.address}
+                    onChangeText={address => this.setState({ address })
+                      // & this.update() & this.updateAddress()
+                    }
+                  // onSubmitEditing ={address => this.setState({ address })
+                  //   & this.updateAddress() 
+                  // }
+                  />
+                  <MaterialIcons style={styles.phone} name='edit' size={35} />
+                </View>
 
-            />
-            <MaterialIcons style={styles.phone} name='edit' size={35} />
-          </View>
+                <View style={styles.detailsWrapper}>
+                  <Text style={styles.detailsLabel}>
+                    <Entypo name='phone' size={16} />
+                  </Text>
+                  <TextInput style={styles.textInput}
+                    underlineColorAndroid='transparent'
+                    editable={true}
+                    keyboardType='numeric'
+                    placeholder={this.state.phoneNumber}
+                    placeholderTextColor='grey'
+                    value={this.state.phoneNumber}
+                    onChangeText={phoneNumber => this.setState({ phoneNumber })
+                      // & this.update() & this.updateAddress()
+                    }
+                  // onSubmitEditing ={address => this.setState({ address })
+                  //   & this.updateAddress() 
+                  // }
+                  />
+                  <MaterialIcons style={styles.phone} name='edit' size={20} />
+                </View>
 
 
-          <View style={styles.detailsWrapper}>
-            <Text style={styles.detailsLabel}>
-              <Entypo name='phone' size={20} />
-            </Text>
-            <TextInput style={styles.textInput}
-              underlineColorAndroid='transparent'
-              keyboardType='numeric'
-              editable={true}
-              placeholder={this.state.userinfo.phoneNumber}
-              placeholderTextColor='grey'
-              value={this.state.phoneNumber}
-              onTextChange={phoneNumber => this.setState({ phoneNumber })
-                //   & this.updatePhone()
-              }
-            // onSubmitEditing={phoneNumber => this.setState({ phoneNumber })
-            //   & this.updatePhone()
-            // }
-            />
-            <MaterialIcons style={styles.phone} name='edit' size={20} />
-          </View>
+                {/* <View style={styles.detailsWrapper}>
+                  <Text style={styles.detailsLabel}>
+                    <Entypo name='phone' size={20} />
+                  </Text>
+                  <TextInput style={styles.textInput}
+                    underlineColorAndroid='transparent'
+                    keyboardType='numeric'
+                    editable={true}
+                    placeholder={this.state.phoneNumber}
+                    placeholderTextColor='grey'
+                    value={this.state.phoneNumber}
+                    onTextChange={phoneNumber => this.setState({ phoneNumber })
+                      //   & this.updatePhone()
+                    }
+                  // onSubmitEditing={phoneNumber => this.setState({ phoneNumber })
+                  //   & this.updatePhone()
+                  // }
+                  />
+                  <MaterialIcons style={styles.phone} name='edit' size={20} />
+                </View> */}
 
-          <View style={styles.button}>
-            <Button
-              color='white'
-              title="UPDATE PROFILE"
-              onPress={() => this.update()
-                & Alert.alert('profile updated')
-              }
-            />
+                <View style={styles.button}>
+                  <Button
+                    color='white'
+                    title="UPDATE PROFILE"
+                    onPress={() => this.update()
+                      & Alert.alert('profile updated')
+                    }
+                  />
 
-          </View>
-        </View>
-        <StatusBar style="auto" />
-      </View>
+                </View>
+              </View>
+            </View>
+
+          </KeyboardAvoidingView>
+        </SafeAreaView>
+      </TouchableWithoutFeedback>
+
     );
   };
 }
@@ -229,8 +260,8 @@ export default class editProfile extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#fff',
-    margin: 9
+    flexDirection: "column",
+    alignItems: "center"
 
   },
   headerWrapper: {
@@ -247,25 +278,28 @@ const styles = StyleSheet.create({
 
   },
   thumb: {
-    marginTop: 20,
+    marginTop: 5,
     width: 170,
     height: 170,
     alignSelf: 'center',
     borderRadius: 100
   },
   details: {
-    alignSelf: 'flex-start',
-    marginTop: 20,
-    marginHorizontal: 22,
-    width: 350
+    //alignSelf: 'flex-start',
+    marginTop: 5,
+    marginHorizontal: 15,
+    width: null,
+    alignSelf: 'center',
+    
   },
   detailsLabel: {
-    marginTop: 10,
+    marginTop: 5,
     color: "#800C69",
     fontSize: 18,
+    alignItems: "center"
   },
   detailsWrapper: {
-    margin: 15,
+    margin: 5,
   },
   color: {
     color: '#800C69',
@@ -275,7 +309,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: '#800C69',
     fontStyle: 'normal',
-    fontSize: 16,
+    fontSize: 14,
     width: "85%"
   },
   button: {
@@ -292,7 +326,7 @@ const styles = StyleSheet.create({
   },
   cameraWrapper: {
     position: 'absolute',
-    top: 150,
+    top: 120,
     left: 225,
     backgroundColor: '#800C69',
     width: 40,

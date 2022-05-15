@@ -19,18 +19,6 @@ import { AntDesign, Entypo, MaterialIcons, Fontisto } from '@expo/vector-icons'
 var db = firebase.firestore();
 export default class Profile extends Component {
 
-  // state = { user: {} };
-  // componentDidMount() {
-
-  //   firebase.auth().onAuthStateChanged((user) => {
-
-  //     if (user != null) {
-  //       this.setState({ user: user });
-  //     }
-  //   })
-
-  // }
-
   state = {
     email: null, password: '', errorMessage: '', loading: false, displayName: '', photoURL: '',
     familyName: '', givenName: '', phoneNumber: '', address: ''
@@ -39,34 +27,61 @@ export default class Profile extends Component {
     userinfo: {},
     user: {}
   };
+
+
+  constructor() {
+    super();
+    firebase.auth().onAuthStateChanged((user) => {
+
+      if (user != null) {
+        this.setState({ user: user });
+      }
+    })
+
+    this.docs = db.collection('userList')
+    this.state = {
+      isLoading: true,
+      userDB: []
+    };
+  }
+
   componentDidMount() {
+    this.unsubscribe = this.docs.onSnapshot(this.getDBData);
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  getDBData = () => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
-        this.setState({ email: user.email });
         let userInf;
         db.collection('userList')
-          .where('email', '==', user.email)
+          .where('email', '==', this.state.user.email)
           .get()
           .then((querySnapshot) => {
             userInf = querySnapshot.docs.map(doc => doc.data());
-            this.setState({ userinfo: userInf[0] });
-            console.log("USEEr", this.state.userinfo)
+            this.setState({ userDB: userInf });
             this.setState({ displayName: userInf[0].displayName });
             this.setState({ address: userInf[0].address });
             this.setState({ phoneNumber: userInf[0].phoneNumber });
-
+            this.setState({ email: userInf[0].email });
+            this.setState({ photoURL: userInf[0].photoURL });
+            console.log("userrr", this.state.userDB)
+            console.log("userrr", this.state.address)
           })
       }
     })
   }
 
-
   render() {
+   // this.getDBData();
     return (
       <View style={styles.container}>
         <View style={styles.header}></View>
         <Image style={styles.avatar} source={{
-          uri: this.state.userinfo.photoURL
+          uri: this.state.photoURL
         }} />
 
         <View
