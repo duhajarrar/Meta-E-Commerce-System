@@ -44,7 +44,7 @@ export default class setLocation extends Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
-       // this.setState({ email: user.email });
+        // this.setState({ email: user.email });
         this.setState({ user: user });
         let userInf;
         db.collection('userList')
@@ -69,13 +69,18 @@ export default class setLocation extends Component {
   }
 
   addAddress() {
-    console.log("xxxxxxxxxxx",this.state.recipientName,
+    console.log("xxxxxxxxxxx", this.state.recipientName,
       this.state.recipientEmail,
       this.state.recipientPhone)
 
-    if (this.state.recipientName != null) {
+    if (this.state.recipientName != null && this.state.recipientEmail != null &
+      this.state.recipientPhone != null && this.state.country != null &
+      this.state.city != null && this.state.street != null &
+      this.state.moreDescription != null
+    ) {
+
       db.collection("usersAddresses").add({
-        email:  this.state.user.email,
+        email: this.state.user.email,
         recipientName: this.state.recipientName,
         recipientEmail: this.state.recipientEmail,
         recipientPhone: this.state.recipientPhone,
@@ -88,6 +93,12 @@ export default class setLocation extends Component {
         .catch(function (error) {
           console.error("Error adding document: ", error);
         });
+
+      Alert.alert('Address added');
+      this.props.navigation.navigate("Locations");
+    }
+    else {
+      Alert.alert('Please Fill All Field');
     }
   }
 
@@ -185,8 +196,7 @@ export default class setLocation extends Component {
 
         <TouchableOpacity
           style={styles.buttonContainer}
-          onPress={() => this.addAddress() & this.props.navigation.navigate("Locations")
-            & Alert.alert('Address added')
+          onPress={() => this.addAddress()
           }>
           <Text style={{
             color: "white",
@@ -195,14 +205,14 @@ export default class setLocation extends Component {
           }}>Add Address</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
         >
           <Text style={{
             color: "white",
             padding: 5,
             fontSize: 18
           }}>Use Current Location</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
     );
