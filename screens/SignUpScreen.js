@@ -39,7 +39,7 @@ class SignUpScreen extends React.Component {
     db.collection("userList").add({
       displayName: this.state.displayName,
       email: this.state.email,
-      photoURL: this.state.photoURL,
+      photoURL: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
       phoneNumber: this.state.phoneNumber,
       address: this.state.address
     })
@@ -77,6 +77,8 @@ class SignUpScreen extends React.Component {
         })
         var user = userCredential.user;
         console.log("********************", user)
+        this.addUser(user);
+        
 
       })
       .then(this.onLoginSuccess.bind(this))
@@ -108,6 +110,7 @@ class SignUpScreen extends React.Component {
     });
 
   }
+
 
   render() {
     return (
