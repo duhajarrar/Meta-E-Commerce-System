@@ -21,7 +21,7 @@ export default class Profile extends Component {
 
   state = {
     email: null, password: '', errorMessage: '', loading: false, displayName: '', photoURL: '',
-    familyName: '', givenName: '', phoneNumber: '', address: ''
+    familyName: '', givenName: '', phoneNumber: '', address: false
   };
   state = {
     userinfo: {},
@@ -35,6 +35,7 @@ export default class Profile extends Component {
 
       if (user != null) {
         this.setState({ user: user });
+        console.log("usexxxx", this.state.user)
       }
     })
 
@@ -57,6 +58,8 @@ export default class Profile extends Component {
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
         let userInf;
+        console.log("usezzz", this.state.user)
+        this.setState({ photoURL: this.state.user.photoURL });
         db.collection('userList')
           .where('email', '==', this.state.user.email)
           .get()
@@ -67,16 +70,16 @@ export default class Profile extends Component {
             this.setState({ address: userInf[0].address });
             this.setState({ phoneNumber: userInf[0].phoneNumber });
             this.setState({ email: userInf[0].email });
-            this.setState({ photoURL: userInf[0].photoURL });
-            console.log("userrr", this.state.userDB)
-            console.log("userrr", this.state.address)
+            //this.setState({ photoURL: userInf[0].photoURL });
+            console.log("userrrvv", this.state.userDB)
+           // console.log("userrr", this.state.address)
           })
       }
     })
   }
 
   render() {
-   // this.getDBData();
+    // this.getDBData();
     return (
       <View style={styles.container}>
         <View style={styles.header}></View>
@@ -97,13 +100,19 @@ export default class Profile extends Component {
             <Text style={styles.name}>
               <IconEmail name='email' size={25} />
               {" "}  {this.state.email}</Text>
-
-            <Text style={styles.name}>
-              <Entypo name='location' size={25} />
-              {" "}  {this.state.address}</Text>
             <Text style={{ padding: 30 }}>
               {" "}  { }</Text>
 
+            {/* {this.state.address
+              &&
+              <View>
+                <Text style={styles.name}>
+                  <Entypo name='location' size={25} />
+                  {" "}  {this.state.address}</Text>
+                <Text style={{ padding: 30 }}>
+                  {" "}  { }</Text>
+              </View>
+            } */}
             <TouchableOpacity style={styles.buttonContainer}
               onPress={() => { this.props.navigation.navigate("edit") }}
             >
@@ -111,14 +120,6 @@ export default class Profile extends Component {
                 color: "white",
                 padding: 5
               }}>Edit Profile</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonContainer}
-              onPress={() => { this.props.navigation.navigate("orderHistory") }}
-            >
-              <Text style={{
-                color: "white",
-                padding: 5
-              }}>View Orders History</Text>
             </TouchableOpacity>
           </View>
         </View>
