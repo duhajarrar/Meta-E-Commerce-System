@@ -1,11 +1,11 @@
+import { CheckBox } from 'react-native-elements'
+
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
 import firebase from "firebase/compat/app"
-import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, Button, Alert, TouchableOpacity, SafeAreaView } from 'react-native';
-import { AntDesign, Entypo, MaterialIcons, Fontisto } from '@expo/vector-icons'
-
+import CalendarPicker from 'react-native-calendar-picker';
 
 var db = firebase.firestore();
 
@@ -15,7 +15,11 @@ export default class addOffer extends Component {
         item: [],
         id: '',
         name: '', price: '', quantity: '', offerPrice: '',
+        date: new Date(),
+        selectedStartDate: null,
     }
+
+
 
     componentDidMount() {
         const yourParam = this.props.route.params.item
@@ -47,109 +51,165 @@ export default class addOffer extends Component {
 
     get MyDB() {
         const yourParam = this.props.route.params.ProviderName
-        console.log(yourParam)
+        //console.log(yourParam)
         return yourParam;
     }
 
     addOffer() {
-        db.collection("Offers").add({
-                //  item: this.state.item,
-                //  offerPrice: this.state.offerPrice,
-                 id:this.state.item.id,
-                 name:this.state.item.name,
-                 provider:this.state.item.provider,
-                 price:this.state.offerPrice,
-                 image:this.state.item.image,
-                 quantity:this.state.item.quantity,
-                 originalPrice: this.state.price,
-        })
-          .catch(function (error) {
-            console.error("Error adding document: ", error);
-          });
-    
-      }
+        let withEndDate;
+        let date=new Date(this.state.selectedStartDate).valueOf();
+        if (date > 0)
+            withEndDate = true;
+        else
+            withEndDate = false;
 
+        db.collection("Offers").add({
+            //  item: this.state.item,
+            //  offerPrice: this.state.offerPrice,
+            id: this.props.route.params.item.id,
+            name: this.props.route.params.item.name,
+            provider: this.props.route.params.item.provider,
+            price: this.state.offerPrice,
+            image: this.props.route.params.item.image,
+            quantity: this.props.route.params.item.quantity,
+            originalPrice: this.props.route.params.item.price,
+            withEndDate:withEndDate,
+            endDate: new Date(this.state.selectedStartDate).valueOf()
+        })
+            .catch(function (error) {
+                console.error("Error adding document: ", error);
+            });
+
+    }
+
+    onDateChange = (date) => {
+        this.setState({
+            selectedStartDate: date,
+        });
+        console.log("++++++++++++++++++", this.state.selectedStartDate)
+        console.log("=================", new Date(this.state.selectedStartDate).valueOf())
+        console.log("=================", new Date(1652799921646))
+    }
     render = () => {
-        console.log(this.state.name)
+    
+        console.log("this.state.name",this.props.route.params.item)
         console.log(this.state.price)
         console.log(this.state.id)
         console.log(this.state.item)
+
+        // const { selectedStartDate } = this.state;
+        // const startDate = selectedStartDate ? selectedStartDate.toString() : '';
+
         return (
 
             <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
 
 
-                <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-
-                    <View >
-                        <View style={styles.container}>
-
-                            <View style={styles.infoBoxWrapper}>
-
-                                <View
-                                    style={[styles.infoBox, {
-
-                                    }]}
-                                >
-                                    <Image style={styles.image} source={{ uri: this.state.item.image }} />
-                                </View>
-
-                                <View>
-                                    {/* <View style={[styles.infoBox, {
-                                    //color: '#90EE90',
-                                    borderColor: 'white',
-                                    borderRightWidth: 1,
-                                    borderTopWidth: 1,
-                                    borderBottomWidth: 1,
-                                    borderLeftWidth: 1
-                                }]}> */}
-
-                                    <Text style={{ color: "#38700F", fontSize: 19, flexDirection: 'column', paddingTop: 35, paddingBottom: 5 }}>
-                                        {`Product Name: `}{this.state.item.name}
-                                    </Text>
-                                    <View style={styles.separator} />
-                                    <Text style={{ color: "#38700F", fontSize: 19, flexDirection: 'column', paddingTop: 25,paddingBottom: 5 }}>
-                                        {`Product Price: `}{this.state.item.price}
-                                    </Text>
-                                    <View style={styles.separator} />
+                <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
 
 
-                                    <View style={{ alignItems: "center", justifyContent: "center",paddingTop: 40}}>
-                                        <TextInput
-                                            placeholder="Offer Price"
-                                            placeholderTextColor="#B1B1B1"
-                                            returnKeyType="next"
-                                            keyboardType="number"
-                                            textContentType="number"
-                                            value={this.state.offerPrice}
-                                            onChangeText={(offerPrice) => this.setState({ offerPrice })}
-                                            style={styles.input}
-                                        />
+                    <View style={styles.container}>
 
-                                        <TouchableOpacity
-                                            style={styles.buttonContainer}
-                                            onPress={() =>
-                                                this.addOffer() & Alert.alert("Added To Offers")
-                                            }
-                                        >
-                                            <Text
-                                                style={{
-                                                    color: "white",
-                                                    padding: 5,
-                                                    fontSize: 18,
-                                                }}
-                                            >
-                                                Add To Offers
-                                            </Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            </View>
+                        <View style={styles.infoBoxWrapper}>
+
                             <View>
+
+                                <Text style={{ color: "#38700F", fontSize: 19, flexDirection: 'column', paddingTop: 20, paddingBottom: 5 }}>
+                                    {`Product Name: `}{this.props.route.params.item.name}
+                                </Text>
+                                <View style={styles.separator} />
+                                <Text style={{ color: "#38700F", fontSize: 19, flexDirection: 'column', paddingTop: 20, paddingBottom: 5 }}>
+                                    {`Product Price: `}{this.props.route.params.item.price}
+                                </Text>
+                                <View style={styles.separator} />
+
+
+                                <View style={{ alignItems: "center", justifyContent: "center", paddingTop: 10 }}>
+                                    <TextInput
+                                        placeholder="Offer Price"
+                                        placeholderTextColor="#B1B1B1"
+                                        returnKeyType="next"
+                                        keyboardType="number"
+                                        textContentType="number"
+                                        value={this.state.offerPrice}
+                                        onChangeText={(offerPrice) => this.setState({ offerPrice })}
+                                        style={styles.input}
+                                    />
+
+
+                                    <CheckBox
+                                        title='Offer With End Date'
+                                        checked={this.state.checked}
+                                        onPress={() => this.setState({ checked: !this.state.checked })}
+                                        style={{ backgroundColor: "white", paddingTop: 20, fontSize: 14, color: "#38700F" }}
+                                    />
+
+                                    <TouchableOpacity
+                                        style={styles.buttonContainer}
+                                        onPress={() =>
+                                            this.addOffer() & Alert.alert("Added To Offers")
+                                        }
+                                    >
+                                        <Text
+                                            style={{
+                                                color: "white",
+                                                padding: 5,
+                                                fontSize: 16,
+                                            }}
+                                        >
+                                            Add To Offers
+                                        </Text>
+                                    </TouchableOpacity>
+
+
+                                </View>
                             </View>
                         </View>
+                        <View>
+                        </View>
                     </View>
+                    {this.state.checked
+                        &&
+
+
+                        <View style={styles.cardFooter}>
+
+                            <TouchableOpacity>
+
+                                <View style={styles.container1}>
+
+                                    <View style={styles.infoBoxWrapper}>
+
+                                        <View style={styles.container1}>
+
+
+                                            <View style={styles.container1}>
+                                                <CalendarPicker
+                                                    minDate={new Date()}
+                                                    onDateChange={this.onDateChange}
+                                                />
+                                            </View>
+
+                                        </View>
+                                    </View>
+                                </View>
+
+                            </TouchableOpacity>
+                            <View style={{ justifyContent: "center", alignItems: "center", padding: 5 }}>
+                                <Text style={{ fontSize: 16, color: "#800C69", fontWeight: "bold" }}>
+                                    <Image style={styles.icon} source={require('../assets/calendar.png')} />
+                                    {'  '}End Date:{"  "}{new Date(this.state.selectedStartDate).getFullYear()}-{new Date(this.state.selectedStartDate).getMonth() + 1}-{new Date(this.state.selectedStartDate).getDate()}</Text>
+                            </View>
+
+
+                        </View>
+
+
+
+                    }
+
                 </View>
+
 
             </SafeAreaView>
 
@@ -166,7 +226,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#800C69"
     },
     infoBoxWrapper: {
-        paddingTop: 50,
+        paddingTop: 10,
         borderBottomColor: 'white',
         //        borderBottomWidth: 1,
         borderTopColor: '#dddddd',
@@ -212,23 +272,26 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
     },
     cardFooter: {
-        flexDirection: 'row',
+        height: '55%',
+        //flexDirection: 'row',
         justifyContent: 'space-between',
         paddingTop: 10,
         paddingBottom: 10,
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
         borderBottomLeftRadius: 1,
         borderBottomRightRadius: 1,
-        backgroundColor: '#ECD4EA',
+        //backgroundColor: '#ECD4EA',
         position: 'absolute',
         left: 0,
         right: 0,
         bottom: 0
     },
     cardImage: {
-        flex: 1,
-        height: 250,
-        width: null,
+        // flex: 1,
+        // height: 200,
+        // width: null,
+        aspectRatio: 2,
+        resizeMode: 'contain',
     },
     /******** card components **************/
     title: {
@@ -264,8 +327,8 @@ const styles = StyleSheet.create({
         height: 25,
     },
     container: {
-        width: 400,
-        height: "50%",
+        width: 450,
+        height: "100%",
         //   marginBottom: 25,
         //   borderRadius: 15,
         //   backgroundColor: '#ecf0f1',
@@ -275,7 +338,9 @@ const styles = StyleSheet.create({
     image: {
         alignSelf: 'flex-start',
         width: '100%',
-        height: '90%'
+        height: '70%',
+        // aspectRatio: 2,
+        // resizeMode: 'contain',
     },
 
     textContainer: {
@@ -341,5 +406,14 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         backgroundColor: "#800C69",
         color: "white",
+    },
+    container1: {
+        // paddingTop: 40,
+        width: 400,
+        height: 350,
+        // marginBottom: 25,
+        // borderRadius: 15,
+        backgroundColor: '#FFFFFF',
+        // overflow: 'hidden'
     },
 });

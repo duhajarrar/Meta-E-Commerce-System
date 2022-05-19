@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {
-    SafeAreaView, Button, StyleSheet,
+    StyleSheet,
     Text,
     View,
     TouchableOpacity,
@@ -9,13 +9,11 @@ import {
     ScrollView,
     FlatList,
 } from 'react-native';
-import AntDesignIcon from 'react-native-vector-icons/AntDesign'
+
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import Zocial from 'react-native-vector-icons/Zocial'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import AntDesign from 'react-native-vector-icons/AntDesign'
+
+
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
@@ -38,11 +36,11 @@ var db = firebase.firestore();
 
 class specialOffers extends Component {
 
-    state = { providerName: '' }
+    state = { providerName: '', EndDate: false };
 
     constructor() {
         super();
-        this.docs = firebase.firestore().collection('Offers');
+        this.docs = firebase.firestore().collection('Offers').orderBy('endDate');
         this.state = {
             isLoading: true,
             productDB: []
@@ -63,7 +61,7 @@ class specialOffers extends Component {
     getDBData = (querySnapshot) => {
         const productDB = [];
         querySnapshot.forEach((res) => {
-            const { id, name, provider, price,originalPrice, image, quantity } = res.data();
+            const { id, name, provider, price, originalPrice, image, quantity, withEndDate, endDate } = res.data();
             productDB.push({
                 key: id + provider,
                 id,
@@ -71,8 +69,10 @@ class specialOffers extends Component {
                 provider,
                 price,
                 image,
-                quantity,
-                originalPrice
+                quantity: 0,
+                originalPrice,
+                withEndDate,
+                endDate
             });
         });
         this.setState({
@@ -81,6 +81,23 @@ class specialOffers extends Component {
         });
     }
 
+    CheckDate(item) {
+        if (item.withEndDate) {
+            if (item.endDate < new Date().valueOf())
+                this.deleteOffer(item);
+        }
+    }
+
+    deleteOffer(items) {
+        console.log('deleteOffer', items);
+        //   console.log('deleteOffer',items.id);
+        firebase.firestore().collection("Offers").where("id", "==", items.id).where("provider", "==", items.provider)
+            .get()
+            .then(querySnapshot => {
+                querySnapshot.docs[0].ref.delete();
+            });
+
+    }
 
 
 
@@ -105,6 +122,9 @@ class specialOffers extends Component {
                     renderItem={(post) => {
 
                         const item = post.item;
+
+                        this.CheckDate(item);
+
                         //console.log("--", this.props.name)
                         // this.setState({providerName:this.props.products[0].provider})
                         return (
@@ -115,7 +135,7 @@ class specialOffers extends Component {
                                         flexDirection: 'column',
                                         flex: 1,
                                     }}>
-                                        
+
                                         <View style={{
                                             flexDirection: 'row',
                                             flex: 1,
@@ -125,16 +145,26 @@ class specialOffers extends Component {
                                         </View>
 
                                         <Text style={styles.title}>{item.name}</Text>
+
+                                        {item.withEndDate
+                                            &&
+                                            <View >
+                                                <Text style={styles.date} >
+                                                    <MaterialCommunityIcons name="calendar-clock" size={18} color={'#2E922E'} />
+                                                    {" "}{new Date(item.endDate).getFullYear()}-{new Date(item.endDate).getMonth() + 1}-{new Date(item.endDate).getDate()}
+                                                </Text>
+                                            </View>
+                                        }
                                         <View style={{
                                             flexDirection: 'row',
                                             flex: 1,
                                         }}>
                                             <Text style={{
                                                 textDecorationLine: 'line-through', fontSize: 14,
-                                                color: "red",
+                                                color: "#38700F",
                                                 marginTop: 5
                                             }}>{item.originalPrice}{" ₪"}</Text>
-                                            <Text style={{ fontSize: 16, fontWeight: 'bold', color: "#38700F", marginTop: 5 }}> {item.price}{" ₪"}</Text>
+                                            <Text style={{ fontSize: 16, fontWeight: 'bold', color: "red", marginTop: 5 }}> {item.price}{" ₪"}</Text>
                                         </View>
 
 
@@ -147,23 +177,20 @@ class specialOffers extends Component {
                                 <View style={styles.cardFooter}>
                                     <View style={styles.socialBarContainer}>
                                         <View >
-
                                             <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
                                                 onPress={() => this.props.addItemToCart(item) &
                                                     Alert.alert('Added to Cart successfully')}>
-                                                <Text style={{ fontSize: 14, color: "#800C69",fontWeight: 'bold',}}>
+                                                <Text style={{ fontSize: 14, color: "#800C69", fontWeight: 'bold', }}>
                                                     <MaterialCommunityIcons name="cart-plus" size={16} color={'#2E922E'} />
                                                     {' '}Add To Cart</Text>
                                             </TouchableOpacity>
 
 
-
-                                        </View>
-                                        <View style={styles.socialBarSection}>
-
                                         </View>
                                     </View>
                                 </View>
+
+
                             </View>
                         )
                     }}
@@ -201,6 +228,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         marginTop: 20,
+        height: 20,
     },
     list: {
         paddingHorizontal: 5,
@@ -247,11 +275,11 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 1,
     },
     cardImage: {
-        //flex: 1,
-        height: 60,
+        // flex: 1,
+        height: 66,
         // width: null,
         // flex: 1,
-        aspectRatio: 1.8, 
+        aspectRatio: 3,
         resizeMode: 'contain',
     },
     /******** card components **************/
@@ -266,13 +294,20 @@ const styles = StyleSheet.create({
         marginTop: 5,
         fontWeight: "bold",
     },
+    date: {
+        fontSize: 12,
+        //color: "#38700F",
+        color: "red",
+        marginTop: 5,
+        fontWeight: "bold",
+    },
     buyNow: {
         color: "#800C69",
 
     },
     icon: {
-        width: 25,
-        height: 25,
+        width: 20,
+        height: 20,
     },
     /******** social bar ******************/
     socialBarContainer: {

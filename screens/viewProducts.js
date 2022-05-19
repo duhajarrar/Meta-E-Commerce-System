@@ -1,17 +1,8 @@
 import React, { Component } from 'react';
-import { useState, useEffect } from 'react';
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
 import { StyleSheet, SafeAreaView, Text, Image, View, TouchableOpacity, FlatList } from 'react-native';
-import {
-    Avatar,
-    Title,
-    Caption,
-    TouchableRipple,
-} from 'react-native-paper';
-import { AntDesign, Entypo, MaterialIcons, Fontisto } from '@expo/vector-icons'
-import { color } from 'react-native-reanimated';
 var db = firebase.firestore();
 
 export default class viewProducts extends Component {
@@ -66,6 +57,7 @@ export default class viewProducts extends Component {
 
 
     render() {
+       // this.getorderDBData();
         return (
 
             <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
