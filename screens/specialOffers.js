@@ -63,7 +63,7 @@ class specialOffers extends Component {
         querySnapshot.forEach((res) => {
             const { id, name, provider, price, originalPrice, image, quantity, withEndDate, endDate } = res.data();
             productDB.push({
-                key: id + provider,
+                key: id + provider + name,
                 id,
                 name,
                 provider,
@@ -72,7 +72,8 @@ class specialOffers extends Component {
                 quantity: 0,
                 originalPrice,
                 withEndDate,
-                endDate
+                endDate,
+                isOffer: true,
             });
         });
         this.setState({

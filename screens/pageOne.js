@@ -34,7 +34,8 @@ function useLists() {
             price,
             image,
             quantity: 0,
-            category
+            category,
+            isOffer: false
           });
         });
 
@@ -106,7 +107,6 @@ function pageOne(props) {
     <View style={styles.container}>
       <SearchBar
         containerStyle={{ backgroundColor: 'white' }}
-
         placeholder="ابحث عن منتج من هنا .."
         lightTheme
         round

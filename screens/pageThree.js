@@ -34,7 +34,8 @@ function useLists() {
             price,
             image,
             quantity:0,
-            category
+            category,
+            isOffer: false
           });
         });
 
