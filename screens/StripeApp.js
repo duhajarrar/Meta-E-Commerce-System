@@ -26,7 +26,7 @@ const StripeApp = props => {
 
   const handlePayPress = async () => {
     //1.Gather the customer's billing information (e.g., email)
-    if (!cardDetails?.complete || !email) {
+    if (!cardDetails?.complete ) {
       Alert.alert("Please enter Complete card details and Email");
       return;
     }
@@ -34,6 +34,7 @@ const StripeApp = props => {
       email: email,
     };
     //2.Fetch the intent client secret from the backend
+    //Alert.alert("Payment Failed");
     try {
       const { clientSecret, error } = await fetchPaymentIntentClientSecret();
       //2. confirm the payment
@@ -51,8 +52,11 @@ const StripeApp = props => {
           console.log("Payment successful ", paymentIntent);
         }
       }
+    
     } catch (e) {
+      //Alert.alert("Payment Failed");
       console.log(e);
+      
     }
     //3.Confirm the payment with the card details
   };
@@ -60,13 +64,13 @@ const StripeApp = props => {
   return (
    
     <View style={styles.container}>
-      <TextInput
+      {/* <TextInput
         autoCapitalize="none"
         placeholder="E-mail"
         keyboardType="email-address"
         onChange={value => setEmail(value.nativeEvent.text)}
         style={styles.input}
-      />
+      /> */}
       <CardField
         postalCodeEnabled={true}
         placeholder={{

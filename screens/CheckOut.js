@@ -111,7 +111,7 @@ export default class CheckOut extends Component {
     }
     else {
       this.addOrder(this.props.route.params.products)
-      this.props.route.params.clearCart
+      this.props.route.params.clearCart()
       this.props.navigation.navigate("CardPayment", {
         TotalAmount: this.props.route.params.TotalAmount,
       });
@@ -122,13 +122,8 @@ export default class CheckOut extends Component {
 
 
   render() {
-    // console.log(this.props.route.params.ProviderName," ++++ duha1111");
-    // console.log(this.props.route.params.userName," ++++ duha2222");
-
-
+  
     this.getAddressDBData();
-
-
     let pickerItems = this.state.addressDB.map((s, i) => {
       // console.log(s);
       return <Picker.Item key={i} value={this.getAddress(s)} label={this.getAddress(s)} />
@@ -166,15 +161,6 @@ export default class CheckOut extends Component {
           style={styles.buttonContainer}
           onPress={() => {
             this.Success();
-            //console.log('deleteOffer',this.state.address=='')
-            //&
-            // this.addOrder(this.props.route.params.products) &
-            // this.props.route.params.clearCart &
-            // this.props.navigation.navigate("CardPayment", {
-            //   TotalAmount: this.props.route.params.TotalAmount,
-
-            // }
-            // );
           }}
         >
           <Text
