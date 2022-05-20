@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import {
-  SafeAreaView, Button, StyleSheet,
+  SafeAreaView, StyleSheet,
   Text,
   View,
   TouchableOpacity,
   Image,
-  Alert,
-  ScrollView,
   FlatList,
 } from 'react-native';
 import Zocial from 'react-native-vector-icons/Zocial'
@@ -49,18 +47,6 @@ class CartProducts extends Component {
     })
 
   }
-
-  // state = { user: {} };
-  // componentDidMount() {
-
-  //   firebase.auth().onAuthStateChanged((user) => {
-
-  //     if (user != null) {
-  //       this.setState({ user: user });
-  //     }
-  //   })
-
-  // }
 
 
   getCurrentDate() {
@@ -131,18 +117,9 @@ class CartProducts extends Component {
 
 
   render() {
-    // console.log("flag= ",this.props.route.params.cartFlag);
-    // if (this.props.route.params.cartFlag == 1){
-    //   this.props.onPressClearCart();
-    // }
-
     let data = this.props.products
-    // console.log(this.props.products.products)
-    // console.log(this.state.user.email, this.state.user.displayName)
-
     this.getAddressDBData();
     let pickerItems = this.state.addressDB.map((s, i) => {
-      // console.log(s);
       return <Picker.Item key={i} value={this.getAddress(s)} label={this.getAddress(s)} />
     });
 
@@ -190,11 +167,26 @@ class CartProducts extends Component {
                         {item.name}</Text>
                     </SafeAreaView>
 
-                    <SafeAreaView style={styles.socialBarButton}>
-                      <Ionicons name="pricetags-outline" size={23} color={'#2E922E'} style={{ padding: 5 }} />
-                      <Text style={styles.shop}>{"  "}{item.price}{" ₪"}</Text>
-                    </SafeAreaView>
+                    {(item.isOffer) ? (
+                      <SafeAreaView style={styles.socialBarButton}>
+                        <Ionicons name="pricetags-outline" size={23} color={'#2E922E'} style={{ padding: 5 }} />
+                        <Text style={{
+                          textDecorationLine: 'line-through', fontSize: 18,
+                          flex: 1,
+                          color: "#800C69",
+                        }}>{item.originalPrice}{" ₪"}</Text>
+                        <Text style={{ fontSize: 16, fontWeight: 'bold', color: "red", marginTop: 5, paddingBottom: 5}}> {item.price}{" ₪"}</Text>
+                      </SafeAreaView>
 
+                    ) : (
+                      <SafeAreaView style={styles.socialBarButton}>
+                        <Ionicons name="pricetags-outline" size={23} color={'#2E922E'} style={{ padding: 5 }} />
+                        <Text style={styles.shop}>{"  "}{item.price}{" ₪"}</Text>
+                      </SafeAreaView>
+
+                    )
+                    }
+                   
                     <View style={styles.socialBarSection}>
 
 
@@ -245,38 +237,10 @@ class CartProducts extends Component {
               </View>
 
             )
-          }}
+          }
+          }
         />
-        {/* style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} */}
-        {/* <View >
-            <Text>CheckOut Screen</Text>
-            <Picker
-        selectedValue={this.state.address}
-        onValueChange={(value, index) =>  this.setState({address:value})}
-        mode="dropdown" 
-        style={styles.picker}> */}
-        {/* <Picker.Item label="Please select the address" value="Unknown" /> */}
-        {/* {pickerItems}
-                </Picker>
-      <Text style={styles.text}>Your address: {this.state.address}</Text>
-      <TouchableOpacity style={styles.buttonContainer}
-            onPress={() => {
-              console.log("your address : ",this.state.address);
-                this.addOrder(this.props.products.products) &
-              // Alert.alert('add orders successfully') &
-              this.props.onPressClearCart();
-              // this.addOrder(this.props.params.products) &
-              Alert.alert('Orders checked out successfully') 
-              // this.props.navigation.navigate("Cart") 
-            }}
-          ><Text style={{
-            color: "white",
-            padding: 5,
-            fontSize: 18
-          }}>Complete your Order</Text>
-        </TouchableOpacity>
-        </View> */}
-
+     
 
         <View style={styles.cardFooter}>
 
@@ -288,23 +252,20 @@ class CartProducts extends Component {
 
           <TouchableOpacity style={styles.socialBarButton}
             onPress={() => {
-              // this.addOrder(this.props.products.products) &
-              // Alert.alert('add orders successfully') &
-              // this.props.onPressClearCart();
               this.props.navigation.navigate("CheckOut",
                 {
                   TotalAmount: this.props.TotalAmount,
                   products: this.props.products.products,
-                  clearCart: this.props.onPressClearCart()
+                  clearCart: this.props.onPressClearCart
                 })
             }}
           >
-           <Image style={styles.icon} source={require('../assets/booking.png')} />
+            <Image style={styles.icon} source={require('../assets/booking.png')} />
             <Text style={[styles.socialBarLabel, styles.buyNow]}>  Make Order  </Text>
           </TouchableOpacity>
         </View>
 
-      </View>
+      </View >
     );
   }
 
