@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import { StyleSheet, SafeAreaView, Text, Image, View, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Dimensions } from "react-native";
-import { TextInput, KeyboardAvoidingView, ActivityIndicator, Keyboard, TouchableWithoutFeedback, Platform, Button, Alert } from 'react-native';
+import { TextInput, Alert } from 'react-native';
 
-import MapView from "react-native-maps";
-import MapViewDirections from "react-native-maps-directions";
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
@@ -20,26 +18,9 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const GOOGLE_MAPS_APIKEY = "AIzaSyDjKKs_oh-Yhlilngt6EmiRnn8CbRECmBA";
 
 export default class setLocation extends Component {
-  state = { user: {}, recipientName: {}, recipientPhone: {}, recipientEmail: {}, city: {}, country: {}, street: {}, moreDescription: {} };
+  state = { user: {}, recipientName: null, recipientPhone: null, recipientEmail: null, city: null, country: null, street: null, moreDescription: null };
 
-  // componentDidMount() {
-  //  console.log("USERDAAAAAAAAAta",this.props.route.params.userData.displayName)
-  //  const recipientName1=this.props.route.params.userData.displayName
-  //  this.setState({ recipientName: recipientName1 });
 
-  //  console.log("xxxxxxxxxxx",this.state.recipientName,
-  //     this.state.recipientEmail,
-  //     this.state.recipientPhone)
-  //   firebase.auth().onAuthStateChanged((user) => {
-
-  //     if (user != null) {
-  //       this.setState({ user: user });
-  //       this.setState({recipientName:user.displayName}) 
-  //       this.setState({recipientEmail:user.email}); 
-  //       console.log("xxxxxxxxxxx",this.state.recipientName)
-  //     }
-  //   })
-  // }
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
@@ -69,10 +50,8 @@ export default class setLocation extends Component {
   }
 
   addAddress() {
-    console.log("xxxxxxxxxxx", this.state.recipientName,
-      this.state.recipientEmail,
-      this.state.recipientPhone)
-
+   
+    
     if (this.state.recipientName != null && this.state.recipientEmail != null &
       this.state.recipientPhone != null && this.state.country != null &
       this.state.city != null && this.state.street != null &
@@ -94,8 +73,8 @@ export default class setLocation extends Component {
           console.error("Error adding document: ", error);
         });
 
-      Alert.alert('Address added');
-      this.props.navigation.navigate("Locations");
+      // Alert.alert('Address added');
+      // this.props.navigation.navigate("Locations");
     }
     else {
       Alert.alert('Please Fill All Field');
@@ -105,6 +84,9 @@ export default class setLocation extends Component {
 
 
   render() {
+    console.log("xxxxxxxxxxx", this.state.recipientName,
+      this.state.recipientEmail,
+      this.state.recipientPhone)
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>

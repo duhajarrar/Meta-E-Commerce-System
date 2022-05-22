@@ -1,24 +1,15 @@
 import React, { Component } from 'react';
-import { useState, useEffect } from 'react';
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
-import { StyleSheet, SafeAreaView, Text, Image, View, TouchableOpacity, FlatList, Alert } from 'react-native';
-import {
-    Avatar,
-    Title,
-    Caption,
-    TouchableRipple,
-} from 'react-native-paper';
-import { AntDesign, Entypo, MaterialIcons, Fontisto } from '@expo/vector-icons'
-import { color } from 'react-native-reanimated';
+import { StyleSheet, SafeAreaView, Text, Image, View, TouchableOpacity, FlatList } from 'react-native';
 var db = firebase.firestore();
 
 export default class orderHistory extends Component {
 
     constructor() {
         super();
-        this.docs = firebase.firestore().collection('Orders');
+        this.docs = firebase.firestore().collection('Orders').orderBy('OrderTimestamp');
         this.state = {
             isLoading: true,
             orderDB: []
@@ -38,7 +29,7 @@ export default class orderHistory extends Component {
             if (user != null) {
                 this.setState({ email: user.email });
                 let OrderInf;
-                db.collection('Orders-Packges')
+                db.collection('Orders-Packges').orderBy('OrderTimestamp', 'desc')
                     .where('customerEmail', '==', user.email)
                     .get()
                     .then((querySnapshot) => {
