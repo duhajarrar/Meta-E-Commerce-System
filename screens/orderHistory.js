@@ -18,7 +18,7 @@ export default class orderHistory extends Component {
 
     constructor() {
         super();
-        this.docs = firebase.firestore().collection('Orders');
+        this.docs = firebase.firestore().collection('Orders').orderBy('OrderTimestamp');
         this.state = {
             isLoading: true,
             orderDB: []
@@ -38,7 +38,7 @@ export default class orderHistory extends Component {
             if (user != null) {
                 this.setState({ email: user.email });
                 let OrderInf;
-                db.collection('Orders-Packges')
+                db.collection('Orders-Packges').orderBy('OrderTimestamp', 'desc')
                     .where('customerEmail', '==', user.email)
                     .get()
                     .then((querySnapshot) => {
