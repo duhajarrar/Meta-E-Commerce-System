@@ -48,6 +48,8 @@ import viewProviderOffers from './viewProviderOffers'
 import editOffer from '../screens/editOffer'
 import specialOffers from '../screens/specialOffers'
 import viewSoldOut from '../screens/viewSoldOut'
+import PaymentMethod from '../screens/PaymentMethod'
+
 
 const Drawer = createDrawerNavigator();
 function CustomDrawerContent(props) {
@@ -234,6 +236,13 @@ class HomeScreen extends React.Component {
             <Drawer.Screen name="CardPayment" component={CardPayment} style={{ color: "#800C69" }}
               options={{
                 title: 'Credit Card Payment',
+                drawerLabel: () => null
+              }} />
+
+
+            <Drawer.Screen name="PaymentMethod" component={PaymentMethod} style={{ color: "#800C69" }}
+              options={{
+                title: 'Payment Methods',
                 drawerLabel: () => null
               }} />
 
