@@ -112,14 +112,11 @@ export default class CheckOut extends Component {
     else {
       this.addOrder(this.props.route.params.products)
       this.props.route.params.clearCart()
-      this.props.navigation.navigate("CardPayment", {
+      this.props.navigation.navigate("PaymentMethod", {
         TotalAmount: this.props.route.params.TotalAmount,
       });
     }
-
-
   }
-
 
   render() {
   
