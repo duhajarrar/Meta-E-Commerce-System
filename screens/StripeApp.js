@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button, Alert } from "react-native";
 import { CardField, useConfirmPayment } from "@stripe/stripe-react-native";
-
+import { CreditCardInput } from "react-native-credit-card-input";
 //ADD localhost address of your server
-const API_URL = "http://192.168.31.198:3000";
+const API_URL = "http://172.19.208.1:3000";
 
 const StripeApp = props => {
   const [email, setEmail] = useState();
@@ -11,7 +11,7 @@ const StripeApp = props => {
   const { confirmPayment, loading } = useConfirmPayment();
   const [amount, setAmount] = useState("0");
   const finalAmount = props.TotalAmount;
-  console.log("finalAmount==",finalAmount);
+  console.log("finalAmount in StripeApp Screen==",finalAmount);
   const fetchPaymentIntentClientSecret = async () => {
     const response = await fetch(`${API_URL}/create-payment-intent`, {
       method: "POST",
@@ -72,7 +72,7 @@ const StripeApp = props => {
         style={styles.input}
       /> */}
       <CardField
-        postalCodeEnabled={true}
+        postalCodeEnabled={false}
         placeholder={{
           number: "4242 4242 4242 4242",
         }}
