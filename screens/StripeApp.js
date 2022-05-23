@@ -26,8 +26,8 @@ const StripeApp = props => {
 
   const handlePayPress = async () => {
     //1.Gather the customer's billing information (e.g., email)
-    if (!cardDetails?.complete ) {
-      Alert.alert("Please enter Complete card details and Email");
+    if (cardDetails?.cvc==''||cardDetails?.expiry==''||cardDetails?.number==''||cardDetails?.type=='') {
+      Alert.alert("Please Enter Complete Card Details");
       return;
     }
     const billingDetails = {
@@ -63,6 +63,7 @@ const StripeApp = props => {
 
   return (
    
+    
     <View style={styles.container}>
       {/* <TextInput
         autoCapitalize="none"
@@ -71,19 +72,34 @@ const StripeApp = props => {
         onChange={value => setEmail(value.nativeEvent.text)}
         style={styles.input}
       /> */}
-      <CardField
+
+
+     { /*<CardField
         postalCodeEnabled={false}
         placeholder={{
           number: "4242 4242 4242 4242",
         }}
         cardStyle={styles.card}
         style={styles.cardContainer}
-        onCardChange={cardDetails => {
+        onCardChange={cardDetails => {console.log('card Details===>',cardDetails)&
           setCardDetails(cardDetails);
         }}
-      />
-      <Button onPress={handlePayPress} title="Pay" disabled={loading} />
-    
+      />*/}
+
+     { <CreditCardInput style={styles.cardContainer}
+        onChange={
+          cardDetails => {console.log('card Details===>',cardDetails)&
+          setCardDetails(cardDetails);
+         }}
+        placeholders={{
+          number: "4242 4242 4242 4242",expiry: "MM/YY", cvc: "CVC"
+         }}
+        />}
+      
+     <View style={styles.container}>
+
+     <Button onPress={handlePayPress} title="Pay" disabled={loading}/>
+     </View>
     </View>
   );
 };
@@ -94,6 +110,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     margin: 20,
+    marginTop :70,
+   // padding: 16,
+   // marginBottom: 16,
   },
   input: {
     backgroundColor: "#efefefef",
@@ -109,5 +128,6 @@ const styles = StyleSheet.create({
   cardContainer: {
     height: 50,
     marginVertical: 30,
+    marginTop :50,
   },
 });
