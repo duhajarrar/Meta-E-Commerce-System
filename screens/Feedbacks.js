@@ -5,17 +5,11 @@ import "firebase/compat/auth"
 import "firebase/compat/firestore"
 import StarRating from 'react-native-star-rating';
 
-import { StyleSheet, SafeAreaView, Text, Image, View, TouchableOpacity, FlatList, TextInput, ActivityIndicator } from 'react-native';
 import {
-    Avatar,
-    Title,
-    Caption,
-    TouchableRipple,
-} from 'react-native-paper';
-import { AntDesign, Entypo, MaterialIcons, Fontisto } from '@expo/vector-icons'
-import { color } from 'react-native-reanimated';
+    StyleSheet, SafeAreaView, Text, Image, View, TouchableOpacity, FlatList, TextInput, ActivityIndicator
+    , ScrollView, KeyboardAvoidingView, Alert
+} from 'react-native';
 
-import { useRoute } from '@react-navigation/native';
 var db = firebase.firestore();
 
 export default class Feedbacks extends Component {
@@ -97,7 +91,7 @@ export default class Feedbacks extends Component {
     getDBData = () => {
         let OrderInf;
         console.log("Provider", this.props.route.params.ProviderName)
-        db.collection('FeedBack')
+        db.collection('FeedBack').orderBy('Timestamp', 'desc')
             .where('Provider', '==', this.props.route.params.ProviderName)
             .get()
             .then((querySnapshot) => {
@@ -114,11 +108,15 @@ export default class Feedbacks extends Component {
     }
 
     addComment() {
+
         if (this.state.feedback != null) {
+            Alert.alert("Thanks For Your FeedBack")
+            this.setState({ feedback: null })
             db.collection("FeedBack").add({
                 userName: this.state.displayName,
                 comment: this.state.feedback,
                 photoURL: this.state.photoURL,
+                Timestamp: new Date().valueOf(),
                 Provider: this.props.route.params.ProviderName,
                 time: this.getCurrentDate()
             })
@@ -126,6 +124,8 @@ export default class Feedbacks extends Component {
                     console.error("Error adding document: ", error);
                 });
 
+        } else {
+            Alert.alert("Please Write a FeedBack")
         }
 
     }
@@ -216,6 +216,7 @@ export default class Feedbacks extends Component {
     render() {
         console.log("userrrrrrr", this.state.displayName, this.state.photoURL)
         console.log("TESSSST", this.props.route.params.ProviderName, this.props.route.params.isLoading)
+        console.log("TESSSST", new Date())
 
         if (this.state.isLoading) {
             return (
@@ -226,9 +227,13 @@ export default class Feedbacks extends Component {
         }
         return (
 
+
+            // <ScrollView style={{ flex: 1, backgroundColor: 'white' }} ref='scroll'>
+            <KeyboardAvoidingView style={styles.containerStyle} behavior="padding" enabled>
+
             <SafeAreaView style={{ flex: 1 }}>
 
-
+                {/* <KeyboardAvoidingView behavior='position' style={{ backgroundColor: 'white', flex: 1 }}> */}
                 <View style={styles.cardHeader}>
                     <Text style={styles.buyNow}>
                         {this.props.route.params.ProviderName}
@@ -260,66 +265,71 @@ export default class Feedbacks extends Component {
                 </View>
 
                 <View style={styles.separator} />
-
-                <FlatList
-                    style={styles.root}
-                    data={this.state.FeedBackDB}
-                    ItemSeparatorComponent={() => {
-                        return (
-                            <View style={styles.separator} />
-                        )
-                    }}
-                    keyExtractor={(item) => {
-                        return item.id;
-                    }}
-                    renderItem={({ item }) =>
-                        <View style={styles.container1}>
-                            <TouchableOpacity onPress={() => { }}>
-                                <Image style={styles.image}
-                                    source={{
-                                        uri: item.photoURL
-                                    }} />
-                            </TouchableOpacity>
-                            <View style={styles.content}>
-                                <View style={styles.contentHeader}>
-                                    <Text style={styles.name}>{item.userName}</Text>
-                                    <Text style={styles.time}>
-                                        {item.time}
-                                    </Text>
+                <View >
+                    <FlatList
+                        style={styles.root}
+                        data={this.state.FeedBackDB}
+                        ItemSeparatorComponent={() => {
+                            return (
+                                <View style={styles.separator} />
+                            )
+                        }}
+                        keyExtractor={(item) => {
+                            return item.id;
+                        }}
+                        renderItem={({ item }) =>
+                            <View style={styles.container1}>
+                                <TouchableOpacity onPress={() => { }}>
+                                    <Image style={styles.image}
+                                        source={{
+                                            uri: item.photoURL
+                                        }} />
+                                </TouchableOpacity>
+                                <View style={styles.content}>
+                                    <View style={styles.contentHeader}>
+                                        <Text style={styles.name}>{item.userName}</Text>
+                                        <Text style={styles.time}>
+                                            {item.time}
+                                        </Text>
+                                    </View>
+                                    <Text rkType='primary3 mediumLine' style={{ paddingTop: 10 }}>{item.comment}</Text>
                                 </View>
-                                <Text rkType='primary3 mediumLine' style={{ paddingTop: 10 }}>{item.comment}</Text>
                             </View>
-                        </View>
-                    }
-                />
-
-                <View style={styles.cardFooter}>
-
-                    <TextInput
-                        placeholder="           write your feedback"
-                        placeholderTextColor="#B1B1B1"
-                        returnKeyType="next"
-                        textContentType="name"
-                        value={this.state.feedback}
-                        onChangeText={feedback => this.setState({ feedback })}
-                        style={styles.input}
+                        }
                     />
-
-                    <TouchableOpacity style={styles.buttonContainer}
-                        onPress={() => this.addComment()
-                            //   & Alert.alert('Comment Added')
-                        }>
-                        <Text style={{
-                            color: "white",
-
-                            fontSize: 18
-                        }}>
-                            Save
-                        </Text>
-                    </TouchableOpacity>
                 </View>
-            </SafeAreaView>
 
+            
+
+                    <View style={styles.cardFooter}>
+
+                        <TextInput
+                            placeholder="           write your feedback"
+                            placeholderTextColor="#B1B1B1"
+                            returnKeyType="next"
+                            textContentType="name"
+                            value={this.state.feedback}
+                            onChangeText={feedback => this.setState({ feedback })}
+                            style={styles.input}
+                        />
+
+                        <TouchableOpacity style={styles.buttonContainer}
+                            onPress={() => this.addComment()
+                                //   & Alert.alert('Comment Added')
+                            }>
+                            <Text style={{
+                                color: "white",
+
+                                fontSize: 18
+                            }}>
+                                Save
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                {/* </KeyboardAvoidingView > */}
+            </SafeAreaView >
+  </KeyboardAvoidingView>
+            // </ScrollView>
 
         );
     }
@@ -413,6 +423,10 @@ const styles = StyleSheet.create({
         right: 0,
         bottom: 0
     },
+    containerStyle: {
+        height: '100%',
+        width: '100%',
+      },
     cardHeader: {
         paddingVertical: 17,
         paddingHorizontal: 16,
