@@ -60,7 +60,7 @@ export default class addProduct extends Component {
         .catch(function (error) {
           console.error("Error adding document: ", error);
         });
-     // console.log("name1 : ", name);
+      // console.log("name1 : ", name);
     }
   }
 
@@ -83,82 +83,84 @@ export default class addProduct extends Component {
     //console.log(this.state.uri);
 
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: "#F5F5F5" }}>
-        {/* Header */}
-        
+      <KeyboardAvoidingView style={styles.containerStyle} behavior="padding" enabled
+        keyboardVerticalOffset={300}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#F5F5F5" }}>
+          {/* Header */}
 
-        <View style={{ style: styles.container, alignItems: "center" }}>
-          <View style={{ style: styles.details, justifyContent: "center" }}>
-            {/* /* 
+
+          <View style={{ style: styles.container, alignItems: "center" }}>
+            <View style={{ style: styles.details, justifyContent: "center" }}>
+              {/* /* 
             PUT YOUR CODE HERE !!!!!!!!!!!!!!!!!!          
             .
             .
             .
             .
          */}
-            <View style={{ alignItems: "center", justifyContent: "center" }}>
-              <Image
-                style={{ width: 200, height: 200, marginTop: 50 }}
-                source={{
-                  uri: "https://media.istockphoto.com/photos/new-product-round-red-seal-picture-id188020497?k=20&m=188020497&s=612x612&w=0&h=14l5TS8674-Q2dx3PHcciIEuTZ9ULXH4lUObdWmBOIY=",
-                }}
-              />
-
-      
-              <TextInput
-                placeholder="Product Name"
-                placeholderTextColor="#B1B1B1"
-                returnKeyType="next"
-                textContentType="name"
-                value={this.state.name}
-                onChangeText={(name) => this.setState({ name })}
-                style={styles.input}
-              />
-
-              <TextInput
-                placeholder="Quantity"
-                placeholderTextColor="#B1B1B1"
-                returnKeyType="next"
-                keyboardType="number"
-                textContentType="number"
-                value={this.state.quantity}
-                onChangeText={(quantity) => this.setState({ quantity })}
-                style={styles.input}
-              />
-
-              <TextInput
-                placeholder="Price"
-                placeholderTextColor="#B1B1B1"
-                returnKeyType="next"
-                keyboardType="number"
-                textContentType="number"
-                value={this.state.price}
-                onChangeText={(price) => this.setState({ price })}
-                style={styles.input}
-              />
-
-              <TouchableOpacity
-                style={styles.buttonContainer}
-                onPress={() =>
-                  this.addNewProduct() & Alert.alert("Product added")
-                }
-              >
-                <Text
-                  style={{
-                    color: "white",
-                    padding: 5,
-                    fontSize: 18,
+              <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <Image
+                  style={{ width: 200, height: 200, marginTop: 50 }}
+                  source={{
+                    uri: "https://media.istockphoto.com/photos/new-product-round-red-seal-picture-id188020497?k=20&m=188020497&s=612x612&w=0&h=14l5TS8674-Q2dx3PHcciIEuTZ9ULXH4lUObdWmBOIY=",
                   }}
+                />
+
+
+                <TextInput
+                  placeholder="Product Name"
+                  placeholderTextColor="#B1B1B1"
+                  returnKeyType="next"
+                  textContentType="name"
+                  value={this.state.name}
+                  onChangeText={(name) => this.setState({ name })}
+                  style={styles.input}
+                />
+
+                <TextInput
+                  placeholder="Quantity"
+                  placeholderTextColor="#B1B1B1"
+                  returnKeyType="next"
+                  keyboardType="number"
+                  textContentType="number"
+                  value={this.state.quantity}
+                  onChangeText={(quantity) => this.setState({ quantity })}
+                  style={styles.input}
+                />
+
+                <TextInput
+                  placeholder="Price"
+                  placeholderTextColor="#B1B1B1"
+                  returnKeyType="next"
+                  keyboardType="number"
+                  textContentType="number"
+                  value={this.state.price}
+                  onChangeText={(price) => this.setState({ price })}
+                  style={styles.input}
+                />
+
+                <TouchableOpacity
+                  style={styles.buttonContainer}
+                  onPress={() =>
+                    this.addNewProduct() & Alert.alert("Product added")
+                  }
                 >
-                  Add product
-                </Text>
-              </TouchableOpacity>
+                  <Text
+                    style={{
+                      color: "white",
+                      padding: 5,
+                      fontSize: 18,
+                    }}
+                  >
+                    Add product
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
 
-
-      </SafeAreaView>
+        </SafeAreaView>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -416,6 +418,10 @@ const styles = StyleSheet.create({
     width: "100%",
     // flex: 1,
     resizeMode: "contain",
+  },
+  containerStyle: {
+    height: '100%',
+    width: '100%',
   },
 });
 
