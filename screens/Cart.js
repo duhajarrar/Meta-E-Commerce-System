@@ -3,7 +3,8 @@ import React, { Component } from "react";
 import {
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    Image
 } from "react-native";
 import CartProducts from '../components/CartPorducts'
 import { connect } from 'react-redux'
@@ -25,7 +26,12 @@ class Cart extends Component {
                         navigation={this.props.navigation}
                         TotalAmount={this.props.cartItems.total}
                         ButtonTitle="Remove" />
-                    : <Text>No items in your cart</Text>
+                    : <View>      
+                        <Image
+                        style={{ width: 500, height: 500,}}
+                        source={require('../assets/empty-cart.png')}
+                    />
+                    </View>
                 }
             </View>
         );
