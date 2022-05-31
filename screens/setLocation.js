@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Dimensions } from "react-native";
 import {
-  TextInput, Alert, ScrollView, StyleSheet, Text, View, TouchableOpacity, SafeAreaView, KeyboardAvoidingView
-  , TouchableWithoutFeedback, Keyboard, KeyboardAwareScrollView 
+  TextInput, Alert, ScrollView, StyleSheet, Text, View, TouchableOpacity, SafeAreaView
+  , KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard
 } from "react-native";
 
 import firebase from "firebase/compat/app";
@@ -105,132 +105,128 @@ export default class setLocation extends Component {
 
     return (
 
-      <TouchableWithoutFeedback
-        onPress={() => {
-          Keyboard.dismiss();
-        }}
-      >
 
+      <KeyboardAvoidingView style={styles.containerStyle} behavior="padding" enabled
+        keyboardVerticalOffset={150}>
         <SafeAreaView style={{ flex: 1 }}>
-      
-
-          <KeyboardAvoidingView style={styles.container1} behavior="padding">
-
-            <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
-                <View>
-                  <Text style={{ width: 170, textAlign: "center", fontSize: 25 }}>
-                    Recipient Info
-                  </Text>
-                </View>
-                <View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
-              </View>
 
 
-              <TextInput
-                placeholder={
-                  "Recipient Name: " + this.props.route.params.userData.displayName
-                }
-                placeholderTextColor="#B1B1B1"
-                returnKeyType="next"
-                textContentType="recipientName"
-                defaultValue={this.state.recipientName}
-                onChangeText={(recipientName) => this.setState({ recipientName })}
-                style={styles.input}
-              />
 
-              <TextInput
-                placeholder={"Recipient Email"}
-                placeholderTextColor="#B1B1B1"
-                returnKeyType="next"
-                keyboardType="email-address"
-                textContentType="recipientEmail"
-                defaultValue={this.state.recipientEmail}
-                onChangeText={(recipientEmail) => this.setState({ recipientEmail })}
-                style={styles.input}
-              />
+          <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
 
-              <TextInput
-                placeholder={"Recipient Phone"}
-                placeholderTextColor="#B1B1B1"
-                returnKeyType="next"
-                keyboardType="numeric"
-                textContentType="recipientPhone"
-                defaultValue={this.state.recipientPhone}
-                onChangeText={(recipientPhone) => this.setState({ recipientPhone })}
-                style={styles.input}
-              />
-
-              <View
-                style={{ flexDirection: "row", alignItems: "center", marginTop: 20 }}
-              >
-                <View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
-                <View>
-                  <Text style={{ width: 170, textAlign: "center", fontSize: 25 }}>
-                    Address Info
-                  </Text>
-                </View>
-                <View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
-              </View>
-              <TextInput
-                placeholder="Country"
-                placeholderTextColor="#B1B1B1"
-                returnKeyType="next"
-                textContentType="country"
-                value={this.state.country}
-                onChangeText={(country) => this.setState({ country })}
-                style={styles.input}
-              />
-              <TextInput
-                placeholder="City"
-                placeholderTextColor="#B1B1B1"
-                returnKeyType="next"
-                textContentType="city"
-                value={this.state.city}
-                onChangeText={(city) => this.setState({ city })}
-                style={styles.input}
-              />
-
-              <TextInput
-                placeholder="Street"
-                placeholderTextColor="#B1B1B1"
-                returnKeyType="next"
-                textContentType="street"
-                value={this.state.street}
-                onChangeText={(street) => this.setState({ street })}
-                style={styles.input}
-              />
-
-              <TextInput
-                placeholder="More Description"
-                placeholderTextColor="#B1B1B1"
-                returnKeyType="next"
-                textContentType="moreDescription"
-                value={this.state.moreDescription}
-                onChangeText={(moreDescription) => this.setState({ moreDescription })}
-                style={styles.input}
-              />
-
-              <TouchableOpacity
-                style={styles.buttonContainer}
-                onPress={() => this.addAddress()}
-              >
-                <Text
-                  style={{
-                    color: "white",
-                    padding: 5,
-                    fontSize: 18,
-                  }}
-                >
-                  Add Address
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
+              <View>
+                <Text style={{ width: 170, textAlign: "center", fontSize: 20 }}>
+                  Recipient Info
                 </Text>
-              </TouchableOpacity>
-
+              </View>
+              <View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
             </View>
-          </KeyboardAvoidingView>
+
+
+            <TextInput
+              placeholder={
+                "Recipient Name: " + this.props.route.params.userData.displayName
+              }
+              placeholderTextColor="#B1B1B1"
+              returnKeyType="next"
+              textContentType="recipientName"
+              defaultValue={this.state.recipientName}
+              onChangeText={(recipientName) => this.setState({ recipientName })}
+              style={styles.input}
+            />
+
+            <TextInput
+              placeholder={"Recipient Email"}
+              placeholderTextColor="#B1B1B1"
+              returnKeyType="next"
+              keyboardType="email-address"
+              textContentType="recipientEmail"
+              defaultValue={this.state.recipientEmail}
+              onChangeText={(recipientEmail) => this.setState({ recipientEmail })}
+              style={styles.input}
+            />
+
+            <TextInput
+              placeholder={"Recipient Phone"}
+              placeholderTextColor="#B1B1B1"
+              returnKeyType="next"
+              keyboardType="numeric"
+              textContentType="recipientPhone"
+              defaultValue={this.state.recipientPhone}
+              onChangeText={(recipientPhone) => this.setState({ recipientPhone })}
+              style={styles.input}
+            />
+
+            <View
+              style={{ flexDirection: "row", alignItems: "center", marginTop: 20 }}
+            >
+              <View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
+              <View>
+                <Text style={{ width: 170, textAlign: "center", fontSize: 20 }}>
+                  Address Info
+                </Text>
+              </View>
+              <View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
+            </View>
+            <TextInput
+              placeholder="Country"
+              placeholderTextColor="#B1B1B1"
+              returnKeyType="next"
+              textContentType="country"
+              value={this.state.country}
+              onChangeText={(country) => this.setState({ country })}
+              style={styles.input}
+            />
+            <TextInput
+              placeholder="City"
+              placeholderTextColor="#B1B1B1"
+              returnKeyType="next"
+              textContentType="city"
+              value={this.state.city}
+              onChangeText={(city) => this.setState({ city })}
+              style={styles.input}
+            />
+
+            <TextInput
+              placeholder="Street"
+              placeholderTextColor="#B1B1B1"
+              returnKeyType="next"
+              textContentType="street"
+              value={this.state.street}
+              onChangeText={(street) => this.setState({ street })}
+              style={styles.input}
+            />
+
+            <TextInput
+              placeholder="More Description"
+              placeholderTextColor="#B1B1B1"
+              returnKeyType="next"
+              textContentType="moreDescription"
+              value={this.state.moreDescription}
+              onChangeText={(moreDescription) => this.setState({ moreDescription })}
+              style={styles.input}
+            />
+
+            <TouchableOpacity
+              style={styles.buttonContainer}
+              onPress={() => this.addAddress()}
+            >
+              <Text
+                style={{
+                  color: "white",
+                  padding: 5,
+                  fontSize: 18,
+                }}
+              >
+                Add Address
+              </Text>
+            </TouchableOpacity>
+
+          </View>
         </SafeAreaView>
-      </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -490,5 +486,9 @@ const styles = StyleSheet.create({
     width: "100%",
     // flex: 1,
     resizeMode: "contain",
+  },
+  containerStyle: {
+    height: '100%',
+    width: '100%',
   },
 });
