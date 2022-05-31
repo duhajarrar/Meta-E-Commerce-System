@@ -231,75 +231,75 @@ export default class Feedbacks extends Component {
             // <ScrollView style={{ flex: 1, backgroundColor: 'white' }} ref='scroll'>
             <KeyboardAvoidingView style={styles.containerStyle} behavior="padding" enabled>
 
-            <SafeAreaView style={{ flex: 1 }}>
+                <SafeAreaView style={{ flex: 1 }}>
 
-                {/* <KeyboardAvoidingView behavior='position' style={{ backgroundColor: 'white', flex: 1 }}> */}
-                <View style={styles.cardHeader}>
-                    <Text style={styles.buyNow}>
-                        {this.props.route.params.ProviderName}
-                        {" "}Feedback
-                    </Text>
-                </View>
+                    {/* <KeyboardAvoidingView behavior='position' style={{ backgroundColor: 'white', flex: 1 }}> */}
+                    <View style={styles.cardHeader}>
+                        <Text style={styles.buyNow}>
+                            {this.props.route.params.ProviderName}
+                            {" "}Feedback
+                        </Text>
+                    </View>
 
-                <View style={{
-                    flexDirection: 'column', alignItems: 'center',
-                    justifyContent: 'center', padding: 30, backgroundColor: 'white'
-                }}>
+                    <View style={{
+                        flexDirection: 'column', alignItems: 'center',
+                        justifyContent: 'center', padding: 30, backgroundColor: 'white'
+                    }}>
 
-                    <StarRating
-                        disabled={false}
-                        emptyStar="ios-star-outline"
-                        fullStar="ios-star"
-                        halfStar="ios-star-half"
-                        iconSet="Ionicons"
-                        maxStars={5}
-                        rating={this.props.route.params.Rate}
-                        selectedStar={(rating) => this.onStarRatingPress(rating, this.props.route.params.ProviderName)}
-                        fullStarColor="#38700F"
-                        halfStarColor="#38700F"
-                        emptyStarColor="#38700F"
-                        halfStarEnabled
-                        starPadding={20}
-                        starSize={55}
-                    />
-                </View>
+                        <StarRating
+                            disabled={false}
+                            emptyStar="ios-star-outline"
+                            fullStar="ios-star"
+                            halfStar="ios-star-half"
+                            iconSet="Ionicons"
+                            maxStars={5}
+                            rating={this.props.route.params.Rate}
+                            selectedStar={(rating) => this.onStarRatingPress(rating, this.props.route.params.ProviderName)}
+                            fullStarColor="#38700F"
+                            halfStarColor="#38700F"
+                            emptyStarColor="#38700F"
+                            halfStarEnabled
+                            starPadding={20}
+                            starSize={55}
+                        />
+                    </View>
 
-                <View style={styles.separator} />
-                <View >
-                    <FlatList
-                        style={styles.root}
-                        data={this.state.FeedBackDB}
-                        ItemSeparatorComponent={() => {
-                            return (
-                                <View style={styles.separator} />
-                            )
-                        }}
-                        keyExtractor={(item) => {
-                            return item.id;
-                        }}
-                        renderItem={({ item }) =>
-                            <View style={styles.container1}>
-                                <TouchableOpacity onPress={() => { }}>
-                                    <Image style={styles.image}
-                                        source={{
-                                            uri: item.photoURL
-                                        }} />
-                                </TouchableOpacity>
-                                <View style={styles.content}>
-                                    <View style={styles.contentHeader}>
-                                        <Text style={styles.name}>{item.userName}</Text>
-                                        <Text style={styles.time}>
-                                            {item.time}
-                                        </Text>
+                    <View style={styles.separator} />
+                    <View >
+                        <FlatList
+                            style={styles.root}
+                            data={this.state.FeedBackDB}
+                            ItemSeparatorComponent={() => {
+                                return (
+                                    <View style={styles.separator} />
+                                )
+                            }}
+                            keyExtractor={(item) => {
+                                return item.id;
+                            }}
+                            renderItem={({ item }) =>
+                                <View style={styles.container1}>
+                                    <TouchableOpacity onPress={() => { }}>
+                                        <Image style={styles.image}
+                                            source={{
+                                                uri: item.photoURL
+                                            }} />
+                                    </TouchableOpacity>
+                                    <View style={styles.content}>
+                                        <View style={styles.contentHeader}>
+                                            <Text style={styles.name}>{item.userName}</Text>
+                                            <Text style={styles.time}>
+                                                {item.time}
+                                            </Text>
+                                        </View>
+                                        <Text rkType='primary3 mediumLine' style={{ paddingTop: 10 }}>{item.comment}</Text>
                                     </View>
-                                    <Text rkType='primary3 mediumLine' style={{ paddingTop: 10 }}>{item.comment}</Text>
                                 </View>
-                            </View>
-                        }
-                    />
-                </View>
+                            }
+                        />
+                    </View>
 
-            
+
 
                     <View style={styles.cardFooter}>
 
@@ -326,9 +326,9 @@ export default class Feedbacks extends Component {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                {/* </KeyboardAvoidingView > */}
-            </SafeAreaView >
-  </KeyboardAvoidingView>
+                    {/* </KeyboardAvoidingView > */}
+                </SafeAreaView >
+            </KeyboardAvoidingView>
             // </ScrollView>
 
         );
@@ -426,7 +426,7 @@ const styles = StyleSheet.create({
     containerStyle: {
         height: '100%',
         width: '100%',
-      },
+    },
     cardHeader: {
         paddingVertical: 17,
         paddingHorizontal: 16,
