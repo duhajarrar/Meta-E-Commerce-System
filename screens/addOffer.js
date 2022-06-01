@@ -168,6 +168,7 @@ export default class addOffer extends Component {
                         <View>
                         </View>
                     </View>
+                   
                     {this.state.checked
                         &&
 

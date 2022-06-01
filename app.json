@@ -1,14 +1,22 @@
 {
   "expo": {
-    "name": "MetaMartApp",
-    "slug": "metamartapp",
-    "privacy":"public",
+    "name": "MetaMartAppTest",
+    "slug": "metamartapptest",
+    "privacy": "public",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "facebookDisplayName": "Project",
     "facebookAppId": "337956678166688",
     "facebookScheme": "fb337956678166688",
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ]
+    ],
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -17,9 +25,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "host.exp.exponent",
       "supportsTablet": true
