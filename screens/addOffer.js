@@ -58,7 +58,7 @@ export default class addOffer extends Component {
     addOffer() {
         let withEndDate;
         let date=new Date(this.state.selectedStartDate).valueOf();
-        if (date > 0)
+        if (date > 0 && this.state.checked)
             withEndDate = true;
         else
             withEndDate = false;
@@ -177,17 +177,19 @@ export default class addOffer extends Component {
 
                             <TouchableOpacity>
 
-                                <View style={styles.container1}>
+                                <View >
 
                                     <View style={styles.infoBoxWrapper}>
 
-                                        <View style={styles.container1}>
+                                        <View >
 
 
-                                            <View style={styles.container1}>
+                                            <View style={styles.container2}>
                                                 <CalendarPicker
                                                     minDate={new Date()}
                                                     onDateChange={this.onDateChange}
+                                                    width={350}
+                                                    height={350}
                                                 />
                                             </View>
 
@@ -410,11 +412,18 @@ const styles = StyleSheet.create({
     },
     container1: {
         // paddingTop: 40,
-        width: 400,
-        height: 350,
+        width: 300,
+        height: 300,
+        justifyContent: "center",
+        alignItems: "center",
         // marginBottom: 25,
         // borderRadius: 15,
         backgroundColor: '#FFFFFF',
         // overflow: 'hidden'
     },
+    container2: {
+        flex: 1,
+        backgroundColor: '#FFFFFF',
+        // marginTop: 100,
+      },
 });
