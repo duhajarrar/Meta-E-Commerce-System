@@ -30,7 +30,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 var db = firebase.firestore();
 export default class addProduct extends Component {
-  state = { id: {}, name: {}, uri: {}, provider: {}, price: {}, quantity: {} };
+  state = { id: {}, name: {}, uri: {}, provider: {}, price: {}, quantity: {}, image: null };
   componentDidMount() {
     this.MyDB;
   }
@@ -64,6 +64,30 @@ export default class addProduct extends Component {
     }
   }
 
+
+
+  // async pickImage() {
+  pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log("ressss", result);
+
+    if (!result.cancelled) {
+
+      console.log("xxxxxxxxxxxxxxx");
+      this.setState({ image: result.uri }, () => {
+        console.log(this.state.image, '==image');
+      });
+
+    }
+  };
+
   get MyDB() {
     const yourParam = this.props.route.params.ProviderName;
     //console.log(yourParam);
@@ -84,29 +108,51 @@ export default class addProduct extends Component {
 
     return (
       <KeyboardAvoidingView style={styles.containerStyle} behavior="padding" enabled
-        keyboardVerticalOffset={300}>
+        keyboardVerticalOffset={50}>
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F5F5F5" }}>
           {/* Header */}
 
 
           <View style={{ style: styles.container, alignItems: "center" }}>
+
+
             <View style={{ style: styles.details, justifyContent: "center" }}>
-              {/* /* 
-            PUT YOUR CODE HERE !!!!!!!!!!!!!!!!!!          
-            .
-            .
-            .
-            .
-         */}
+
+
+
+
+              <View style={{  alignItems: 'center', justifyContent: 'center',paddingTop:50}}>
+
+                {/* {this.state.image && <Image source={{ uri: this.state.image }} style={{ width: 200, height: 200 }} />}
+                  <Button title="Pick an image from camera roll" onPress={this.pickImage} /> */}
+
+                {
+                  (this.state.image) ? (
+                    <Text style={{ alignItems: 'center', justifyContent: 'center' }}>
+                      <Image source={{ uri: this.state.image }} style={{ width: 200, height: 200 }} />
+                    </Text>
+                  ) : (
+                    <Text style={{ alignItems: 'center', justifyContent: 'center' }}>
+                      <TouchableOpacity onPress={this.pickImage} >
+                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                          <Image style={styles.icon} source={require('../assets/photo.png')} />
+                        </View>
+                        <Text
+                          style={{
+                            color: "#800C69",
+                            padding: 5,
+                            fontSize: 18,
+                          }}
+                        >
+                          Upload Photo
+                        </Text>
+                      </TouchableOpacity>
+                    </Text>
+                  )
+                }
+              </View>
+
               <View style={{ alignItems: "center", justifyContent: "center" }}>
-                <Image
-                  style={{ width: 200, height: 200, marginTop: 50 }}
-                  source={{
-                    uri: "https://media.istockphoto.com/photos/new-product-round-red-seal-picture-id188020497?k=20&m=188020497&s=612x612&w=0&h=14l5TS8674-Q2dx3PHcciIEuTZ9ULXH4lUObdWmBOIY=",
-                  }}
-                />
-
-
                 <TextInput
                   placeholder="Product Name"
                   placeholderTextColor="#B1B1B1"
@@ -341,8 +387,9 @@ const styles = StyleSheet.create({
     color: "#800C69",
   },
   icon: {
-    width: 25,
-    height: 25,
+    width: 95,
+    height: 95,
+
   },
   /******** social bar ******************/
   socialBarContainer: {
