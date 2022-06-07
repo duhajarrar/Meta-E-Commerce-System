@@ -135,7 +135,7 @@ export default class addProduct extends Component {
     // this.initCatDB();
 
     let pickerItems = this.state.categoryDB.map((s, i) => {
-      console.log(s);
+      // console.log(s);
       return <Picker.Item key={i} value={s} label={s} />
     });
 
