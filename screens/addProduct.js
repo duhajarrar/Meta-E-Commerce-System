@@ -26,13 +26,16 @@ import {
   Button,
   Alert,
 } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 
 import * as ImagePicker from "expo-image-picker";
 var db = firebase.firestore();
 export default class addProduct extends Component {
-  state = { id: {}, name: {}, uri: {}, provider: {}, price: {}, quantity: {}, image: null };
+  state = { id: {},category:'', name: {}, uri: {},categoryDB:[], provider: {}, price: {}, quantity: {}, image: null };
   componentDidMount() {
     this.MyDB;
+    this.setState({ categoryDB: ["ألبان وأجبان","معلبات","لحوم طازجة","مشروبات وعصائر","مواد تموينية"] });
+
   }
   addNewProduct() {
     if (
@@ -51,6 +54,27 @@ export default class addProduct extends Component {
           price: this.state.price,
           name: this.state.name,
           provider: this.MyDB,
+          category: this.state.category,
+          // image:this.state.uri,
+          image:
+            "https://media.istockphoto.com/photos/new-product-round-red-seal-picture-id188020497?k=20&m=188020497&s=612x612&w=0&h=14l5TS8674-Q2dx3PHcciIEuTZ9ULXH4lUObdWmBOIY=",
+          quantity: this.state.quantity,
+          id: this.state.id,
+        })
+        .catch(function (error) {
+          console.error("Error adding document: ", error);
+        });
+
+
+        firebase
+        .firestore()
+        .collection("MetaData")
+        .add({
+          price: this.state.price,
+          name: this.state.name,
+          provider: this.MyDB,
+          category: this.state.category,
+
           // image:this.state.uri,
           image:
             "https://media.istockphoto.com/photos/new-product-round-red-seal-picture-id188020497?k=20&m=188020497&s=612x612&w=0&h=14l5TS8674-Q2dx3PHcciIEuTZ9ULXH4lUObdWmBOIY=",
@@ -94,6 +118,9 @@ export default class addProduct extends Component {
     return yourParam;
   }
 
+  initCatDB = () => {
+  this.setState({ categoryDB: ["ألبان وأجبان","معلبات","لحوم طازجة","مشروبات وعصائر","مواد تموينية"] });
+  }
   render() {
     firebase
       .firestore()
@@ -105,6 +132,12 @@ export default class addProduct extends Component {
         // console.log(this.state.id);
       });
     //console.log(this.state.uri);
+    // this.initCatDB();
+
+    let pickerItems = this.state.categoryDB.map((s, i) => {
+      console.log(s);
+      return <Picker.Item key={i} value={s} label={s} />
+    });
 
     return (
       <KeyboardAvoidingView style={styles.containerStyle} behavior="padding" enabled
@@ -184,6 +217,19 @@ export default class addProduct extends Component {
                   onChangeText={(price) => this.setState({ price })}
                   style={styles.input}
                 />
+                {/* <Text>Hi</Text> */}
+    <Picker
+          selectedValue={this.state.category}
+          onValueChange={(value, index) =>
+            this.setState({ category: value })
+          }
+          mode="dropdown" // Android only
+          style={styles.picker}
+        >
+          <Picker.Item label=" Select category" value="Unknown" />
+          {pickerItems}
+        </Picker>
+
 
                 <TouchableOpacity
                   style={styles.buttonContainer}
@@ -439,7 +485,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     overflow: "hidden",
   },
-
+  picker: {
+    // marginVertical: 30,
+    width: 350,
+    // padding: 10,
+    // borderWidth: 1,
+    // borderColor: "#666",
+  },
   image: {
     alignSelf: "flex-start",
     width: "100%",
