@@ -15,6 +15,7 @@ import {
 import { Avatar, Title, Caption, TouchableRipple } from "react-native-paper";
 import { AntDesign, Entypo, MaterialIcons, Fontisto } from "@expo/vector-icons";
 import { color } from "react-native-reanimated";
+import * as DocumentPicker from 'expo-document-picker';
 
 import {
   TextInput,
@@ -26,62 +27,14 @@ import {
   Button,
   Alert,
 } from "react-native";
+// import * as Permissions from 'expo-permissions';
 
-import * as ImagePicker from "expo-image-picker";
 var db = firebase.firestore();
 export default class ImportProducts extends Component {
   state = { id: {}, name: {}, uri: {}, provider: {}, price: {}, quantity: {} };
-  componentDidMount() {
-    this.MyDB;
-  }
-  addNewProduct() {
-    if (
-      this.state.name !== null &&
-      this.state.name.length > 0 &&
-      this.state.price !== null &&
-      this.state.price.length > 0
-    ) {
-      const name = this.state.name;
-      // console.log(this.state.price);
-      // console.log(this.state.name);
-      firebase
-        .firestore()
-        .collection(this.MyDB)
-        .add({
-          price: this.state.price,
-          name: this.state.name,
-          provider: this.MyDB,
-          // image:this.state.uri,
-          image:
-            "https://media.istockphoto.com/photos/new-product-round-red-seal-picture-id188020497?k=20&m=188020497&s=612x612&w=0&h=14l5TS8674-Q2dx3PHcciIEuTZ9ULXH4lUObdWmBOIY=",
-          quantity: this.state.quantity,
-          id: this.state.id,
-        })
-        .catch(function (error) {
-          console.error("Error adding document: ", error);
-        });
-      console.log("name1 : ", name);
-    }
-  }
-
-  get MyDB() {
-    const yourParam = this.props.route.params.ProviderName;
-    //console.log(yourParam);
-    return yourParam;
-  }
 
   render() {
-    firebase
-      .firestore()
-      .collection("Al-Shini-DB")
-      .get()
-      .then((querySnapshot) => {
-        // console.log(querySnapshot.size);
-        this.setState({ id: querySnapshot.size });
-        // console.log(this.state.id);
-      });
-    //console.log(this.state.uri);
-
+    
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#F5F5F5" }}>
         {/* Header */}
@@ -89,10 +42,21 @@ export default class ImportProducts extends Component {
           <Text style={styles.buyNow}>
             Import products data to {this.props.route.params.ProviderName}
           </Text>
-            
+          </View>
+          <Button
+							onPress={async () => {
 
+                let result = await DocumentPicker.getDocumentAsync({});
+                
+                alert(result.uri);
+                
+                console.log(result);
+								
+							}}
+							title="Open a PDF Document..."
+						/>
 
-        </View>
+       
       </SafeAreaView>
     );
   }
@@ -364,10 +328,10 @@ let openImagePickerAsync = async () => {
   }
 
   let pickerResult = await ImagePicker.launchImageLibraryAsync();
-  // console.log(pickerResult);
-  // console.log(pickerResult.uri, " before ++++");
+  console.log(pickerResult);
+  console.log(pickerResult.uri, " before ++++");
   pickerResult.uri = pickerResult.uri.replace("file://", "");
-  // console.log(pickerResult.uri, " after ++++");
+  console.log(pickerResult.uri, " after ++++");
   this.setState({ uri: pickerResult });
 };
 
