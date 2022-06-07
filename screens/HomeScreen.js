@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 import MaterialCommunityIcons from 'react-native-vector-icons/Foundation'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import addProductFromMeta from '../screens/addProductFromMeta';
 
 
 import AntDesignIcon from 'react-native-vector-icons/AntDesign'
@@ -308,6 +309,16 @@ class HomeScreen extends React.Component {
                   ),
                   title: 'Add Products',
                 }} />
+                 <Drawer.Screen name="addProductFromMeta" 
+                 initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName,  userName:this.props.navigation.state.params.userName }} 
+                 component={addProductFromMeta}
+            options={{
+              drawerIcon: ({ focused, size }) => (
+                <Icon name="add-circle" size={25} color={'#800C69'} style={{ padding: 0 }} />
+              ),
+              title: 'Add Product From Meta',
+            }} />
+
 
 
               <Drawer.Screen name="editProducts" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName, userName: this.props.navigation.state.params.userName }} component={editProducts}

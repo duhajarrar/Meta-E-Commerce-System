@@ -201,6 +201,23 @@ export default class addProduct extends Component {
                     Add product
                   </Text>
                 </TouchableOpacity>
+                
+              {/* <TouchableOpacity
+                style={styles.buttonContainer}
+                onPress={() =>
+                  this.props.navigation.navigate("addProductFromMeta", {ProviderName: this.props.navigation.state.params.ProviderName,userName:this.props.navigation.state.params.userName})
+                }
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    padding: 5,
+                    fontSize: 18,
+                  }}
+                >
+                  Choose from meta products
+                </Text>
+              </TouchableOpacity> */}
               </View>
             </View>
           </View>
