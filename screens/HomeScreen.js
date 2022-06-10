@@ -53,21 +53,26 @@ import PaymentMethod from '../screens/PaymentMethod'
 
 
 const Drawer = createDrawerNavigator();
+
 function CustomDrawerContent(props) {
-
   return (
+    <DrawerContentScrollView {...props}
+    >
 
-    <DrawerContentScrollView {...props}>
+      <View style={[
+      ]}>
 
-      <DrawerItemList {...props} />
-      <DrawerItem
-        icon={() => <AntDesignIcon name="logout" size={25} color={'#800C69'} style={{ padding: 5 }} />}
-        style={{ marginTop: '65%' }}
-        label="Logout" onPress={() => {
-          firebase.auth().signOut();
-        }
+        <DrawerItemList {...props}
+        />
+        <DrawerItem
+          icon={() => <AntDesignIcon name="logout" size={25} color={'#800C69'} style={{ padding: 5 }} />}
+          style={{ marginTop: '50%' }}
+          label="Logout" onPress={() => {
+            firebase.auth().signOut();
+          }
 
-        } />
+          } />
+      </View>
 
     </DrawerContentScrollView>
   );
@@ -120,9 +125,11 @@ class HomeScreen extends React.Component {
         // this.props.navigation.state.params.ProviderName !== "Brothers") 
         this.props.navigation.state.params.ProviderName === "customer" &
         this.props.navigation.state.params.email !== "test@gmail.com") ? (
+
         <NavigationContainer style={{ backgroundColor: "#800C69", color: "#800C69" }}>
 
-          <Drawer.Navigator initialRouteName="HomeScreen1" drawerContent={props => <CustomDrawerContent {...props} />}>
+          <Drawer.Navigator initialRouteName="HomeScreen1" drawerContent={props => <CustomDrawerContent {...props}
+          />}>
             <Drawer.Screen name="Shops" component={HomeScreen1} style={{ color: "#800C69" }}
               options={{
                 title: 'Shops',
@@ -158,6 +165,7 @@ class HomeScreen extends React.Component {
 
             <Drawer.Screen name="orderHistory" component={orderHistory}
               options={{
+
                 title: 'Orders History',
                 drawerIcon: ({ focused, size }) => (
                   <MaterialIcons name="history" size={25} color={'#800C69'} style={{ padding: 2 }} />
@@ -279,7 +287,12 @@ class HomeScreen extends React.Component {
 
           <NavigationContainer style={{ backgroundColor: "#800C69", color: "#800C69" }}>
 
-            <Drawer.Navigator initialRouteName="ProviderHome" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName, userName: this.props.navigation.state.params.userName }} drawerContent={props => <CustomDrawerContent {...props} />}>
+            <Drawer.Navigator screenOptions={{
+              drawerStyle: {
+                width: "80%",
+              },
+            }}
+              initialRouteName="ProviderHome" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName, userName: this.props.navigation.state.params.userName }} drawerContent={props => <CustomDrawerContent {...props} />}>
               {/* <Drawer.Navigator initialRouteName="ProviderHome" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName,  userName:this.props.navigation.state.params.userName }}> */}
 
               <Drawer.Screen name="ProviderHome" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName, userName: this.props.navigation.state.params.userName }} component={ProviderHome}
@@ -305,19 +318,19 @@ class HomeScreen extends React.Component {
               <Drawer.Screen name="addProducts" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName, userName: this.props.navigation.state.params.userName }} component={addProduct}
                 options={{
                   drawerIcon: ({ focused, size }) => (
-                    <Icon name="add-circle" size={25} color={'#800C69'} style={{ padding: 0 }} />
+                    <Icon name="add-circle" size={22} color={'#800C69'} style={{ padding: 0 }} />
                   ),
                   title: 'Add Products',
                 }} />
-                 <Drawer.Screen name="addProductFromMeta" 
-                 initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName,  userName:this.props.navigation.state.params.userName }} 
-                 component={addProductFromMeta}
-            options={{
-              drawerIcon: ({ focused, size }) => (
-                <Icon name="add-circle" size={25} color={'#800C69'} style={{ padding: 0 }} />
-              ),
-              title: 'Add Product From Meta',
-            }} />
+              <Drawer.Screen name="addProductFromMeta"
+                initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName, userName: this.props.navigation.state.params.userName }}
+                component={addProductFromMeta}
+                options={{
+                  drawerIcon: ({ focused, size }) => (
+                    <Icon name="add-circle" size={22} color={'#800C69'} style={{ padding: 0 }} />
+                  ),
+                  title: 'Add Product From Meta',
+                }} />
 
 
 
@@ -497,7 +510,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-   icon: {
+  icon: {
     width: 25,
     height: 25,
   },
