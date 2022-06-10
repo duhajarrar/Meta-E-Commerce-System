@@ -5,11 +5,11 @@ import "firebase/compat/firestore"
 import { StyleSheet, SafeAreaView, Text, Image, View, TouchableOpacity, FlatList } from 'react-native';
 var db = firebase.firestore();
 
-export default class orderHistory extends Component {
+export default class userPendingOrders extends Component {
 
     constructor() {
         super();
-        this.docs = firebase.firestore().collection('Orders-Packges').orderBy('OrderTimestamp');
+        this.docs = firebase.firestore().collection('PendingOrders').orderBy('OrderTimestamp');
         this.state = {
             isLoading: true,
             orderDB: []
@@ -29,7 +29,7 @@ export default class orderHistory extends Component {
             if (user != null) {
                 this.setState({ email: user.email });
                 let OrderInf;
-                db.collection('Orders-Packges').orderBy('OrderTimestamp', 'desc')
+                db.collection('PendingOrders').orderBy('OrderTimestamp', 'desc')
                     .where('customerEmail', '==', user.email)
                     .get()
                     .then((querySnapshot) => {
@@ -45,11 +45,7 @@ export default class orderHistory extends Component {
 
     state = { Price: 0 }
 
-
-
     render() {
-        // this.getorderDBData();
-       
         return (
 
             <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
@@ -94,10 +90,9 @@ export default class orderHistory extends Component {
                                     </View>
 
                                     <View style={styles.separator} />
-
                                     <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
                                         onPress={() =>
-                                            this.props.navigation.navigate('ReOrder',
+                                            this.props.navigation.navigate('deliverd',
                                                 { item: item }
                                             )
                                         }

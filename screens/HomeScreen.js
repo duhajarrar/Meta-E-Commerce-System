@@ -50,7 +50,9 @@ import editOffer from '../screens/editOffer'
 import specialOffers from '../screens/specialOffers'
 import viewSoldOut from '../screens/viewSoldOut'
 import PaymentMethod from '../screens/PaymentMethod'
-
+import providerPendingOrders from '../screens/providerPendingOrders'
+import userPendingOrders from '../screens/userPendingOrders'
+import deliverd from '../screens/deliverd'
 
 const Drawer = createDrawerNavigator();
 
@@ -163,6 +165,17 @@ class HomeScreen extends React.Component {
               }}
             />
 
+
+            <Drawer.Screen name="userPendingOrders" component={userPendingOrders}
+              options={{
+
+                title: 'Pending Orders',
+                drawerIcon: ({ focused, size }) => (
+                  <Image style={styles.icon} source={require('../assets/delivery.png')} />
+                ),
+              }} />
+
+
             <Drawer.Screen name="orderHistory" component={orderHistory}
               options={{
 
@@ -190,6 +203,13 @@ class HomeScreen extends React.Component {
                 ),
               }}
             />
+
+            <Drawer.Screen name="deliverd" component={deliverd}
+              options={{
+                drawerItemStyle: { height: 0 },
+                title: 'set to deliverd ',
+                drawerLabel: () => null
+              }} />
 
             <Drawer.Screen name="pageOne" component={pageOne}
               options={{
@@ -307,12 +327,15 @@ class HomeScreen extends React.Component {
 
               <Drawer.Screen name="ImportProducts" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName, userName: this.props.navigation.state.params.userName }} component={ImportProducts} style={{ color: "#800C69" }}
                 options={{
+
                   drawerIcon: ({ focused, size }) => (
                     <MaterialCommunityIcons name="folder-add" size={25} color={'#800C69'} style={{ padding: 0 }} />
                   ),
-                  title: 'Import Products',
-
+                  title: 'Import Products'
                 }}
+
+
+
               />
 
               <Drawer.Screen name="addProducts" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName, userName: this.props.navigation.state.params.userName }} component={addProduct}
@@ -362,7 +385,18 @@ class HomeScreen extends React.Component {
                   drawerIcon: ({ focused, size }) => (
                     <MaterialCommunityIcons name="burst-sale" size={25} color={'#800C69'} style={{ padding: 0 }} />
                   ),
-                  title: 'View/Edit Offers',
+                  title: 'Edit Offers',
+                }} />
+
+
+
+              <Drawer.Screen name="providerPendingOrders" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName, userName: this.props.navigation.state.params.userName }}
+                component={providerPendingOrders}
+                options={{
+                  title: 'Pending Orders',
+                  drawerIcon: ({ focused, size }) => (
+                    <Image style={styles.icon} source={require('../assets/delivery.png')} />
+                  ),
                 }} />
 
               <Drawer.Screen name="ProviderOrders" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName, userName: this.props.navigation.state.params.userName }} component={ProviderOrders}

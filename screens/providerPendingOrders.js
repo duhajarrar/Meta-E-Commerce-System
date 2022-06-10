@@ -5,15 +5,16 @@ import "firebase/compat/firestore"
 import { StyleSheet, SafeAreaView, Text, Image, View, TouchableOpacity, FlatList } from 'react-native';
 var db = firebase.firestore();
 
-export default class orderHistory extends Component {
+export default class providerPendingOrders extends Component {
 
     constructor() {
         super();
-        this.docs = firebase.firestore().collection('Orders-Packges').orderBy('OrderTimestamp');
+        this.docs = firebase.firestore().collection('PendingOrders');
         this.state = {
             isLoading: true,
             orderDB: []
         };
+        console.log("this===", this.state.orderDB)
     }
 
     componentDidMount() {
@@ -25,22 +26,55 @@ export default class orderHistory extends Component {
     }
 
     getorderDBData = () => {
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user != null) {
-                this.setState({ email: user.email });
-                let OrderInf;
-                db.collection('Orders-Packges').orderBy('OrderTimestamp', 'desc')
-                    .where('customerEmail', '==', user.email)
-                    .get()
-                    .then((querySnapshot) => {
-                        OrderInf = querySnapshot.docs.map(doc => doc.data());
-                        console.log("orders", OrderInf)
-                        this.setState({ orderDB: OrderInf });
-                        console.log("user-orders", this.state.orderDB)
-                    })
-            }
-        })
+        let provider = "provider";
+        console.log("this===", this.state.orderDB)
+        console.log("this.props.route.params.ProviderName", this.props.route.params.ProviderName)
 
+        let OrderInf;
+         const Orders = [];
+        const OrdersDetail = [];
+        db.collection('PendingOrders')
+            //.where(`OrderProducts.provider`, '==',  this.props.route.params.ProviderName)
+            // .where(`OrderProducts.provider`, '==', "Al-Shini")
+            .get()
+            .then((querySnapshot) => {
+                OrderInf = querySnapshot.docs.map(doc => doc.data());
+
+               console.log("obj====",OrderInf)
+
+                OrderInf.forEach((obj) => {
+                   
+                    // Orders.length = 0;
+                    Orders.forEach(obj => {
+                        obj=[];
+                       });
+                  
+                    obj.OrderProducts.forEach((obj1) => {
+                        // console.log("obj1.provider",obj1.provider)
+                        if (obj1.provider == this.props.route.params.ProviderName) {
+                            console.log("obj1.provider", obj1)
+                            Orders.push(obj1);
+                        }
+                    });
+
+                    OrdersDetail.push({
+                        OrderDate: obj.OrderDate,
+                        OrderProducts: Orders,
+                        OrderTimestamp: obj.OrderTimestamp,
+                        address: obj.address,
+                        customerEmail: obj.customerEmail,
+                        customerName: obj.customerName
+                    });
+
+                          console.log("OrdersDetailsssssss", OrdersDetail)
+
+                });
+
+          
+                // console.log("user-orderssssss", Orders)
+                this.setState({ orderDB: Orders });
+                // console.log("user-orders", this.state.orderDB)
+            })
     }
 
     state = { Price: 0 }
@@ -48,8 +82,6 @@ export default class orderHistory extends Component {
 
 
     render() {
-        // this.getorderDBData();
-       
         return (
 
             <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
@@ -78,13 +110,13 @@ export default class orderHistory extends Component {
                                     <View style={{ justifyContent: "center", alignItems: "center", padding: 5 }}>
                                         <Text style={{ fontSize: 14, color: "#800C69", }}>
                                             {/* <Image style={styles.icon} source={require('../assets/calendar.png')} /> */}
-                                            {' '}Number Of Products: {item.OrderProducts.length}</Text>
+                                            {' '}Number Of Products: {item.length}</Text>
                                     </View>
 
                                     <View style={{ justifyContent: "center", alignItems: "center", padding: 5 }}>
                                         <Text style={{ fontSize: 14, color: "#800C69", }}>
                                             {/* <Image style={styles.icon} source={require('../assets/calendar.png')} /> */}
-                                            {' '}Total Price: {item.TotalPrice}</Text>
+                                            {' '}Total Price: {item.price}</Text>
                                     </View>
 
                                     <View style={{ justifyContent: "center", alignItems: "center", padding: 5 }}>
@@ -94,13 +126,12 @@ export default class orderHistory extends Component {
                                     </View>
 
                                     <View style={styles.separator} />
-
                                     <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-                                        onPress={() =>
-                                            this.props.navigation.navigate('ReOrder',
-                                                { item: item }
-                                            )
-                                        }
+                                    // onPress={() =>
+                                    //     this.props.navigation.navigate('ReOrder',
+                                    //         { item: item }
+                                    //     )
+                                    // }
                                     >
                                         <Text style={{ fontSize: 16, color: "#800C69", fontWeight: 'bold', }}>
                                             <Image style={styles.icon} source={require('../assets/product.png')} />
@@ -112,7 +143,7 @@ export default class orderHistory extends Component {
 
 
 
-                            
+
                         </View>
                     }
                 />

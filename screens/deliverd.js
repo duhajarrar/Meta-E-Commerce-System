@@ -1,63 +1,56 @@
 import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
-import { StyleSheet, SafeAreaView, Text, Image, View, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, SafeAreaView, Text, Image, View, TouchableOpacity, FlatList,Alert } from 'react-native';
+
 var db = firebase.firestore();
 
-export default class orderHistory extends Component {
+export default class deliverd extends Component {
 
-    constructor() {
-        super();
-        this.docs = firebase.firestore().collection('Orders-Packges').orderBy('OrderTimestamp');
-        this.state = {
-            isLoading: true,
-            orderDB: []
-        };
+    deleteFromPending(items) {
+        console.log('deleteOffer', items);
+        //   console.log('deleteOffer',items.id);
+        firebase.firestore().collection("PendingOrders").where("id", "==", items.id)
+            .get()
+            .then(querySnapshot => {
+                querySnapshot.docs[0].ref.delete();
+            });
     }
 
-    componentDidMount() {
-        this.unsubscribe = this.docs.onSnapshot(this.getorderDBData);
-    }
-
-    componentWillUnmount() {
-        this.unsubscribe();
-    }
-
-    getorderDBData = () => {
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user != null) {
-                this.setState({ email: user.email });
-                let OrderInf;
-                db.collection('Orders-Packges').orderBy('OrderTimestamp', 'desc')
-                    .where('customerEmail', '==', user.email)
-                    .get()
-                    .then((querySnapshot) => {
-                        OrderInf = querySnapshot.docs.map(doc => doc.data());
-                        console.log("orders", OrderInf)
-                        this.setState({ orderDB: OrderInf });
-                        console.log("user-orders", this.state.orderDB)
-                    })
-            }
+    addOrder(item) {
+        db.collection("Orders-Packges").add({
+            customerName: item.customerName,
+            customerEmail: item.customerEmail,
+            OrderDate: item.OrderDate,
+            OrderTimestamp: item.OrderTimestamp,
+            address: item.address,
+            TotalPrice: item.TotalPrice,
+            OrderProducts: item.OrderProducts
         })
+            .catch(function (error) {
+                console.error("Error adding document: ", error);
+            });
+
+        Alert.alert("Set As Delivered")
 
     }
-
-    state = { Price: 0 }
 
 
 
     render() {
-        // this.getorderDBData();
-       
+        console.log("REEEEEEEEEEEEEorder", this.props.route.params.item)
         return (
 
             <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
 
 
                 <FlatList
-                    data={this.state.orderDB}
+                    data={this.props.route.params.item.OrderProducts}
                     renderItem={({ item }) =>
+
+
 
                         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
 
@@ -68,54 +61,64 @@ export default class orderHistory extends Component {
 
                                 <View style={styles.container}>
 
+                                    <View style={styles.infoBoxWrapper}>
 
-                                    <View style={{ justifyContent: "center", alignItems: "center", padding: 5 }}>
-                                        <Text style={{ fontSize: 14, color: "#800C69", }}>
-                                            {/* <Image style={styles.icon} source={require('../assets/calendar.png')} /> */}
-                                            {' '}Order Date:  {item.OrderDate}</Text>
+                                        <View style={[styles.infoBox, {
+                                            borderColor: 'white',
+                                            borderRightWidth: 1,
+                                            borderTopWidth: 1,
+                                            borderBottomWidth: 1,
+                                            borderLeftWidth: 1
+                                        }]}>
+                                            <Image style={styles.image} source={{ uri: item.image }} />
+                                        </View>
+
+
+                                        <View style={[styles.infoBox, {
+                                            color: '#90EE90',
+                                            borderColor: 'white',
+                                            borderRightWidth: 1,
+                                            borderTopWidth: 1,
+                                            borderBottomWidth: 1,
+                                            borderLeftWidth: 1
+                                        }]}>
+
+                                            <Text style={{ color: "#38700F", fontSize: 14, fontWeight: 'bold' }}>
+                                                {`Provider: `}{item.provider}
+                                                {`          Name: `}{item.name}
+                                                {`                    Price: `}{item.price}
+                                                {`                                  Quantity: `}{item.quantity}
+
+                                            </Text>
+                                        </View>
                                     </View>
-
-                                    <View style={{ justifyContent: "center", alignItems: "center", padding: 5 }}>
-                                        <Text style={{ fontSize: 14, color: "#800C69", }}>
-                                            {/* <Image style={styles.icon} source={require('../assets/calendar.png')} /> */}
-                                            {' '}Number Of Products: {item.OrderProducts.length}</Text>
-                                    </View>
-
-                                    <View style={{ justifyContent: "center", alignItems: "center", padding: 5 }}>
-                                        <Text style={{ fontSize: 14, color: "#800C69", }}>
-                                            {/* <Image style={styles.icon} source={require('../assets/calendar.png')} /> */}
-                                            {' '}Total Price: {item.TotalPrice}</Text>
-                                    </View>
-
-                                    <View style={{ justifyContent: "center", alignItems: "center", padding: 5 }}>
-                                        <Text style={{ fontSize: 14, color: "#800C69", }}>
-                                            {/* <Image style={styles.icon} source={require('../assets/calendar.png')} /> */}
-                                            {' '}{`        `}</Text>
-                                    </View>
-
-                                    <View style={styles.separator} />
-
-                                    <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-                                        onPress={() =>
-                                            this.props.navigation.navigate('ReOrder',
-                                                { item: item }
-                                            )
-                                        }
-                                    >
-                                        <Text style={{ fontSize: 16, color: "#800C69", fontWeight: 'bold', }}>
-                                            <Image style={styles.icon} source={require('../assets/product.png')} />
-                                            {' '}View Order Products</Text>
-                                    </TouchableOpacity>
-
                                 </View>
                             </TouchableOpacity>
-
-
-
-                            
                         </View>
                     }
                 />
+
+                <View style={styles.cardFooter}>
+
+                    <TouchableOpacity style={styles.socialBarButton}
+                        onPress={() => {
+                            this.addOrder( this.props.route.params.item)&
+                            this.deleteFromPending( this.props.route.params.item)
+                        
+                            // this.props.navigation.navigate("CheckOut",
+                            // {
+                            //   TotalAmount: this.props.route.params.item.TotalPrice,
+                            //   products: this.props.route.params.item.OrderProducts,
+
+                            // })
+                        }}
+                    >
+                        <Image style={styles.icon} source={require('../assets/delivered.png')} />
+                        <Text style={[styles.buyNow]}>  Set As Aeliverd  </Text>
+                    </TouchableOpacity>
+                </View>
+
+
 
             </SafeAreaView>
 
@@ -124,17 +127,14 @@ export default class orderHistory extends Component {
     }
 }
 
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         // justifyContent: 'space-between',
         // backgroundColor: '#ecf0f1',
         // padding: 8,
-        flexDirection: 'column',
-        alignItems: 'center',
-        width: 50,
-        height: 50,
+        // flexDirection: 'column',
+        // alignItems: 'center'
     },
 
     userInfoSection: {
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
         width: '50%',
         alignItems: 'center',
         justifyContent: 'center',
-        //margin: 2
+        //  margin: 2
     },
     menuWrapper: {
         marginTop: 10,
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     separator: {
-        paddingTop: 1,
+        marginTop: 10,
     },
     /******** card **************/
     card: {
@@ -228,14 +228,14 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
     },
     cardFooter: {
+        backgroundColor: "white",
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingTop: 10,
-        paddingBottom: 10,
-        paddingHorizontal: 20,
+        justifyContent: 'center',
+        paddingTop: 12.5,
+        paddingBottom: 25,
+        paddingHorizontal: 16,
         borderBottomLeftRadius: 1,
         borderBottomRightRadius: 1,
-        backgroundColor: '#ECD4EA',
         position: 'absolute',
         left: 0,
         right: 0,
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     },
     cardImage: {
         flex: 1,
-        height: 250,
+        height: 100,
         width: null,
     },
     /******** card components **************/
@@ -272,12 +272,14 @@ const styles = StyleSheet.create({
 
     },
     buyNow: {
+        paddingTop: 12,
         fontSize: 18,
         color: "#800C69",
+        fontWeight: 'bold'
     },
     icon: {
-        width: 25,
-        height: 25,
+        width: 40,
+        height: 40,
     },
     /******** social bar ******************/
     socialBarContainer: {
@@ -314,7 +316,7 @@ const styles = StyleSheet.create({
 
     image: {
         alignSelf: 'flex-start',
-        width: '100%',
+        width: '80%',
         height: '100%'
     },
 
@@ -342,9 +344,4 @@ const styles = StyleSheet.create({
         // flex: 1,
         resizeMode: 'contain'
     },
-    separator: {
-        height: 2,
-        backgroundColor: "#800C69"
-    },
 });
-
