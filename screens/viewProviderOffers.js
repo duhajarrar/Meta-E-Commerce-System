@@ -1,16 +1,8 @@
 import React, { Component } from 'react';
-import { useState, useEffect } from 'react';
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
 import { StyleSheet, SafeAreaView, Text, Image, View, TouchableOpacity, FlatList } from 'react-native';
-import {
-    Avatar,
-    Title,
-    Caption,
-    TouchableRipple,
-} from 'react-native-paper';
-import { AntDesign, Entypo, MaterialIcons, Fontisto } from '@expo/vector-icons'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 var db = firebase.firestore();
@@ -50,8 +42,8 @@ export default class viewProviderOffers extends Component {
     }
 
     deleteOffer(items) {
-        console.log('deleteOffer',items);
-     //   console.log('deleteOffer',items.id);
+        console.log('deleteOffer', items);
+        //   console.log('deleteOffer',items.id);
         firebase.firestore().collection("Offers").where("id", "==", items.id).where("provider", "==", items.provider)
             .get()
             .then(querySnapshot => {
@@ -71,12 +63,12 @@ export default class viewProviderOffers extends Component {
 
 
     render() {
-       // console.log(this.state.orderDB)
+        console.log(this.state.orderDB)
         return (
 
             <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
 
-            
+
                 <FlatList
                     data={this.state.orderDB}
                     renderItem={({ item }) =>
@@ -84,7 +76,7 @@ export default class viewProviderOffers extends Component {
                         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
 
                             <TouchableOpacity
-                            onPress={() => { this.goToEditOffer(item) }}
+                                onPress={() => { this.goToEditOffer(item) }}
                             >
 
                                 <View style={styles.container}>
@@ -114,17 +106,30 @@ export default class viewProviderOffers extends Component {
 
                                             <Text style={{ color: "#38700F", paddingLeft: 20, fontSize: 16 }}>
                                                 {`Name: `}{item.name}
-                                                {`                    Price: `} <Text style={{ textDecorationLine: 'line-through',color: 'red' }}>{item.originalPrice}{" "}</Text>
+                                                {`                    Price: `} <Text style={{ textDecorationLine: 'line-through', color: 'red' }}>{item.originalPrice}{" "}</Text>
                                                 <Text style={{ fontSize: 20, fontWeight: 'bold' }}> {item.price}</Text>
                                             </Text>
+
+
+                                            {item.withEndDate
+                                                &&
+                                                <View >
+                                                    <Text style={styles.date} >
+                                                        <MaterialCommunityIcons name="calendar-clock" size={18} color={'#2E922E'} />
+                                                        {" "}{new Date(item.endDate).getFullYear()}-{new Date(item.endDate).getMonth() + 1}-{new Date(item.endDate).getDate()}
+                                                    </Text>
+                                                </View>
+                                            }
                                         </View>
+
+
 
                                     </View>
 
                                     <View style={styles.separator} />
 
                                     <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-                                       onPress={() => this.deleteOffer(item)
+                                        onPress={() => this.deleteOffer(item)
                                         }
                                     >
                                         <Text style={{ fontSize: 16, color: "#800C69", fontWeight: 'bold', }}>
@@ -352,5 +357,12 @@ const styles = StyleSheet.create({
     separator: {
         height: 1,
         backgroundColor: "#800C69"
+    },
+    date: {
+        fontSize: 14,
+        //color: "#38700F",
+        color: "red",
+        marginTop: 5,
+        fontWeight: "bold",
     },
 });

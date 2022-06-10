@@ -1,11 +1,9 @@
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
 import firebase from "firebase/compat/app"
-import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, Button, Alert, TouchableOpacity, SafeAreaView } from 'react-native';
-import { AntDesign, Entypo, MaterialIcons, Fontisto } from '@expo/vector-icons'
-
+import CalendarPicker from 'react-native-calendar-picker';
 
 var db = firebase.firestore();
 
@@ -14,30 +12,48 @@ export default class editOffer extends Component {
     state = {
         item: [],
         id: '',
-        offerPrice:null, textOfferPrice: '',
+        offerPrice: null, textOfferPrice: '',
+        selectedStartDate: null,
     }
 
     componentDidMount() {
         const yourParam = this.props.route.params.item
         this.setState({ item: yourParam });
         this.setState({ offerPrice: yourParam.price })
-        const text= "Offer Price: "+yourParam.price
-        console.log('gg',text)
+        this.setState({ offerPrice: yourParam.endDate })
+        const text = "Offer Price: " + yourParam.price
+        console.log('gg', text)
         this.setState({ textOfferPrice: text })
-        console.log("xxxyyxxxx",this.state.textOfferPrice)
+        console.log("xxxyyxxxx", this.state.textOfferPrice)
 
     }
 
     updateOfferPrice() {
-        console.log('deleteOffer',this.state.item.id);
+        console.log('deleteOffer', this.state.item.id);
         console.log('deleteOffer', this.state.item.provider);
-        console.log('deleteOffer',this.state.offerPrice);
-        const offer =this.state.offerPrice
-        firebase.firestore().collection("Offers").where('id', '==',this.state.item.id).where("provider", "==", this.state.item.provider)
+        console.log('deleteOffer', this.state.offerPrice);
+        const offer = this.state.offerPrice
+        firebase.firestore().collection("Offers").where('id', '==', this.state.item.id).where("provider", "==", this.state.item.provider)
             .get()
             .then(function (querySnapshot) {
                 querySnapshot.forEach(function (doc) {
-                    doc.ref.update({ price: offer});
+                    doc.ref.update({ price: offer });
+                    console.log(doc.id, " => ", doc.data());
+                });
+            })
+    }
+
+    updateOfferDate() {
+        console.log('deleteOffer', this.state.item.id);
+        console.log('deleteOffer', this.state.item.provider);
+        console.log('deleteOffer', this.state.offerPrice);
+        
+        const date = new Date(this.state.selectedStartDate).valueOf()
+        firebase.firestore().collection("Offers").where('id', '==', this.state.item.id).where("provider", "==", this.state.item.provider)
+            .get()
+            .then(function (querySnapshot) {
+                querySnapshot.forEach(function (doc) {
+                    doc.ref.update({ endDate: date });
                     console.log(doc.id, " => ", doc.data());
                 });
             })
@@ -45,102 +61,180 @@ export default class editOffer extends Component {
 
 
 
+    onDateChange = (date) => {
+        this.setState({
+            selectedStartDate: date,
+        });
+        console.log("++++++++++++++++++", this.state.selectedStartDate)
+        console.log("=================", new Date(this.state.selectedStartDate).valueOf())
+        // console.log("=================", new Date(1652799921646))
+    }
+
     render = () => {
-        console.log(this.state.name)
+
+        console.log("this.state.item", this.props.route.params.item)
         console.log(this.state.price)
         console.log(this.state.id)
         console.log(this.state.item)
+        // this.setState(selectedStartDate:new Date((this.props.route.params.item.endDate)));
+
+
+        // this.setState({ selectedStartDate:new Date((this.props.route.params.item.endDate)) });
+        // const { selectedStartDate } = this.state;
+        // const startDate = selectedStartDate ? selectedStartDate.toString() : '';
+
         return (
 
             <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
 
-            
 
-                <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-
-                    <View >
-                        <View style={styles.container}>
-
-                            <View style={styles.infoBoxWrapper}>
-
-                                <View
-                                    style={[styles.infoBox, {
-
-                                    }]}
-                                >
-                                    <Image style={styles.image} source={{ uri: this.state.item.image }} />
-                                </View>
-
-                                <View>
-                                    {/* <View style={[styles.infoBox, {
-                                    //color: '#90EE90',
-                                    borderColor: 'white',
-                                    borderRightWidth: 1,
-                                    borderTopWidth: 1,
-                                    borderBottomWidth: 1,
-                                    borderLeftWidth: 1
-                                }]}> */}
-
-                                    <Text style={{ color: "#38700F", fontSize: 19, flexDirection: 'column', paddingTop: 35, paddingBottom: 5 }}>
-                                        {`Product Name: `}{this.state.item.name}
-                                    </Text>
-                                    <View style={styles.separator} />
-                                    <Text style={{ color: "#38700F", fontSize: 19, flexDirection: 'column', paddingTop: 25, paddingBottom: 5 }}>
-                                        {`Product Price: `}{this.state.item.originalPrice}
-                                    </Text>
-                                    <View style={styles.separator} />
+                <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
 
 
-                                    <View style={{ alignItems: "center", justifyContent: "center", paddingTop: 40 }}>
+                    <View style={styles.container}>
 
-                                        <View style={{
-                                            alignItems: "center", justifyContent: "center", flexDirection: 'row',
-                                            //  justifyContent: 'space-between',
-                                        }}>
-                                            <TextInput
-                                                placeholder={this.state.textOfferPrice}
-                                                placeholderTextColor="#B1B1B1"
-                                                returnKeyType="next"
-                                                keyboardType="number"
-                                                textContentType="number"
-                                                // value={this.state.offerPrice}
-                                                onChangeText={(offerPrice) => this.setState({ offerPrice })}
-                                                style={styles.textInput}
-                                            />
-                                            <MaterialIcons style={styles.phone} name='edit' size={35} />
-                                        </View>
+                        <View style={styles.infoBoxWrapper}>
 
-                                        <TouchableOpacity
-                                            style={styles.buttonContainer}
-                                            onPress={() =>
-                                                this.updateOfferPrice()& Alert.alert("Updated")
-                                            }
-                                        >
-                                            <Text
-                                                style={{
-                                                    color: "white",
-                                                    padding: 5,
-                                                    fontSize: 18,
-                                                }}
-                                            >
-                                                Edit Offer
-                                            </Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
+                            <View
+                                style={[styles.infoBox, {
+
+                                }]}
+                            >
+                                <Image style={styles.image} source={{ uri: this.props.route.params.item.image }} />
                             </View>
-                            <View>
+
+                            < View >
+
+                                <Text style={{ color: "#38700F", fontSize: 19, flexDirection: 'column', paddingTop: 10, paddingBottom: 5 }}>
+                                    {`Product Name: `}{this.props.route.params.item.name}
+                                </Text>
+                                <View style={styles.separator} />
+                                <Text style={{ color: "#38700F", fontSize: 19, flexDirection: 'column', paddingTop: 10, paddingBottom: 5 }}>
+                                    {`Product Price: `}{this.props.route.params.item.originalPrice}
+                                </Text>
+                                <View style={styles.separator} />
+
+
+                                <View style={{ alignItems: "center", justifyContent: "center", paddingTop: 5 }}>
+                                    <TextInput
+                                        placeholder="Offer Price"
+                                        placeholderTextColor="#B1B1B1"
+                                        returnKeyType="next"
+                                        keyboardType="number"
+                                        textContentType="number"
+                                        // value={this.state.offerPrice}
+                                        onChangeText={(offerPrice) => this.setState({ offerPrice })}
+                                        style={styles.input}
+                                    />
+
+
+
+
+
+                                </View>
                             </View>
                         </View>
+                        <View>
+                        </View>
                     </View>
+
+                    {this.props.route.params.item.withEndDate
+                        &&
+
+
+                        <View style={styles.cardFooter}>
+
+                            <View style={{ justifyContent: "center", alignItems: "center", padding: 5 }}>
+
+                                <Text style={{ fontSize: 16, color: "#800C69", fontWeight: "bold" }}>
+                                    <Image style={styles.icon} source={require('../assets/calendar.png')} />
+                                    {this.state.selectedStartDate ?
+                                     "End Date: "+new Date(this.state.selectedStartDate).getFullYear()+
+                                     "-"+parseInt(new Date(this.state.selectedStartDate).getMonth()+1) +
+                                     "-"+new Date(this.state.selectedStartDate).getDate() 
+                                    : 
+                                    "End Date: "+new Date(this.props.route.params.item.endDate).getFullYear()+
+                                    "-"+parseInt(new Date(this.props.route.params.item.endDate).getMonth()+1) +
+                                    "-"+new Date(this.props.route.params.item.endDate).getDate()
+                                    
+                                    }
+                                    {/* {'  '}End Date:{"  "}{new Date(this.state.selectedStartDate).getFullYear()}-{new Date(this.state.selectedStartDate).getMonth() + 1}-{new Date(this.state.selectedStartDate).getDate()} */}
+                                </Text>
+                            </View>
+
+                            <TouchableOpacity>
+
+                                <View >
+
+                                    <View style={styles.infoBoxWrapper1}>
+
+                                        <View >
+
+
+                                            <View style={styles.container2}>
+                                                <CalendarPicker
+                                                    // minDate={new Date()}
+                                                    //  endDate={new Date((this.state.item.endDate))}
+                                                    initialDate={new Date((this.state.item.endDate))}
+
+                                                    width={350}
+                                                    height={350}
+                                                    // selectedStartDate={new Date((this.state.item.endDate))}
+                                                    onDateChange={this.onDateChange}
+                                                />
+                                            </View>
+
+                                        </View>
+                                    </View>
+                                </View>
+
+                            </TouchableOpacity>
+
+
+
+                        </View>
+
+
+
+                    }
+
+
+                    <View tyle={{ paddingBottom: 10 }}>
+                        <TouchableOpacity
+                            style={styles.buttonContainer}
+                            onPress={() =>
+                                this.updateOfferPrice() & this.updateOfferDate() & Alert.alert("Updated")
+                            }
+                        >
+                            <Text
+                                style={{
+                                    color: "white",
+                                    padding: 5,
+                                    fontSize: 16,
+                                    paddingBottom: 5,
+                                }}
+                            >
+                                Edit Offer
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.buttonContainer1}
+                        >
+
+                        </TouchableOpacity>
+
+                    </View>
+
                 </View>
 
-            </SafeAreaView>
+
+            </SafeAreaView >
 
 
         );
     };
 }
+
 
 
 
@@ -156,12 +250,24 @@ const styles = StyleSheet.create({
         borderTopColor: '#dddddd',
         borderTopWidth: 1,
         // flexDirection: 'row',
-        height: 300,
+        height: 350,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    infoBoxWrapper1: {
+        paddingTop: 10,
+        borderBottomColor: 'white',
+        //        borderBottomWidth: 1,
+        borderTopColor: '#dddddd',
+        borderTopWidth: 1,
+        // flexDirection: 'row',
+        height: 280,
         alignItems: 'center',
         justifyContent: 'center',
     },
     infoBox: {
-        width: '50%',
+        paddingTop: 100,
+        width: '40%',
         alignItems: 'center',
         justifyContent: 'center',
         //margin: 2
@@ -196,23 +302,26 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
     },
     cardFooter: {
-        flexDirection: 'row',
+        height: '45%',
+        //flexDirection: 'row',
         justifyContent: 'space-between',
         paddingTop: 10,
         paddingBottom: 10,
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
         borderBottomLeftRadius: 1,
         borderBottomRightRadius: 1,
-        backgroundColor: '#ECD4EA',
+        //backgroundColor: '#ECD4EA',
         position: 'absolute',
         left: 0,
         right: 0,
-        bottom: 0
+        bottom: 60
     },
     cardImage: {
-        flex: 1,
-        height: 250,
-        width: null,
+        // flex: 1,
+        // height: 200,
+        // width: null,
+        aspectRatio: 2,
+        resizeMode: 'contain',
     },
     /******** card components **************/
     title: {
@@ -248,8 +357,8 @@ const styles = StyleSheet.create({
         height: 25,
     },
     container: {
-        width: 400,
-        height: "50%",
+        width: 450,
+        height: "100%",
         //   marginBottom: 25,
         //   borderRadius: 15,
         //   backgroundColor: '#ecf0f1',
@@ -257,9 +366,11 @@ const styles = StyleSheet.create({
     },
 
     image: {
-        alignSelf: 'flex-start',
+        paddingTop: 50,
         width: '100%',
-        height: '90%'
+        height: '90%',
+        // aspectRatio: 2,
+        // resizeMode: 'contain',
     },
 
     textContainer: {
@@ -314,7 +425,7 @@ const styles = StyleSheet.create({
         height: 40,
     },
     buttonContainer: {
-        // marginBottom: 50,
+        marginBottom: 50,
         height: 45,
         flexDirection: "row",
         justifyContent: "center",
@@ -326,20 +437,33 @@ const styles = StyleSheet.create({
         backgroundColor: "#800C69",
         color: "white",
     },
-    detailsWrapper: {
-        margin: 15,
+    buttonContainer1: {
+        marginBottom: 50,
+        height: 45,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 10,
+        marginTop: 15,
+        width: 250,
+        borderRadius: 30,
+        // backgroundColor: "#800C69",
+        color: "white",
     },
-    detailsLabel: {
-        marginTop: 10,
-        color: "#800C69",
-        fontSize: 18,
-    },
-    textInput: {
-        borderBottomWidth: 2,
-        borderBottomColor: '#800C69',
-        fontStyle: 'normal',
-        fontSize: 16,
+    container1: {
+        // paddingTop: 40,
         width: 300,
-        height: 40,
+        height: 300,
+        justifyContent: "center",
+        alignItems: "center",
+        // marginBottom: 25,
+        // borderRadius: 15,
+        backgroundColor: '#FFFFFF',
+        // overflow: 'hidden'
+    },
+    container2: {
+        flex: 1,
+        backgroundColor: '#FFFFFF',
+        // marginTop: 100,
     },
 });
