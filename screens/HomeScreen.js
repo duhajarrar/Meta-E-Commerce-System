@@ -393,10 +393,14 @@ class HomeScreen extends React.Component {
               <Drawer.Screen name="providerPendingOrders" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName, userName: this.props.navigation.state.params.userName }}
                 component={providerPendingOrders}
                 options={{
-                  title: 'Pending Orders',
-                  drawerIcon: ({ focused, size }) => (
-                    <Image style={styles.icon} source={require('../assets/delivery.png')} />
-                  ),
+                  // title: 'Pending Orders',
+                  // drawerIcon: ({ focused, size }) => (
+                  //   <Image style={styles.icon} source={require('../assets/delivery.png')} />
+                    
+                  // ),
+                  drawerItemStyle: { height: 0 },
+                  title: ' ',
+                  drawerLabel: () => null
                 }} />
 
               <Drawer.Screen name="ProviderOrders" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName, userName: this.props.navigation.state.params.userName }} component={ProviderOrders}
