@@ -19,6 +19,7 @@ export default class addToDelivery extends Component {
 
     addOrderToDelivery(item) {
         db.collection("InDeliveryOrders").add({
+            id : db.collection('PendingOrders').doc().id,
             customerName: item.customerName,
             customerEmail: item.customerEmail,
             OrderDate: item.OrderDate,

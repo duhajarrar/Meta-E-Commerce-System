@@ -34,6 +34,20 @@ export default class userPendingOrders extends Component {
                     .get()
                     .then((querySnapshot) => {
                         OrderInf = querySnapshot.docs.map(doc => doc.data());
+
+                        OrderInf.forEach((obj) => {
+
+                            // console.log("Orders====", Orders)
+                            let ord = obj.OrderProducts;
+                            let TotalPrice = 0;
+                            ord.forEach((obj1) => {
+
+                                TotalPrice += obj1.price;
+                                obj['TotalPrice'] = TotalPrice;
+                            });
+                        });
+
+
                         console.log("orders", OrderInf)
                         this.setState({ orderDB: OrderInf });
                         console.log("user-orders", this.state.orderDB)
@@ -72,13 +86,13 @@ export default class userPendingOrders extends Component {
 
                                     <View style={{ justifyContent: "center", alignItems: "center", padding: 5 }}>
                                         <Text style={{ fontSize: 14, color: "#800C69", }}>
-                                        <Image style={styles.icon} source={require('../assets/checklist.png')} />
+                                            <Image style={styles.icon} source={require('../assets/checklist.png')} />
                                             {' '}Number Of Products: {item.OrderProducts.length}</Text>
                                     </View>
 
                                     <View style={{ justifyContent: "center", alignItems: "center", padding: 5 }}>
                                         <Text style={{ fontSize: 14, color: "#800C69", }}>
-                                        <Image style={styles.icon} source={require('../assets/money2.png')} />
+                                            <Image style={styles.icon} source={require('../assets/money2.png')} />
                                             {' '}Total Price: {item.TotalPrice}</Text>
                                     </View>
 
@@ -106,7 +120,7 @@ export default class userPendingOrders extends Component {
 
 
 
-                            
+
                         </View>
                     }
                 />
@@ -316,7 +330,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignSelf: 'flex-end',
         textAlign: 'right',
-        paddingTop:10
+        paddingTop: 10
 
         // alignItems: 'center',
         // justifyContent: 'center'
