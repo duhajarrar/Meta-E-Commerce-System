@@ -31,33 +31,33 @@ export default class providerPendingOrders extends Component {
         console.log("this.props.route.params.ProviderName", this.props.route.params.ProviderName)
 
         let OrderInf;
-         const Orders = [];
+        const Orders = [];
         const OrdersDetail = [];
         db.collection('PendingOrders')
             .get()
             .then((querySnapshot) => {
-            OrderInf = querySnapshot.docs.map(doc => doc.data());
+                OrderInf = querySnapshot.docs.map(doc => doc.data());
 
-               console.log("obj====",OrderInf)
+                console.log("obj====", OrderInf)
 
-             
+
                 OrderInf.forEach((obj) => {
-                    Orders.splice(0,Orders.length)
-                    console.log("Orders====",Orders) 
-                    let ord= obj.OrderProducts;
-                    let i=0;
-                    let TotalPrice=0;
+                    Orders.splice(0, Orders.length)
+                    console.log("Orders====", Orders)
+                    let ord = obj.OrderProducts;
+                    let i = 0;
+                    let TotalPrice = 0;
                     ord.forEach((obj1) => {
                         // console.log("obj1.provider",obj1.provider)
                         if (obj1.provider == this.props.route.params.ProviderName) {
                             // console.log("obj1.provider", obj1)
                             Orders.push(obj1);
                             i++;
-                            TotalPrice+=obj1.price;
-                            console.log("iiiiiiii",i)
+                            TotalPrice += obj1.price;
+                            console.log("iiiiiiii", i)
                         }
-                    obj['NumberOfProducts'] = i;
-                    obj['TotalPrice'] = TotalPrice;
+                        obj['NumberOfProducts'] = i;
+                        obj['TotalPrice'] = TotalPrice;
 
                     });
 
@@ -73,10 +73,10 @@ export default class providerPendingOrders extends Component {
                     //     customerName: obj.customerName
                     // });
                 });
-                console.log("objINF====",OrderInf)
+                console.log("objINF====", OrderInf)
                 // console.log("OrdersDetailsssssss", OrdersDetail)
                 // console.log("user-orderssssss", Orders)
-                OrderInf=OrderInf.filter(i => i.NumberOfProducts > 0)
+                OrderInf = OrderInf.filter(i => i.NumberOfProducts > 0)
 
                 this.setState({ orderDB: OrderInf });
                 console.log("user-orders", this.state.orderDB)
@@ -115,15 +115,15 @@ export default class providerPendingOrders extends Component {
 
                                     <View style={{ justifyContent: "center", alignItems: "center", padding: 5 }}>
                                         <Text style={{ fontSize: 14, color: "#800C69", }}>
-                                        <Image style={styles.icon} source={require('../assets/checklist.png')} />
+                                            <Image style={styles.icon} source={require('../assets/checklist.png')} />
                                             {' '}Number Of Products: {item.NumberOfProducts}
-                                            </Text>
+                                        </Text>
                                     </View>
 
 
                                     <View style={{ justifyContent: "center", alignItems: "center", padding: 5 }}>
                                         <Text style={{ fontSize: 14, color: "#800C69", }}>
-                                        <Image style={styles.icon} source={require('../assets/money2.png')} />
+                                            <Image style={styles.icon} source={require('../assets/money2.png')} />
                                             {' '}Total Price: {item.TotalPrice}</Text>
                                     </View>
 
@@ -135,11 +135,14 @@ export default class providerPendingOrders extends Component {
 
                                     <View style={styles.separator} />
                                     <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-                                    // onPress={() =>
-                                    //     this.props.navigation.navigate('ReOrder',
-                                    //         { item: item }
-                                    //     )
-                                    // }
+                                        onPress={() =>
+                                            this.props.navigation.navigate('addToDelivery',
+                                                {
+                                                    item: item,
+                                                    ProviderName: this.props.route.params.ProviderName
+                                                }
+                                            )
+                                        }
                                     >
                                         <Text style={{ fontSize: 16, color: "#800C69", fontWeight: 'bold', }}>
                                             <Image style={styles.icon} source={require('../assets/product.png')} />

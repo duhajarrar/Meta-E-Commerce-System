@@ -9,10 +9,10 @@ var db = firebase.firestore();
 
 export default class deliverd extends Component {
 
-    deleteFromPending(items) {
+    deleteFromDelivery(items) {
         console.log('deleteOffer', items);
         //   console.log('deleteOffer',items.id);
-        firebase.firestore().collection("PendingOrders").where("id", "==", items.id)
+        firebase.firestore().collection("InDeliveryOrders").where("id", "==", items.id)
             .get()
             .then(querySnapshot => {
                 querySnapshot.docs[0].ref.delete();
@@ -103,7 +103,7 @@ export default class deliverd extends Component {
                     <TouchableOpacity style={styles.socialBarButton}
                         onPress={() => {
                             this.addOrder( this.props.route.params.item)&
-                            this.deleteFromPending( this.props.route.params.item)
+                            this.deleteFromDelivery( this.props.route.params.item)
                         
                             // this.props.navigation.navigate("CheckOut",
                             // {

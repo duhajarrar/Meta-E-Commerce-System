@@ -9,7 +9,7 @@ export default class userPendingOrders extends Component {
 
     constructor() {
         super();
-        this.docs = firebase.firestore().collection('PendingOrders').orderBy('OrderTimestamp');
+        this.docs = firebase.firestore().collection('InDeliveryOrders').orderBy('OrderTimestamp');
         this.state = {
             isLoading: true,
             orderDB: []
@@ -29,7 +29,7 @@ export default class userPendingOrders extends Component {
             if (user != null) {
                 this.setState({ email: user.email });
                 let OrderInf;
-                db.collection('PendingOrders').orderBy('OrderTimestamp', 'desc')
+                db.collection('InDeliveryOrders').orderBy('OrderTimestamp', 'desc')
                     .where('customerEmail', '==', user.email)
                     .get()
                     .then((querySnapshot) => {
