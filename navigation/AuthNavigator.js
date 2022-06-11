@@ -26,8 +26,8 @@ import editProd from '../screens/editProd'
 import ProviderOrders from '../screens/ProviderOrders'
 import Locations from '../screens/Locations'
 import setLocation from '../screens/setLocation'
-import editAddress from '../screens/editAddress' 
-import CardPayment from '../screens/CardPayment' 
+import editAddress from '../screens/editAddress'
+import CardPayment from '../screens/CardPayment'
 import ProviderFeedback from '../screens/ProviderFeedback'
 import Feedbacks from '../screens/Feedbacks';
 import ReOrder from '../screens/ReOrder'
@@ -37,6 +37,9 @@ import editOffer from '../screens/editOffer'
 import specialOffers from '../screens/specialOffers'
 import viewSoldOut from '../screens/viewSoldOut'
 import PaymentMethod from '../screens/PaymentMethod'
+import providerPendingOrders from '../screens/providerPendingOrders'
+import userPendingOrders from '../screens/userPendingOrders'
+import deliverd from '../screens/deliverd'
 
 const Navigator = createSwitchNavigator(
   {
@@ -52,29 +55,32 @@ const Navigator = createSwitchNavigator(
     CheckOut: { screen: CheckOut },
     Cart: { screen: Cart },
     edit: { screen: edit },
-    ProviderLogin:{ screen: ProviderLogin},
-    ProviderHome:{screen: ProviderHome},
-    addProduct:{screen: addProduct},
-    ImportProducts:{screen: ImportProducts},
-    ProviderMenu:{screen: ProviderMenu},
-    editProducts:{screen: editProducts},
-    viewProducts:{screen: viewProducts},
-    editProd:{screen: editProd},
-    ProviderOrders:{screen: ProviderOrders},
+    ProviderLogin: { screen: ProviderLogin },
+    ProviderHome: { screen: ProviderHome },
+    addProduct: { screen: addProduct },
+    ImportProducts: { screen: ImportProducts },
+    ProviderMenu: { screen: ProviderMenu },
+    editProducts: { screen: editProducts },
+    viewProducts: { screen: viewProducts },
+    editProd: { screen: editProd },
+    ProviderOrders: { screen: ProviderOrders },
     orderHistory: { screen: orderHistory },
-    Locations:{screen:Locations},
-    setLocation:{screen:setLocation},
-    editAddress:{screen:editAddress},
-    CardPayment:{screen:CardPayment},
+    Locations: { screen: Locations },
+    setLocation: { screen: setLocation },
+    editAddress: { screen: editAddress },
+    CardPayment: { screen: CardPayment },
     ProviderFeedback: { screen: ProviderFeedback },
     Feedbacks: { screen: Feedbacks },
-    ReOrder:{screen: ReOrder},
-    addOffer:{screen: addOffer},
-    viewProviderOffers:{screen: viewProviderOffers},
-    editOffer:{screen: editOffer},
-    specialOffers:{screen: specialOffers},
-    viewSoldOut:{screen: viewSoldOut},
-    PaymentMethod:{screen :PaymentMethod},
+    ReOrder: { screen: ReOrder },
+    addOffer: { screen: addOffer },
+    viewProviderOffers: { screen: viewProviderOffers },
+    editOffer: { screen: editOffer },
+    specialOffers: { screen: specialOffers },
+    viewSoldOut: { screen: viewSoldOut },
+    PaymentMethod: { screen: PaymentMethod },
+    providerPendingOrders: { screen: providerPendingOrders },
+    userPendingOrders: { screen: userPendingOrders },
+    deliverd: { screen: deliverd },
   },
   { initialRouteName: 'Loading' }
 );
