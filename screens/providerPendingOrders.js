@@ -34,46 +34,52 @@ export default class providerPendingOrders extends Component {
          const Orders = [];
         const OrdersDetail = [];
         db.collection('PendingOrders')
-            //.where(`OrderProducts.provider`, '==',  this.props.route.params.ProviderName)
-            // .where(`OrderProducts.provider`, '==', "Al-Shini")
             .get()
             .then((querySnapshot) => {
-                OrderInf = querySnapshot.docs.map(doc => doc.data());
+            OrderInf = querySnapshot.docs.map(doc => doc.data());
 
                console.log("obj====",OrderInf)
 
+             
                 OrderInf.forEach((obj) => {
-                   
-                    // Orders.length = 0;
-                    Orders.forEach(obj => {
-                        obj=[];
-                       });
-                  
-                    obj.OrderProducts.forEach((obj1) => {
+                    Orders.splice(0,Orders.length)
+                    console.log("Orders====",Orders) 
+                    let ord= obj.OrderProducts;
+                    let i=0;
+                    let TotalPrice=0;
+                    ord.forEach((obj1) => {
                         // console.log("obj1.provider",obj1.provider)
                         if (obj1.provider == this.props.route.params.ProviderName) {
-                            console.log("obj1.provider", obj1)
+                            // console.log("obj1.provider", obj1)
                             Orders.push(obj1);
+                            i++;
+                            TotalPrice+=obj1.price;
+                            console.log("iiiiiiii",i)
                         }
+                    obj['NumberOfProducts'] = i;
+                    obj['TotalPrice'] = TotalPrice;
+
                     });
 
-                    OrdersDetail.push({
-                        OrderDate: obj.OrderDate,
-                        OrderProducts: Orders,
-                        OrderTimestamp: obj.OrderTimestamp,
-                        address: obj.address,
-                        customerEmail: obj.customerEmail,
-                        customerName: obj.customerName
-                    });
 
-                          console.log("OrdersDetailsssssss", OrdersDetail)
-
+                    // console.log("Orders-------",obj);
+                    // OrdersDetail.push({
+                    //     id: obj.id,
+                    //     OrderDate: obj.OrderDate,
+                    //     OrderProducts: obj.OrderProducts,
+                    //     OrderTimestamp: obj.OrderTimestamp,
+                    //     address: obj.address,
+                    //     customerEmail: obj.customerEmail,
+                    //     customerName: obj.customerName
+                    // });
                 });
-
-          
+                console.log("objINF====",OrderInf)
+                // console.log("OrdersDetailsssssss", OrdersDetail)
                 // console.log("user-orderssssss", Orders)
-                this.setState({ orderDB: Orders });
-                // console.log("user-orders", this.state.orderDB)
+                OrderInf=OrderInf.filter(i => i.NumberOfProducts > 0)
+
+                this.setState({ orderDB: OrderInf });
+                console.log("user-orders", this.state.orderDB)
             })
     }
 
@@ -109,14 +115,16 @@ export default class providerPendingOrders extends Component {
 
                                     <View style={{ justifyContent: "center", alignItems: "center", padding: 5 }}>
                                         <Text style={{ fontSize: 14, color: "#800C69", }}>
-                                            {/* <Image style={styles.icon} source={require('../assets/calendar.png')} /> */}
-                                            {' '}Number Of Products: {item.length}</Text>
+                                        <Image style={styles.icon} source={require('../assets/checklist.png')} />
+                                            {' '}Number Of Products: {item.NumberOfProducts}
+                                            </Text>
                                     </View>
+
 
                                     <View style={{ justifyContent: "center", alignItems: "center", padding: 5 }}>
                                         <Text style={{ fontSize: 14, color: "#800C69", }}>
-                                            {/* <Image style={styles.icon} source={require('../assets/calendar.png')} /> */}
-                                            {' '}Total Price: {item.price}</Text>
+                                        <Image style={styles.icon} source={require('../assets/money2.png')} />
+                                            {' '}Total Price: {item.TotalPrice}</Text>
                                     </View>
 
                                     <View style={{ justifyContent: "center", alignItems: "center", padding: 5 }}>
@@ -140,10 +148,6 @@ export default class providerPendingOrders extends Component {
 
                                 </View>
                             </TouchableOpacity>
-
-
-
-
                         </View>
                     }
                 />

@@ -147,14 +147,24 @@ class specialOffers extends Component {
 
                                         <Text style={styles.title}>{item.name}</Text>
 
-                                        {item.withEndDate
-                                            &&
+                                        {(item.withEndDate)?
+                                            (
                                             <View >
                                                 <Text style={styles.date} >
                                                     <MaterialCommunityIcons name="calendar-clock" size={18} color={'#2E922E'} />
                                                     {" "}{new Date(item.endDate).getFullYear()}-{new Date(item.endDate).getMonth() + 1}-{new Date(item.endDate).getDate()}
                                                 </Text>
                                             </View>
+                                            ):(
+                                                <View >
+                                                <Text style={styles.date} >
+                                                    {/* <MaterialCommunityIcons name="calendar-clock" size={18} color={'#2E922E'} />
+                                                    {" "}{new Date(item.endDate).getFullYear()}-{new Date(item.endDate).getMonth() + 1}-{new Date(item.endDate).getDate()} */}
+                                                </Text>
+                                            </View>
+
+                                                
+                                            )
                                         }
                                         <View style={{
                                             flexDirection: 'row',

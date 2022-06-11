@@ -50,7 +50,7 @@ export default class CheckOut extends Component {
   }
 
   addOrder(orders) {
-    this.addTest(orders);
+    this.addPendingOrders(orders);
     orders.forEach((obj) => {
       db.collection("Orders").add({
         customerName: this.state.user.displayName,
@@ -82,15 +82,37 @@ export default class CheckOut extends Component {
     });
   }
 
-  addTest(orders) {
-    db.collection("Orders-Packges").add({
+  // addTest(orders) {
+  //   db.collection("Orders-Packges").add({
+  //     customerName: this.state.user.displayName,
+  //     customerEmail: this.state.user.email,
+  //     OrderDate: this.getCurrentDate(),
+  //     OrderTimestamp: new Date().valueOf(),
+  //     address: this.state.address,
+  //     TotalPrice: this.props.route.params.TotalAmount,
+  //     OrderProducts: orders
+  //   })
+  //     .catch(function (error) {
+  //       console.error("Error adding document: ", error);
+  //     });
+
+  // }
+
+  addPendingOrders(orders) {
+    orders.forEach(obj => {
+      obj['itemStatus'] = "in preparation";
+     });
+
+    console.log("ooooooooooooo",orders);
+    db.collection("PendingOrders").add({
+      id : db.collection('PendingOrders').doc().id,
       customerName: this.state.user.displayName,
       customerEmail: this.state.user.email,
       OrderDate: this.getCurrentDate(),
       OrderTimestamp: new Date().valueOf(),
       address: this.state.address,
       TotalPrice: this.props.route.params.TotalAmount,
-      OrderProducts: orders
+      OrderProducts: orders,
     })
       .catch(function (error) {
         console.error("Error adding document: ", error);
@@ -99,8 +121,6 @@ export default class CheckOut extends Component {
   }
 
   Success() {
-
-
     if (this.state.addressDB.length === 0) {
 
       Alert.alert("Please Add Address");
