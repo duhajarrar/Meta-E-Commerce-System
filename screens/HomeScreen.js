@@ -7,17 +7,13 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 import MaterialCommunityIcons from 'react-native-vector-icons/Foundation'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
-import addProductFromMeta from '../screens/addProductFromMeta';
-
-
 import AntDesignIcon from 'react-native-vector-icons/AntDesign'
 import Fontisto from 'react-native-vector-icons/Fontisto'
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
+
 import HomeScreen1 from '../screens/HomeScreen1'
 import SettingScreen from '../screens/SettingScreen'
-// import SignInScreen from '../screens/SignInScreen'
-
 import pageOne from '../screens/pageOne';
 import pageTwo from '../screens/pageTwo';
 import pageThree from '../screens/pageThree';
@@ -39,7 +35,6 @@ import editProd from '../screens/editProd'
 import ProviderOrders from '../screens/ProviderOrders'
 import editAddress from '../screens/editAddress'
 import CardPayment from '../screens/CardPayment'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ProviderFeedback from './ProviderFeedback'
 import Feedbacks from '../screens/Feedbacks'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -53,6 +48,9 @@ import PaymentMethod from '../screens/PaymentMethod'
 import providerPendingOrders from '../screens/providerPendingOrders'
 import userPendingOrders from '../screens/userPendingOrders'
 import deliverd from '../screens/deliverd'
+import addToDelivery from '../screens/addToDelivery'
+import MainHome from '../screens/MainHome'
+import addProductFromMeta from '../screens/addProductFromMeta';
 
 const Drawer = createDrawerNavigator();
 
@@ -119,19 +117,30 @@ class HomeScreen extends React.Component {
   render() {
     console.log(this.props.navigation.state.params.email, "4444444444444444444");
     return (
-      // {console.log(this.props.navigation.state.params.ProviderName,"++++++++++++++++++++++")}
+  
       (
-        // (this.props.navigation.state.params.ProviderName !== "Al-Shini" & 
-        // this.props.navigation.state.params.ProviderName !== "Bravo" &
-        // this.props.navigation.state.params.ProviderName !== "Gardens" &
-        // this.props.navigation.state.params.ProviderName !== "Brothers") 
         this.props.navigation.state.params.ProviderName === "customer" &
         this.props.navigation.state.params.email !== "test@gmail.com") ? (
 
         <NavigationContainer style={{ backgroundColor: "#800C69", color: "#800C69" }}>
 
-          <Drawer.Navigator initialRouteName="HomeScreen1" drawerContent={props => <CustomDrawerContent {...props}
-          />}>
+          <Drawer.Navigator
+            screenOptions={{
+              drawerStyle: {
+                width: "80%",
+              },
+            }}
+            initialRouteName="MainHome" drawerContent={props => <CustomDrawerContent {...props}
+            />}>
+
+            <Drawer.Screen name="MainHome" component={MainHome} style={{ color: "#800C69" }}
+              options={{
+                title: 'Home',
+                drawerIcon: ({ focused, size }) => (
+                  <FontAwesome5 name="home" size={25} color={'#800C69'} style={{ padding: 0 }} />
+                ),
+              }} />
+
             <Drawer.Screen name="Shops" component={HomeScreen1} style={{ color: "#800C69" }}
               options={{
                 title: 'Shops',
@@ -169,9 +178,14 @@ class HomeScreen extends React.Component {
             <Drawer.Screen name="userPendingOrders" component={userPendingOrders}
               options={{
 
-                title: 'Pending Orders',
+                title: 'In Delivery Orders',
                 drawerIcon: ({ focused, size }) => (
-                  <Image style={styles.icon} source={require('../assets/delivery.png')} />
+                  <Image
+                    style={{
+                      width: 32,
+                      height: 32,
+                    }}
+                    source={require('../assets/fast-delivery.png')} />
                 ),
               }} />
 
@@ -185,6 +199,7 @@ class HomeScreen extends React.Component {
                   //   <Image style={styles.icon} source={require('../assets/clock.png')} />
                 ),
               }} />
+
             <Drawer.Screen name="specialOffers" component={specialOffers} style={{ color: "#800C69" }}
               options={{
                 title: 'Special Offers',
@@ -197,10 +212,11 @@ class HomeScreen extends React.Component {
 
             <Drawer.Screen name="Setting" component={SettingScreen} style={{ color: "#800C69" }}
               options={{
-                title: 'Setting',
-                drawerIcon: ({ focused, size }) => (
-                  <Icon name="settings" size={25} color={'#800C69'} style={{ padding: 2 }} />
-                ),
+                // title: 'Setting',
+                // drawerIcon: ({ focused, size }) => (
+                //   <Icon name="settings" size={25} color={'#800C69'} style={{ padding: 2 }} />  ),
+                drawerItemStyle: { height: 0 },
+                drawerLabel: () => null
               }}
             />
 
@@ -265,6 +281,7 @@ class HomeScreen extends React.Component {
             <Drawer.Screen name="CardPayment" component={CardPayment} style={{ color: "#800C69" }}
               options={{
                 title: 'Credit Card Payment',
+                drawerItemStyle: { height: 0 },
                 drawerLabel: () => null
               }} />
 
@@ -272,6 +289,7 @@ class HomeScreen extends React.Component {
             <Drawer.Screen name="PaymentMethod" component={PaymentMethod} style={{ color: "#800C69" }}
               options={{
                 title: 'Payment Methods',
+                drawerItemStyle: { height: 0 },
                 drawerLabel: () => null
               }} />
 
@@ -296,7 +314,7 @@ class HomeScreen extends React.Component {
               }} />
 
           </Drawer.Navigator>
-        </NavigationContainer>
+        </NavigationContainer >
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -393,14 +411,11 @@ class HomeScreen extends React.Component {
               <Drawer.Screen name="providerPendingOrders" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName, userName: this.props.navigation.state.params.userName }}
                 component={providerPendingOrders}
                 options={{
-                  // title: 'Pending Orders',
-                  // drawerIcon: ({ focused, size }) => (
-                  //   <Image style={styles.icon} source={require('../assets/delivery.png')} />
-                    
-                  // ),
-                  drawerItemStyle: { height: 0 },
-                  title: ' ',
-                  drawerLabel: () => null
+                  title: 'Pending Orders',
+                  drawerIcon: ({ focused, size }) => (
+                    <Image style={styles.icon} source={require('../assets/delivery.png')} />
+
+                  ),
                 }} />
 
               <Drawer.Screen name="ProviderOrders" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName, userName: this.props.navigation.state.params.userName }} component={ProviderOrders}
@@ -494,16 +509,12 @@ class HomeScreen extends React.Component {
                 }} />
 
 
-
-
-
-
-              {/* <Drawer.Screen name="ProviderOrders" component={ProviderOrders}
-            options={{
-              drawerItemStyle: { height: 0 },
-              title: 'ProviderOrders',
-              drawerLabel: () => null
-            }} /> */}
+              <Drawer.Screen name="addToDelivery" component={addToDelivery}
+                options={{
+                  drawerItemStyle: { height: 0 },
+                  title: 'add To Delivery',
+                  drawerLabel: () => null
+                }} />
 
 
 

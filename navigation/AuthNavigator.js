@@ -40,6 +40,9 @@ import PaymentMethod from '../screens/PaymentMethod'
 import providerPendingOrders from '../screens/providerPendingOrders'
 import userPendingOrders from '../screens/userPendingOrders'
 import deliverd from '../screens/deliverd'
+import addToDelivery from '../screens/addToDelivery'
+import MainHome from '../screens/MainHome'
+
 
 const Navigator = createSwitchNavigator(
   {
@@ -81,6 +84,8 @@ const Navigator = createSwitchNavigator(
     providerPendingOrders: { screen: providerPendingOrders },
     userPendingOrders: { screen: userPendingOrders },
     deliverd: { screen: deliverd },
+    addToDelivery: { screen: addToDelivery },
+    MainHome: { screen: MainHome },
   },
   { initialRouteName: 'Loading' }
 );
