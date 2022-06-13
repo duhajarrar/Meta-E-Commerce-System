@@ -228,12 +228,12 @@ export default class HomeScreen1 extends Component {
                                 height={180}
                                 title="Al-Shini"
                                 rightSideValue={null}
-                                rightSideColor="#38700F"
+                                rightSideColor="#800C69"
                                 subtitle={null}
                                 leftSideValue={null}
-                                leftSideColor="#38700F"
-                                backgroundColor="#38700F"
-                                dividerColor="#38700F"
+                                leftSideColor="#800C69"
+                                backgroundColor="#800C69"
+                                dividerColor="#800C69"
                                 source={require('../images/alshini.jpg')}
                                 onPress={() => { this.props.navigation.navigate("pageOne") }}
                             />
@@ -276,12 +276,12 @@ export default class HomeScreen1 extends Component {
                                 height={180}
                                 title="Bravo"
                                 rightSideValue={null}
-                                rightSideColor="#38700F"
+                                rightSideColor="#800C69"
                                 subtitle={null}
                                 leftSideValue={null}
-                                leftSideColor="#38700F"
-                                backgroundColor="#38700F"
-                                dividerColor="#38700F"
+                                leftSideColor="#800C69"
+                                backgroundColor="#800C69"
+                                dividerColor="#800C69"
                                 source={require('../images/bravo.png')}
                                 onPress={() => { this.props.navigation.navigate("pageTwo") }}
                             />
@@ -328,12 +328,12 @@ export default class HomeScreen1 extends Component {
                                 height={180}
                                 title="Brothers"
                                 rightSideValue={null}
-                                rightSideColor="#38700F"
+                                rightSideColor="#800C69"
                                 subtitle={null}
                                 leftSideValue={null}
-                                leftSideColor="#38700F"
-                                backgroundColor="#38700F"
-                                dividerColor="#38700F"
+                                leftSideColor="#800C69"
+                                backgroundColor="#800C69"
+                                dividerColor="#800C69"
                                 source={require('../images/brothers.jpg')}
                                 onPress={() => { this.props.navigation.navigate("pageThree") }}
                             />
@@ -380,12 +380,12 @@ export default class HomeScreen1 extends Component {
                                 height={180}
                                 title="Gardens"
                                 rightSideValue={null}
-                                rightSideColor="#38700F"
+                                rightSideColor="#800C69"
                                 subtitle={null}
                                 leftSideValue={null}
-                                leftSideColor="#38700F"
-                                backgroundColor="#38700F"
-                                dividerColor="#38700F"
+                                leftSideColor="#800C69"
+                                backgroundColor="#800C69"
+                                dividerColor="#800C69"
                                 source={require('../images/gardens.jpg')}
                                 onPress={() => { this.props.navigation.navigate("pageFour") }}
                             />

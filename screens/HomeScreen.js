@@ -51,6 +51,8 @@ import deliverd from '../screens/deliverd'
 import addToDelivery from '../screens/addToDelivery'
 import MainHome from '../screens/MainHome'
 import addProductFromMeta from '../screens/addProductFromMeta';
+import OrderStatus from '../screens/OrderStatus'
+import userPreprationOrders from '../screens/userPreprationOrders'
 
 const Drawer = createDrawerNavigator();
 
@@ -117,7 +119,7 @@ class HomeScreen extends React.Component {
   render() {
     console.log(this.props.navigation.state.params.email, "4444444444444444444");
     return (
-  
+
       (
         this.props.navigation.state.params.ProviderName === "customer" &
         this.props.navigation.state.params.email !== "test@gmail.com") ? (
@@ -179,6 +181,22 @@ class HomeScreen extends React.Component {
               options={{
 
                 title: 'In Delivery Orders',
+                drawerLabel: () => null,
+                drawerItemStyle: { height: 0 },
+              }} />
+
+            <Drawer.Screen name="userPreprationOrders" component={userPreprationOrders}
+              options={{
+
+                title: 'In Prepration Orders',
+                drawerLabel: () => null,
+                drawerItemStyle: { height: 0 },
+              }} />
+
+            <Drawer.Screen name="OrderStatus" component={OrderStatus}
+              options={{
+
+                title: 'Order Status',
                 drawerIcon: ({ focused, size }) => (
                   <Image
                     style={{
@@ -222,9 +240,9 @@ class HomeScreen extends React.Component {
 
             <Drawer.Screen name="deliverd" component={deliverd}
               options={{
-                drawerItemStyle: { height: 0 },
                 title: 'set to deliverd ',
-                drawerLabel: () => null
+                drawerLabel: () => null,
+                drawerItemStyle: { height: 0 },
               }} />
 
             <Drawer.Screen name="pageOne" component={pageOne}

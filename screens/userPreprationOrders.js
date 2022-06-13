@@ -5,11 +5,11 @@ import "firebase/compat/firestore"
 import { StyleSheet, SafeAreaView, Text, Image, View, TouchableOpacity, FlatList } from 'react-native';
 var db = firebase.firestore();
 
-export default class userPendingOrders extends Component {
+export default class userPreprationOrders extends Component {
 
     constructor() {
         super();
-        this.docs = firebase.firestore().collection('InDeliveryOrders').orderBy('OrderTimestamp');
+        this.docs = firebase.firestore().collection('PendingOrders').orderBy('OrderTimestamp');
         this.state = {
             isLoading: true,
             orderDB: []
@@ -30,7 +30,7 @@ export default class userPendingOrders extends Component {
             if (user != null) {
                 this.setState({ email: user.email });
                 let OrderInf;
-                db.collection('InDeliveryOrders').orderBy('OrderTimestamp', 'desc')
+                db.collection('PendingOrders').orderBy('OrderTimestamp', 'desc')
                     .where('customerEmail', '==', user.email)
                     .get()
                     .then((querySnapshot) => {
@@ -108,7 +108,7 @@ export default class userPendingOrders extends Component {
                                             this.props.navigation.navigate('deliverd',
                                                 {
                                                     item: item,
-                                                    deliverd: true
+                                                    deliverd: false
                                                 }
                                             )
                                         }

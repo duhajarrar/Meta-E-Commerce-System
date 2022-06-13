@@ -33,7 +33,7 @@ export default class providerPendingOrders extends Component {
         let OrderInf;
         const Orders = [];
         const OrdersDetail = [];
-        db.collection('PendingOrders')
+        db.collection('PendingOrders').orderBy('OrderTimestamp', 'desc')
             .get()
             .then((querySnapshot) => {
                 OrderInf = querySnapshot.docs.map(doc => doc.data());
@@ -109,7 +109,7 @@ export default class providerPendingOrders extends Component {
 
                                     <View style={{ justifyContent: "center", alignItems: "center", padding: 5 }}>
                                         <Text style={{ fontSize: 14, color: "#800C69", }}>
-                                            {/* <Image style={styles.icon} source={require('../assets/calendar.png')} /> */}
+                                            <Image style={styles.icon} source={require('../assets/calendar.png')} />
                                             {' '}Order Date:  {item.OrderDate}</Text>
                                     </View>
 

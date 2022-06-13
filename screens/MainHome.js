@@ -6,14 +6,59 @@ import {
     View,
     Image,
     TouchableOpacity,
-    ScrollView
+    ScrollView,
+    Dimensions
 } from 'react-native';
+import Carousel from 'react-native-snap-carousel';
 
+export const SLIDER_WIDTH = Dimensions.get('window').width + 30;
+export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.6);
+
+const data = [
+    {
+        id: 1,
+        name: 'Special Offers',
+        // url: '../images/OffersFire.png',
+        url: require('../images/OffersFire.png')
+
+    },
+    {
+        id: 2,
+        name: 'JavaScript',
+        url: 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Javascript_Logo.png',
+    },
+    {
+        id: 3,
+        name: 'Node JS',
+        url: 'https://upload.wikimedia.org/wikipedia/commons/6/67/NodeJS.png',
+    },
+];
 
 export default class MainHome extends Component {
 
 
 
+    renderItem = ({ item }) => {
+        console.log(item.url);
+        let url = item.url;
+        console.log("urlllllllll", item.url);
+        return (
+            <View
+                style={{
+                    borderWidth: 2,
+                    padding: 20,
+                    borderRadius: 20,
+                    alignItems: 'center',
+                    backgroundColor: 'white',
+                    borderColor: "#800C69"
+                }}>
+                <Image
+                    source={item.url}
+                    style={{ width: 200, height: 200 }} />
+
+            </View>
+        );
+    };
 
     render() {
         return (
@@ -32,18 +77,25 @@ export default class MainHome extends Component {
                                 <Image style={styles.logo} source={require('../images/logo1.png')} />
                             </View>
 
-                            <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center", paddingTop: 180 }}
-                            onPress={() =>
-                                this.props.navigation.navigate("Shops")
-                            }
+                            <Carousel
+                                data={data}
+                                renderItem={this.renderItem}
+                                sliderWidth={SLIDER_WIDTH}
+                                itemWidth={ITEM_WIDTH}
+                            />
+
+                            <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center", paddingTop: 50 }}
+                                onPress={() =>
+                                    this.props.navigation.navigate("Shops")
+                                }
                             >
                                 <Text style={[{
-                                    color: "#800C69", 
+                                    color: "#800C69",
                                     fontSize: 22,
                                     flex: 1,
                                     alignSelf: 'center',
                                     fontWeight: 'bold',
-                                    paddingBottom:20
+                                    paddingBottom: 20
                                 }]}>Start Shopping </Text>
                                 <Image style={styles.icon} source={require('../assets/next.png')} />
 
@@ -146,7 +198,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     cardHeader: {
-        paddingVertical: 107,
+        paddingVertical: 57,
         paddingHorizontal: 16,
         borderTopLeftRadius: 1,
         borderTopRightRadius: 1,

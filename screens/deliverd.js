@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
-import { StyleSheet, SafeAreaView, Text, Image, View, TouchableOpacity, FlatList,Alert } from 'react-native';
+import { StyleSheet, SafeAreaView, Text, Image, View, TouchableOpacity, FlatList, Alert } from 'react-native';
 
 var db = firebase.firestore();
 
@@ -50,8 +50,6 @@ export default class deliverd extends Component {
                     data={this.props.route.params.item.OrderProducts}
                     renderItem={({ item }) =>
 
-
-
                         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
 
 
@@ -97,28 +95,28 @@ export default class deliverd extends Component {
                         </View>
                     }
                 />
+                {this.props.route.params.deliverd &&
+                    <View style={styles.cardFooter}>
 
-                <View style={styles.cardFooter}>
+                        <TouchableOpacity style={styles.socialBarButton}
+                            onPress={() => {
+                                this.addOrder(this.props.route.params.item) &
+                                    this.deleteFromDelivery(this.props.route.params.item)
 
-                    <TouchableOpacity style={styles.socialBarButton}
-                        onPress={() => {
-                            this.addOrder( this.props.route.params.item)&
-                            this.deleteFromDelivery( this.props.route.params.item)
-                        
-                            // this.props.navigation.navigate("CheckOut",
-                            // {
-                            //   TotalAmount: this.props.route.params.item.TotalPrice,
-                            //   products: this.props.route.params.item.OrderProducts,
+                                // this.props.navigation.navigate("CheckOut",
+                                // {
+                                //   TotalAmount: this.props.route.params.item.TotalPrice,
+                                //   products: this.props.route.params.item.OrderProducts,
 
-                            // })
-                        }}
-                    >
-                        <Image style={styles.icon} source={require('../assets/delivered.png')} />
-                        <Text style={[styles.buyNow]}>  Set As Aeliverd  </Text>
-                    </TouchableOpacity>
-                </View>
+                                // })
+                            }}
+                        >
+                            <Image style={styles.icon} source={require('../assets/delivered.png')} />
+                            <Text style={[styles.buyNow]}>  Set As Aeliverd  </Text>
+                        </TouchableOpacity>
+                    </View>
 
-
+                }
 
             </SafeAreaView>
 
