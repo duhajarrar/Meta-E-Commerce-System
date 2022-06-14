@@ -17,20 +17,33 @@ export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.6);
 const data = [
     {
         id: 1,
+        name: 'eshop',
+        url: require('../images/t.gif')
+
+    },
+    {
+        id: 2,
         name: 'Special Offers',
         // url: '../images/OffersFire.png',
         url: require('../images/OffersFire.png')
 
     },
     {
-        id: 2,
-        name: 'JavaScript',
-        url: 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Javascript_Logo.png',
-    },
-    {
         id: 3,
         name: 'Node JS',
-        url: 'https://upload.wikimedia.org/wikipedia/commons/6/67/NodeJS.png',
+        url: require('../images/t1.gif')
+
+    },
+    {
+        id: 4,
+        name: 'Node JS',
+        url: require('../images/t2.gif')
+
+    },
+    {
+        id: 5,
+        name: 'Node JS',
+        url: require('../images/t3.gif')
     },
 ];
 
