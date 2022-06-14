@@ -177,22 +177,6 @@ class HomeScreen extends React.Component {
             />
 
 
-            <Drawer.Screen name="userPendingOrders" component={userPendingOrders}
-              options={{
-
-                title: 'In Delivery Orders',
-                drawerLabel: () => null,
-                drawerItemStyle: { height: 0 },
-              }} />
-
-            <Drawer.Screen name="userPreprationOrders" component={userPreprationOrders}
-              options={{
-
-                title: 'In Prepration Orders',
-                drawerLabel: () => null,
-                drawerItemStyle: { height: 0 },
-              }} />
-
             <Drawer.Screen name="OrderStatus" component={OrderStatus}
               options={{
 
@@ -200,8 +184,8 @@ class HomeScreen extends React.Component {
                 drawerIcon: ({ focused, size }) => (
                   <Image
                     style={{
-                      width: 32,
-                      height: 32,
+                      width: 30,
+                      height: 30,
                     }}
                     source={require('../assets/fast-delivery.png')} />
                 ),
@@ -269,6 +253,21 @@ class HomeScreen extends React.Component {
                 drawerItemStyle: { height: 0 },
                 title: 'Gardens',
                 drawerLabel: () => null
+              }} />
+            <Drawer.Screen name="userPendingOrders" component={userPendingOrders}
+              options={{
+
+                title: 'In Delivery Orders',
+                drawerLabel: () => null,
+                drawerItemStyle: { height: 0 },
+              }} />
+
+            <Drawer.Screen name="userPreprationOrders" component={userPreprationOrders}
+              options={{
+
+                title: 'In Prepration Orders',
+                drawerLabel: () => null,
+                drawerItemStyle: { height: 0 },
               }} />
 
 

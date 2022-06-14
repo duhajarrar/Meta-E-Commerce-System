@@ -78,14 +78,15 @@ export default class ReOrder extends Component {
                     <TouchableOpacity style={styles.socialBarButton}
                         onPress={() => {
                             this.props.navigation.navigate("CheckOut",
-                            {
-                              TotalAmount: this.props.route.params.item.TotalPrice,
-                              products: this.props.route.params.item.OrderProducts,
-            
-                            })
+                                {
+                                    TotalAmount: this.props.route.params.item.TotalPrice,
+                                    products: this.props.route.params.item.OrderProducts,
+
+                                })
                         }}
                     >
-                      <Image style={styles.icon} source={require('../assets/trading.png')} />
+
+                        <Image style={styles.icon} source={require('../assets/trading.png')} />
                         <Text style={[styles.socialBarLabel, styles.buyNow]}>  Re-Order  </Text>
                     </TouchableOpacity>
                 </View>

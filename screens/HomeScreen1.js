@@ -4,12 +4,11 @@ import { StyleSheet, Text, View, SafeAreaView, Image, Button, TouchableOpacity, 
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
-import Carousel from 'react-native-snap-carousel';
+import StarRating from 'react-native-star-rating';
 
 export const SLIDER_WIDTH = Dimensions.get('window').width + 30;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.65);
 
-import ImagedCardView from "react-native-imaged-card-view";
 
 
 var db = firebase.firestore();
@@ -216,34 +215,72 @@ export default class HomeScreen1 extends Component {
                 <ScrollView style={styles.scrollView}>
 
 
-                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 65 }}>
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 45 }}>
 
-                        <View
-                            style={styles.container}
-                        >
-                            <ImagedCardView
-                                stars={5}
-                                reviews={this.state.ShiniCount}
-                                ratings={this.state.ShiniRate}
-                                height={180}
-                                title="Al-Shini"
-                                rightSideValue={null}
-                                rightSideColor="#800C69"
-                                subtitle={null}
-                                leftSideValue={null}
-                                leftSideColor="#800C69"
-                                backgroundColor="#800C69"
-                                dividerColor="#800C69"
-                                source={require('../images/alshini.jpg')}
-                                onPress={() => { this.props.navigation.navigate("pageOne") }}
-                            />
-                        </View>
 
+                        <TouchableOpacity onPress={() => { this.props.navigation.navigate("pageOne"); }}>
+                            <View style={styles.container1}>
+
+                                <View style={{
+                                    flexDirection: 'row'
+                                }}>
+                                    <TouchableOpacity style={[styles.image, { backgroundColor: 'white' }]} >
+                                        <Image style={styles.image} source={require('../images/alshini.jpg')} />
+                                    </TouchableOpacity>
+
+                                    <View style={{
+                                        flexDirection: 'vertical'
+                                    }}>
+
+                                        <View>
+                                            <Text style={{ fontSize: 18, color: 'white', fontWeight: 'bold', marginVertical: 30, }}>
+                                                Al-Shini </Text>
+                                        </View>
+
+                                        <View
+                                            style={{
+                                                flexDirection: 'column', alignItems: 'center',
+                                                justifyContent: 'center',
+                                            }}>
+
+                                            <StarRating
+                                                disabled={false}
+                                                emptyStar="ios-star-outline"
+                                                fullStar="ios-star"
+                                                halfStar="ios-star-half"
+                                                iconSet="Ionicons"
+                                                maxStars={5}
+                                                rating={this.state.ShiniRate}
+                                                fullStarColor="white"
+                                                halfStarColor="white"
+                                                emptyStarColor="#ffffff"
+                                                halfStarEnabled
+                                                starPadding={5}
+                                                starSize={25}
+                                            />
+
+                                            <Text style={{
+                                                fontSize: 12,
+                                                color: "#ffffff",
+                                                paddingLeft: 70,
+                                                fontWeight: 'bold',
+                                                // paddingBottom: 20
+                                            }}>
+                                                {Number(this.state.ShiniRate).toFixed(2)}
+                                                ({this.state.ShiniCount})
+                                            </Text>
+                                        </View>
+                                    </View>
+                                </View>
+
+                            </View>
+                        </TouchableOpacity>
 
                         <TouchableOpacity style={{
                             flexDirection: 'row',
                             justifyContent: 'center',
                             alignItems: "center",
+                            paddingTop: 10,
                             paddingBottom: 30,
                             paddingLeft: "20%",
                             paddingRight: "20%"
@@ -260,39 +297,80 @@ export default class HomeScreen1 extends Component {
                                 flex: 1,
                                 alignSelf: 'center',
                                 fontWeight: 'bold',
+                                // paddingBottom: 20
                             }]}>{" "}Add Feedback </Text>
 
                             <Image style={styles.icon} source={require('../assets/next.png')} />
 
                         </TouchableOpacity>
 
-                        <View
-                            style={styles.container}
-                        >
-                            <ImagedCardView
-                                stars={5}
-                                reviews={this.state.BravoCount}
-                                ratings={this.state.BravoRate}
-                                height={180}
-                                title="Bravo"
-                                rightSideValue={null}
-                                rightSideColor="#800C69"
-                                subtitle={null}
-                                leftSideValue={null}
-                                leftSideColor="#800C69"
-                                backgroundColor="#800C69"
-                                dividerColor="#800C69"
-                                source={require('../images/bravo.png')}
-                                onPress={() => { this.props.navigation.navigate("pageTwo") }}
-                            />
 
-                        </View>
+
+
+                        <TouchableOpacity onPress={() => { this.props.navigation.navigate("pageTwo"); }}>
+                            <View style={styles.container1}>
+
+                                <View style={{
+                                    flexDirection: 'row'
+                                }}>
+                                    <TouchableOpacity style={[styles.image, { backgroundColor: 'white' }]} >
+                                        <Image style={styles.image} source={require('../images/bravo.png')} />
+                                    </TouchableOpacity>
+
+                                    <View style={{
+                                        flexDirection: 'vertical'
+                                    }}>
+
+                                        <View>
+                                            <Text style={{ fontSize: 18, color: 'white', fontWeight: 'bold', marginVertical: 30, }}>
+                                                Bravo </Text>
+                                        </View>
+
+                                        <View
+                                            style={{
+                                                flexDirection: 'column', alignItems: 'center',
+                                                justifyContent: 'center',
+                                            }}>
+
+                                            <StarRating
+                                                disabled={false}
+                                                emptyStar="ios-star-outline"
+                                                fullStar="ios-star"
+                                                halfStar="ios-star-half"
+                                                iconSet="Ionicons"
+                                                maxStars={5}
+                                                rating={this.state.BravoRate}
+                                                fullStarColor="white"
+                                                halfStarColor="white"
+                                                emptyStarColor="#ffffff"
+                                                halfStarEnabled
+                                                starPadding={5}
+                                                starSize={25}
+                                            />
+
+                                            <Text style={{
+                                                fontSize: 12,
+                                                color: "#ffffff",
+                                                paddingLeft: 70,
+                                                fontWeight: 'bold',
+                                                // paddingBottom: 20
+                                            }}>
+                                                {Number(this.state.BravoRate).toFixed(2)}
+                                                ({this.state.BravoCount})
+                                            </Text>
+                                        </View>
+                                    </View>
+                                </View>
+
+                            </View>
+                        </TouchableOpacity>
 
 
                         <TouchableOpacity style={{
                             flexDirection: 'row',
                             justifyContent: 'center',
                             alignItems: "center",
+                            paddingTop: 10,
                             paddingBottom: 30,
                             paddingLeft: "20%",
                             paddingRight: "20%"
@@ -318,32 +396,71 @@ export default class HomeScreen1 extends Component {
 
 
 
-                        <View
-                            style={styles.container}
-                        >
-                            <ImagedCardView
-                                stars={5}
-                                reviews={this.state.BrothersCount}
-                                ratings={this.state.BrothersRate}
-                                height={180}
-                                title="Brothers"
-                                rightSideValue={null}
-                                rightSideColor="#800C69"
-                                subtitle={null}
-                                leftSideValue={null}
-                                leftSideColor="#800C69"
-                                backgroundColor="#800C69"
-                                dividerColor="#800C69"
-                                source={require('../images/brothers.jpg')}
-                                onPress={() => { this.props.navigation.navigate("pageThree") }}
-                            />
 
-                        </View>
+                        <TouchableOpacity onPress={() => { this.props.navigation.navigate("pageThree"); }}>
+                            <View style={styles.container1}>
+
+                                <View style={{
+                                    flexDirection: 'row'
+                                }}>
+                                    <TouchableOpacity style={[styles.image, { backgroundColor: 'white' }]} >
+                                        <Image style={styles.image} source={require('../images/brothers.jpg')} />
+                                    </TouchableOpacity>
+
+                                    <View style={{
+                                        flexDirection: 'vertical'
+                                    }}>
+
+                                        <View>
+                                            <Text style={{ fontSize: 18, color: 'white', fontWeight: 'bold', marginVertical: 30, }}>
+                                                Brothers </Text>
+                                        </View>
+
+                                        <View
+                                            style={{
+                                                flexDirection: 'column', alignItems: 'center',
+                                                justifyContent: 'center',
+                                            }}>
+
+                                            <StarRating
+                                                disabled={false}
+                                                emptyStar="ios-star-outline"
+                                                fullStar="ios-star"
+                                                halfStar="ios-star-half"
+                                                iconSet="Ionicons"
+                                                maxStars={5}
+                                                rating={this.state.BrothersRate}
+                                                fullStarColor="white"
+                                                halfStarColor="white"
+                                                emptyStarColor="#ffffff"
+                                                halfStarEnabled
+                                                starPadding={5}
+                                                starSize={25}
+                                            />
+
+                                            <Text style={{
+                                                fontSize: 12,
+                                                color: "#ffffff",
+                                                paddingLeft: 70,
+                                                fontWeight: 'bold',
+                                                // paddingBottom: 20
+                                            }}>
+                                                {Number(this.state.BrothersRate).toFixed(2)}
+                                                ({this.state.BrothersCount})
+                                            </Text>
+                                        </View>
+                                    </View>
+                                </View>
+
+                            </View>
+                        </TouchableOpacity>
+
 
                         <TouchableOpacity style={{
                             flexDirection: 'row',
                             justifyContent: 'center',
                             alignItems: "center",
+                            paddingTop: 10,
                             paddingBottom: 30,
                             paddingLeft: "20%",
                             paddingRight: "20%"
@@ -368,35 +485,70 @@ export default class HomeScreen1 extends Component {
                         </TouchableOpacity>
 
 
-                        <View
-                            style={styles.container}
-                        >
-                            <ImagedCardView
-                                // width={300}
-                                stars={5}
-                                borderColor="#800C69"
-                                reviews={this.state.GardensCount}
-                                ratings={this.state.GardensRate}
-                                height={180}
-                                title="Gardens"
-                                rightSideValue={null}
-                                rightSideColor="#800C69"
-                                subtitle={null}
-                                leftSideValue={null}
-                                leftSideColor="#800C69"
-                                backgroundColor="#800C69"
-                                dividerColor="#800C69"
-                                source={require('../images/gardens.jpg')}
-                                onPress={() => { this.props.navigation.navigate("pageFour") }}
-                            />
+                        <TouchableOpacity onPress={() => { this.props.navigation.navigate("pageFour"); }}>
+                            <View style={styles.container1}>
 
-                        </View>
+                                <View style={{
+                                    flexDirection: 'row'
+                                }}>
+                                    <TouchableOpacity style={[styles.image, { backgroundColor: 'white' }]} >
+                                        <Image style={styles.image} source={require('../images/gardens.jpg')} />
+                                    </TouchableOpacity>
+
+                                    <View style={{
+                                        flexDirection: 'vertical'
+                                    }}>
+
+                                        <View>
+                                            <Text style={{ fontSize: 18, color: 'white', fontWeight: 'bold', marginVertical: 30, }}>
+                                                Gardens </Text>
+                                        </View>
+
+                                        <View
+                                            style={{
+                                                flexDirection: 'column', alignItems: 'center',
+                                                justifyContent: 'center',
+                                            }}>
+
+                                            <StarRating
+                                                disabled={false}
+                                                emptyStar="ios-star-outline"
+                                                fullStar="ios-star"
+                                                halfStar="ios-star-half"
+                                                iconSet="Ionicons"
+                                                maxStars={5}
+                                                rating={this.state.GardensRate}
+                                                fullStarColor="white"
+                                                halfStarColor="white"
+                                                emptyStarColor="#ffffff"
+                                                halfStarEnabled
+                                                starPadding={5}
+                                                starSize={25}
+                                            />
+
+                                            <Text style={{
+                                                fontSize: 12,
+                                                color: "#ffffff",
+                                                paddingLeft: 70,
+                                                fontWeight: 'bold',
+                                                // paddingBottom: 20
+                                            }}>
+                                                {Number(this.state.GardensRate).toFixed(2)}
+                                                ({this.state.GardensCount})
+                                            </Text>
+                                        </View>
+                                    </View>
+                                </View>
+
+                            </View>
+                        </TouchableOpacity>
 
                         <TouchableOpacity style={{
                             flexDirection: 'row',
                             justifyContent: 'center',
                             alignItems: "center",
-                            paddingBottom: 10,
+                            paddingTop: 10,
+                            paddingBottom: 30,
                             paddingLeft: "20%",
                             paddingRight: "20%"
 
@@ -418,6 +570,9 @@ export default class HomeScreen1 extends Component {
                             <Image style={styles.icon} source={require('../assets/next.png')} />
 
                         </TouchableOpacity>
+
+
+
 
 
 
@@ -531,10 +686,33 @@ const styles = StyleSheet.create({
         // backgroundColor: '#FFFFFF',
         overflow: 'hidden'
     },
+    container1: {
+        width: SLIDER_WIDTH - 110,
+        height: 200,
+        // marginBottom: 15,
+        borderRadius: 35,
+        backgroundColor: '#800C69',
+        overflow: 'hidden'
+    },
 
     image: {
-        width: ITEM_WIDTH - 10,
-        height: '70%'
+        shadowColor: '#FFFFFF',
+        shadowOffset: {
+            width: 0,
+            height: 6,
+        },
+        shadowOpacity: 0.47,
+        shadowRadius: 7.49,
+        elevation: 12,
+        marginVertical: 30,
+        marginHorizontal: 20,
+        backgroundColor: "#e2e2e2",
+        //flexBasis: '42%',
+        width: 130,
+        height: 130,
+        borderRadius: 60,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 
     textContainer: {
