@@ -7,7 +7,12 @@ import { ListItem, SearchBar } from "react-native-elements";
 import { AntDesign, Entypo, MaterialIcons, Fontisto } from '@expo/vector-icons'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaView, Modal, 
+          TextInput, Dimensions } from "react-native";
+import { addListener } from 'expo-updates';
+  
+const { width } = Dimensions.get("window");
 
 // Item Component To render single items
 function Item(props) {
@@ -75,7 +80,7 @@ function addProductFromMeta(props) {
     setCategory(category)
   }
   const addNewProduct = (item) =>{
-    console.log(item);
+    console.log("item: ",item);
     console.log("to >> ", props.route.params.ProviderName);
     // if (
     //   item.name !== null &&
@@ -84,18 +89,19 @@ function addProductFromMeta(props) {
     //   item.price.length > 0
     // ) {
     const name = item.name;
-    console.log(item.price);
+    console.log(price);
+    console.log(quantity);
     console.log(item.name);
     firebase
       .firestore()
       .collection(props.route.params.ProviderName)
       .add({
-        price: item.price,
+        price: price,
         category: item.category,
         name: item.name,
         provider: props.route.params.ProviderName,
         image: item.image,
-        quantity: item.quantity,
+        quantity: quantity,
         id: item.id,
 
       })
@@ -103,7 +109,6 @@ function addProductFromMeta(props) {
         console.error("Error adding document: ", error);
       });
     console.log("name1 : ", name);
-
   }
 
   const searchFunction = (text) => {
@@ -127,6 +132,52 @@ function addProductFromMeta(props) {
     }
   };
 
+
+  const [isModalVisible, setModalVisible] = useState(false);
+  
+  // This is to manage TextInput State
+  const [price, setPrice] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [itemValue, setItemValue] = useState("");
+
+  const [inputValue, setInputValue] = useState("");
+
+  // Create toggleModalVisibility function that will
+  // Open and close modal upon button clicks.
+  const toggleModalVisibilityFalse = (item1) => {
+    console.log("isModalVisible before  = ",isModalVisible);
+    console.log("In add itemValue",itemValue)
+    // setModalVisible(false);
+
+    // if(isModalVisible){
+    //     setModalVisible(true);
+    // }else{
+        if(price === "" || quantity === ""){
+          Alert.alert("Please complete product information  ","Product named: "+ itemValue.name + " not added ")
+          console.log("Product not added, Please complete all information needed ",itemValue.name)
+        }else{
+        setModalVisible(false);
+        addNewProduct(itemValue) ; 
+        Alert.alert("Product added", itemValue.name)
+
+    console.log("isModalVisible after  = ",isModalVisible);
+        }
+  };
+
+  const toggleModalVisibilityFalse1 = () => {
+    console.log("isModalVisible before  = ",isModalVisible);
+   
+        setModalVisible(false);
+
+    console.log("isModalVisible after  = ",isModalVisible);
+  };
+
+  const toggleModalVisibilityTrue = () => {
+    console.log("isModalVisible before  = ",isModalVisible);
+    setModalVisible(true);
+    console.log("isModalVisible after  = ",isModalVisible);
+  };
+
   // render list using flat list, and the filter bar using standard buttons
   return (
     <View style={styles.container}>
@@ -139,6 +190,8 @@ function addProductFromMeta(props) {
         onChangeText={(text) => searchFunction(text)}
         autoCorrect={false}
       />
+              {/* <Button title="Show Modal" onPress={toggleModalVisibility} /> */}
+
       {/* <Text>Selected category: {category}</Text> */}
       <View style={{ display: 'flex', flexDirection: 'row' }}>
         <ScrollView
@@ -154,7 +207,7 @@ function addProductFromMeta(props) {
           <TouchableOpacity style={category == "مواد تنظيف" ? styles.buttonContainer1 : styles.buttonContainer} onPress={onClick("مواد تنظيف")}><Text style={{ color: "white", padding: 5, fontSize: 14 }}>مواد تنظيف</Text></TouchableOpacity>
         </ScrollView>
         </View>
-      
+
            <FlatList style={styles.list}
           contentContainerStyle={styles.listContainer}
           data={list}
@@ -171,7 +224,8 @@ function addProductFromMeta(props) {
           renderItem={(post) => {
 
             const item = post.item;
-            console.log("--", props.name)
+           
+            // console.log("--", props.name)
             // this.setState({providerName:this.props.products[0].provider})
             return (
               <View style={styles.card}>
@@ -179,7 +233,7 @@ function addProductFromMeta(props) {
                 <View style={styles.cardHeader}>
                   <View>
                     <Text style={styles.title}>{item.name}</Text>
-                    <Text style={styles.price}>{item.price}{" ₪"}</Text>
+                    {/* <Text style={styles.price}>{item.price}{" ₪"}</Text> */}
                   </View>
                 </View>
 
@@ -190,14 +244,69 @@ function addProductFromMeta(props) {
                     <View >
 
                       <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-                        onPress={() => addNewProduct(item) & Alert.alert("Product added", item.name)
+                        onPress={()=> {setItemValue(item)  & console.log("item set : ",itemValue," item: ",item) & setModalVisible(true)}
+                          //  addNewProduct(item) && Alert.alert("Product added", item.name)
                         }>
                         <Text style={{ fontSize: 10, color: "#800C69", fontWeight: 'bold', }}>
                           <MaterialCommunityIcons name="cart-plus" size={12} color={'#2E922E'} />
                           {' '}Add Product</Text>
                       </TouchableOpacity>
+    
+                <Modal animationType="slide" 
+                   transparent visible={isModalVisible} 
+                   presentationStyle="overFullScreen" 
+                   onDismiss={toggleModalVisibilityFalse1}>
+                <View style={styles.viewWrapper}>
+                    <View style={styles.modalView}>
+                      <Text style={{paddingBottom:10,fontSize:18,fontWeight:"bold"}}>Complete Product Info</Text>
+                      <Text style={{paddingBottom:10,fontSize:14}}>{itemValue.name}</Text>
+                        <TextInput placeholder="Enter Quantity " 
+                                   value={quantity} style={styles.textInput} 
+                                   onChangeText={(value) => setQuantity(value)} />
+                        <TextInput placeholder="Enter Price " 
+                                   value={price} style={styles.textInput} 
+                                   onChangeText={(value) => setPrice(value)} />
+  
+                        {/** This button is responsible to close the modal */}
+                        {/* && setItem(item) */}
+                        {/* <Button title="Confirm add product" onPress={()=> toggleModalVisibilityFalse(item)} /> */}
+                    
+                        <TouchableOpacity
+                  style={styles.buttonContainers}
+                  // & toggleModalVisibilityFalse(item)
+                  onPress={() => { console.log("before itemValue:",itemValue)&
+                    toggleModalVisibilityFalse(itemValue)}
+                  }
+                >
+                  <Text
+                    style={{
+                      color: "white",
+                      padding: 5,
+                      fontSize: 18,
+                    }}
+                  >
+                    Confirm add product
+                  </Text>
+                </TouchableOpacity>
 
-
+                <TouchableOpacity
+                  style={styles.buttonContainers1}
+                  onPress={
+                    toggleModalVisibilityFalse1
+                  }
+                >
+                  <Text
+                    style={{
+                      color: "white",
+                      fontSize: 18,
+                    }}
+                  >
+                    Cancel
+                  </Text>
+                </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
 
                     </View>
                     <View style={styles.socialBarSection}>
@@ -241,8 +350,34 @@ const styles = StyleSheet.create({
       justifyContent: 'flex-start',
       padding: 8,
       backgroundColor: 'white',
-    }
-    , buttonContainer: {
+    },
+    buttonContainers: {
+      // marginBottom: 50,
+      height: 45,
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      marginBottom: 5,
+      marginTop: 15,
+      width: 250,
+      borderRadius: 30,
+      backgroundColor: "#800C69",
+      color: "white",
+    },
+    buttonContainers1: {
+      // marginBottom: 50,
+      height: 45,
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      marginBottom: 10,
+      // marginTop: 15,
+      width: 250,
+      borderRadius: 30,
+      backgroundColor: "#800C69",
+      color: "white",
+    },
+     buttonContainer: {
   
       // marginBottom: 50,
       marginLeft: 5,
@@ -379,6 +514,42 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       textAlign: "center",
   
-    }
+    }, screen: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "#fff",
+  },
+  viewWrapper: {
+      height: 300,
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "rgba(0, 0, 0, 0.2)",
+  },
+  modalView: {
+      alignItems: "center",
+      justifyContent: "center",
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      elevation: 5,
+      transform: [{ translateX: -(width * 0.4) }, 
+                  { translateY: -90 }],
+      height: 300,
+      width: width * 0.8,
+      backgroundColor: "#fff",
+      borderRadius: 7,
+  },
+  textInput: {
+      width: "80%",
+      borderRadius: 5,
+      paddingVertical: 8,
+      paddingHorizontal: 16,
+      borderColor: "rgba(0, 0, 0, 0.2)",
+      borderWidth: 1,
+      marginBottom: 8,
+      
+  },
   });
   
