@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { useState, useEffect } from 'react';
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
@@ -247,7 +246,7 @@ export default class Feedbacks extends Component {
                     }}>
 
                         <StarRating
-                            disabled={false}
+                            disabled={true}
                             emptyStar="ios-star-outline"
                             fullStar="ios-star"
                             halfStar="ios-star-half"

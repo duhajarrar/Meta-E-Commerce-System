@@ -5,16 +5,7 @@ import "firebase/compat/auth"
 import "firebase/compat/firestore"
 import StarRating from 'react-native-star-rating';
 import { StyleSheet, SafeAreaView, Text, Image, View, TouchableOpacity, FlatList, TextInput, ActivityIndicator } from 'react-native';
-import {
-  Avatar,
-  Title,
-  Caption,
-  TouchableRipple,
-} from 'react-native-paper';
-import { AntDesign, Entypo, MaterialIcons, Fontisto } from '@expo/vector-icons'
-import { color } from 'react-native-reanimated';
 
-import { useRoute } from '@react-navigation/native';
 var db = firebase.firestore();
 
 export default class ProviderFeedback extends Component {
@@ -117,7 +108,7 @@ export default class ProviderFeedback extends Component {
 
       <SafeAreaView style={{ flex: 1 }}>
 
-  
+
         <View style={{
           flexDirection: 'column', alignItems: 'center',
           justifyContent: 'center', paddingTop: 30,
@@ -313,5 +304,5 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     // alignItems: 'center',
     // backgroundColor: '#FFFFFF',
-},
+  },
 });
