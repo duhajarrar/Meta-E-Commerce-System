@@ -44,7 +44,9 @@ import addToDelivery from '../screens/addToDelivery'
 import MainHome from '../screens/MainHome'
 import OrderStatus from '../screens/OrderStatus'
 import userPreprationOrders from '../screens/userPreprationOrders'
-
+import refund from '../screens/refund'
+import ProviderRefund from '../screens/ProviderRefund'
+import ReorderRefund from '../screens/ReorderRefund';
 const Navigator = createSwitchNavigator(
   {
     Loading: { screen: LoadingScreen },
@@ -89,6 +91,10 @@ const Navigator = createSwitchNavigator(
     addToDelivery: { screen: addToDelivery },
     MainHome: { screen: MainHome },
     OrderStatus: { screen: OrderStatus },
+    refund: { screen: refund },
+    ProviderRefund: {screen:ProviderRefund},
+    ReorderRefund :{screen:ReorderRefund}
+
   },
   { initialRouteName: 'Loading' }
 );

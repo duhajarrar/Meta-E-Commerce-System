@@ -53,6 +53,9 @@ import MainHome from '../screens/MainHome'
 import addProductFromMeta from '../screens/addProductFromMeta';
 import OrderStatus from '../screens/OrderStatus'
 import userPreprationOrders from '../screens/userPreprationOrders'
+import refund from '../screens/refund'
+import ProviderRefund from '../screens/ProviderRefund';
+import ReorderRefund from '../screens/ReorderRefund';
 
 const Drawer = createDrawerNavigator();
 
@@ -202,6 +205,20 @@ class HomeScreen extends React.Component {
                 ),
               }} />
 
+              <Drawer.Screen name="refund" component={refund}
+              options={{
+
+                title: 'Refund',
+                drawerIcon: ({ focused, size }) => (
+                  <Image
+                    style={{
+                      width: 32,
+                      height: 32,
+                    }}
+                    source={require('../assets/cashback.png')} />
+                ),
+              }} />
+
             <Drawer.Screen name="specialOffers" component={specialOffers} style={{ color: "#800C69" }}
               options={{
                 title: 'Special Offers',
@@ -298,6 +315,13 @@ class HomeScreen extends React.Component {
             <Drawer.Screen name="CardPayment" component={CardPayment} style={{ color: "#800C69" }}
               options={{
                 title: 'Credit Card Payment',
+                drawerItemStyle: { height: 0 },
+                drawerLabel: () => null
+              }} />
+
+             <Drawer.Screen name="ReorderRefund" component={ReorderRefund} style={{ color: "#800C69" }}
+              options={{
+                title: 'Refund',
                 drawerItemStyle: { height: 0 },
                 drawerLabel: () => null
               }} />
@@ -435,7 +459,19 @@ class HomeScreen extends React.Component {
                   ),
                 }} />
 
-              <Drawer.Screen name="ProviderOrders" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName, userName: this.props.navigation.state.params.userName }} component={ProviderOrders}
+
+              <Drawer.Screen name="ProviderRefund" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName, userName: this.props.navigation.state.params.userName }}
+                component={ProviderRefund}
+                options={{
+                  title: 'Refund Requests',
+                  drawerIcon: ({ focused, size }) => (
+                    <Image style={styles.icon} source={require('../assets/bank-account.png')} />
+
+                  ),
+                }} />
+
+              <Drawer.Screen name="ProviderOrders" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName, userName: this.props.navigation.state.params.userName }} 
+                component={ProviderOrders}
                 options={{
                   drawerIcon: ({ focused, size }) => (
                     <MaterialIcons
