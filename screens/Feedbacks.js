@@ -246,7 +246,7 @@ export default class Feedbacks extends Component {
                     }}>
 
                         <StarRating
-                            disabled={true}
+                            disabled={false}
                             emptyStar="ios-star-outline"
                             fullStar="ios-star"
                             halfStar="ios-star-half"

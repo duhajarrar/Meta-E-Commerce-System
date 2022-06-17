@@ -43,7 +43,7 @@ export default class userPreprationOrders extends Component {
                             let TotalPrice = 0;
                             ord.forEach((obj1) => {
 
-                                TotalPrice += obj1.price;
+                                TotalPrice += obj1.price*obj1.quantity;
                                 obj['TotalPrice'] = TotalPrice;
                             });
                         });

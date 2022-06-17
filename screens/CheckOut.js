@@ -1,6 +1,6 @@
 import React, { Component } from 'react'; import { Text, View } from 'react-native';
 import { Picker } from "@react-native-picker/picker";
-import { StyleSheet, Alert, TouchableOpacity} from 'react-native';
+import { StyleSheet, Alert, TouchableOpacity } from 'react-native';
 
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
@@ -101,11 +101,11 @@ export default class CheckOut extends Component {
   addPendingOrders(orders) {
     orders.forEach(obj => {
       obj['itemStatus'] = "in preparation";
-     });
+    });
 
-    console.log("ooooooooooooo",orders);
+    console.log("ooooooooooooo", orders);
     db.collection("PendingOrders").add({
-      id : db.collection('PendingOrders').doc().id,
+      id: db.collection('PendingOrders').doc().id,
       customerName: this.state.user.displayName,
       customerEmail: this.state.user.email,
       OrderDate: this.getCurrentDate(),
@@ -131,7 +131,9 @@ export default class CheckOut extends Component {
     }
     else {
       this.addOrder(this.props.route.params.products)
-      this.props.route.params.clearCart()
+      if (this.props.route.params.clearCart != null) {
+        this.props.route.params.clearCart()
+      }
       this.props.navigation.navigate("PaymentMethod", {
         TotalAmount: this.props.route.params.TotalAmount,
       });
@@ -139,7 +141,7 @@ export default class CheckOut extends Component {
   }
 
   render() {
-  
+
     this.getAddressDBData();
     let pickerItems = this.state.addressDB.map((s, i) => {
       // console.log(s);

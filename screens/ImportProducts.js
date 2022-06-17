@@ -53,7 +53,7 @@ export default class ImportProducts extends Component {
                 console.log(result);
 								
 							}}
-							title="Open a PDF Document..."
+							title="Open Your Csv Data File"
 						/>
 
        

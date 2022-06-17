@@ -56,6 +56,7 @@ import userPreprationOrders from '../screens/userPreprationOrders'
 import refund from '../screens/refund'
 import ProviderRefund from '../screens/ProviderRefund';
 import ReorderRefund from '../screens/ReorderRefund';
+import Wallet from '../screens/Wallet'
 
 const Drawer = createDrawerNavigator();
 
@@ -71,7 +72,7 @@ function CustomDrawerContent(props) {
         />
         <DrawerItem
           icon={() => <AntDesignIcon name="logout" size={25} color={'#800C69'} style={{ padding: 5 }} />}
-          style={{ marginTop: '50%' }}
+          style={{ marginTop: '20%' }}
           label="Logout" onPress={() => {
             firebase.auth().signOut();
           }
@@ -170,6 +171,15 @@ class HomeScreen extends React.Component {
                 ),
               }}
             />
+
+            <Drawer.Screen name="Wallet" component={Wallet} style={{ color: "#800C69" }} initialParams={{ TotalAmount:false}}
+              options={{
+                title: 'My Wallet',
+                drawerIcon: ({ focused, size }) => (
+                  <EntypoIcon name="wallet" size={25} color={'#800C69'} style={{ padding: 0 }} />
+                ),
+              }}
+            />
             <Drawer.Screen name="Locations" component={Locations} style={{ color: "#800C69" }}
               options={{
                 title: 'My Addresses',
@@ -205,7 +215,7 @@ class HomeScreen extends React.Component {
                 ),
               }} />
 
-              <Drawer.Screen name="refund" component={refund}
+            <Drawer.Screen name="refund" component={refund}
               options={{
 
                 title: 'Refund',
@@ -319,7 +329,7 @@ class HomeScreen extends React.Component {
                 drawerLabel: () => null
               }} />
 
-             <Drawer.Screen name="ReorderRefund" component={ReorderRefund} style={{ color: "#800C69" }}
+            <Drawer.Screen name="ReorderRefund" component={ReorderRefund} style={{ color: "#800C69" }}
               options={{
                 title: 'Refund',
                 drawerItemStyle: { height: 0 },
@@ -470,7 +480,7 @@ class HomeScreen extends React.Component {
                   ),
                 }} />
 
-              <Drawer.Screen name="ProviderOrders" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName, userName: this.props.navigation.state.params.userName }} 
+              <Drawer.Screen name="ProviderOrders" initialParams={{ ProviderName: this.props.navigation.state.params.ProviderName, userName: this.props.navigation.state.params.userName }}
                 component={ProviderOrders}
                 options={{
                   drawerIcon: ({ focused, size }) => (

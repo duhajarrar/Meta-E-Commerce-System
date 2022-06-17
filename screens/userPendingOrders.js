@@ -60,6 +60,7 @@ export default class userPendingOrders extends Component {
     state = { Price: 0 }
 
     render() {
+        console.log("user-orders", this.state.orderDB)
         return (
 
             <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>

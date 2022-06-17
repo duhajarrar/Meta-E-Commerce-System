@@ -118,10 +118,35 @@ export default class OrderStatus extends Component {
     state = { Price: 0 }
 
 
+    addPendingOrders() {
+       console.log("xxxxxxxxxxxxxxxxxxxx",)
+        db.collection("PendingOrders").add({
+            id: db.collection('PendingOrders').doc().id,
+            customerName: "raghadtest",
+            customerEmail: "",
+            OrderTimestamp: new Date().valueOf(),
+            address: "",
+            TotalPrice: 10,
+        })
+            .catch(function (error) {
+                console.error("Error adding document: ", error);
+            });
 
 
+        firebase.firestore().collection("PendingOrders").where("customerName", "==", "raghadtest")
+            .get()
+            .then(querySnapshot => {
+                querySnapshot.docs[0].ref.delete();
+            });
 
-    render = () => {
+
+    }
+
+
+    render() {
+
+        // console.log("user-orders",  this.getorderDBData())
+        // this.addPendingOrders();
         return (
 
             <SafeAreaView style={{ flex: 1 }}>
@@ -193,7 +218,7 @@ export default class OrderStatus extends Component {
                                         <Image style={styles.icon2} source={require('../assets/fast-delivery-2.png')} />
                                         {" "}
                                         <View>
-                                            <Text style={{ fontSize: 18, color: "#800C69", fontWeight: 'bold', paddingBottom: 8}}>
+                                            <Text style={{ fontSize: 18, color: "#800C69", fontWeight: 'bold', paddingBottom: 8 }}>
                                                 In Delivery Orders </Text>
 
                                         </View>

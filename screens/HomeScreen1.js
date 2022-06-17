@@ -110,10 +110,11 @@ export default class HomeScreen1 extends Component {
             .get()
             .then(function (querySnapshot) {
                 querySnapshot.forEach(function (doc) {
-                    doc.ref.update({ test: "test" + 1 });
+                    doc.ref.update({ StarCountAvg: rate });
+                    doc.ref.update({ Count: Count });
                 });
             })
-        this.update();
+            this.update();
     }
 
 
@@ -162,6 +163,29 @@ export default class HomeScreen1 extends Component {
         })
     }
 
+    onStarRatingPress(ProviderRate, ProviderName) {
+        let Rating;
+        let rate;
+        let Count;
+        let newRate;
+        db.collection("ProvidersRank")
+            .where('ProviderName', '==', ProviderName)
+            .get()
+            .then((querySnapshot) => {
+                Rating = querySnapshot.docs.map(doc => doc.data());
+                console.log("rating", Rating[0]);
+                rate = Rating[0].StarCountAvg;
+                Count = Rating[0].Count;
+                console.log("Count", Count);
+                console.log("rate", rate);
+                console.log("ProviderRate", ProviderRate);
+                newRate = ((Count * rate) + ProviderRate) / (Count + 1);
+                console.log("newRate", newRate);
+                this.updateRate(ProviderName, newRate, Count + 1);
+            })
+
+    }
+
 
    
 
@@ -208,6 +232,7 @@ export default class HomeScreen1 extends Component {
                                             iconSet="Ionicons"
                                             maxStars={5}
                                             rating={this.state.ShiniRate}
+                                            selectedStar={(rating) => this.onStarRatingPress(rating, "Al-Shini")}
                                             fullStarColor="white"
                                             halfStarColor="white"
                                             emptyStarColor="#ffffff"
@@ -297,6 +322,7 @@ export default class HomeScreen1 extends Component {
                                             iconSet="Ionicons"
                                             maxStars={5}
                                             rating={this.state.BravoRate}
+                                            selectedStar={(rating) => this.onStarRatingPress(rating, "Bravo")}
                                             fullStarColor="white"
                                             halfStarColor="white"
                                             emptyStarColor="#ffffff"
@@ -387,6 +413,7 @@ export default class HomeScreen1 extends Component {
                                             iconSet="Ionicons"
                                             maxStars={5}
                                             rating={this.state.BrothersRate}
+                                            selectedStar={(rating) => this.onStarRatingPress(rating, "Brothers")}
                                             fullStarColor="white"
                                             halfStarColor="white"
                                             emptyStarColor="#ffffff"
@@ -475,6 +502,7 @@ export default class HomeScreen1 extends Component {
                                             iconSet="Ionicons"
                                             maxStars={5}
                                             rating={this.state.GardensRate}
+                                            selectedStar={(rating) => this.onStarRatingPress(rating, "Gardens")}
                                             fullStarColor="white"
                                             halfStarColor="white"
                                             emptyStarColor="#ffffff"
