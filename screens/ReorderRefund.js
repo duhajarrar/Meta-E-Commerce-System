@@ -1,11 +1,5 @@
-import React, { Component } from "react";
-import firebase from "firebase/compat/app";
-import "firebase/compat/auth";
-import "firebase/compat/firestore";
-//import Prompt from 'react-native-single-prompt';
-//import {Modal} from 'react-native';
-import Dialog from "react-native-dialog";
-
+import firebase from "firebase/compat/app"
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -15,251 +9,335 @@ import {
   TouchableOpacity,
   FlatList,
   Alert,
+  Modal,
+  TextInput,
+  Dimensions
 } from "react-native";
 var db = firebase.firestore();
 
-export default class ReorderRefund extends Component {
+const { width } = Dimensions.get("window");
+// export default class ReorderRefund extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {visible : false};
 
-        this.docs = firebase.firestore().collection('RefundRequests')
+// function addRefundRequest() {
+//   console.log("Xxxxxxxxxxxxxxxxxxxxx");
+//   console.log(price);
+//   console.log(quantity);
+//   console.log(item.name);
+//   firebase
+//     .firestore()
+//     .collection("RefundRequests")
+//     .add({
+//       refundReason: refundReason,
+//       item: item
+//     })
+//     .catch(function (error) {
+//       console.error("Error adding document: ", error);
+//     });
+//   // console.log("name1 : ", name);
+// }
 
-      } 
+function ReorderRefund(props) {
 
-  //state = {visible : false};
 
-  //setVisible=()=>this.setState({visible: true})  
+  const [requestStatus, setRequestStatus] = useState("");
+  const [refundReason, setrefundReason] = useState("");
+  const [itemValue, setItemValue] = useState("");
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [user, setUser] = useState("");
 
-  state = {
-    feedback: null,
-    user: {},
+
+  const addNewProduct = (item) => {
+
+    console.log("userrrr: ", props.route.params.user);
+    console.log("item-----------xx: ", item);
+    firebase
+      .firestore()
+      .collection("RefundRequests")
+      .add({
+        id: db.collection('RefundRequests').doc().id,
+        customerName: props.route.params.user.displayName,
+        customerEmail: props.route.params.user.email,
+        provider: item.provider,
+        refundReason: refundReason,
+        item: item,
+        Approval: false,
+        status: "waitForApprovall"
+
+      })
+      .catch(function (error) {
+        console.error("Error adding document: ", error);
+      });
+  }
+
+  const getStatus = (item) => {
+    let OrderInf;
+
+    db.collection("RefundRequests")
+      .where('customerName', '==', props.route.params.user.displayName)
+      .where('customerEmail', '==', props.route.params.user.email)
+      .where('customerEmail', '==', props.route.params.user.email)
+      .where('item', '==', item)
+      .get()
+      .then((querySnapshot) => {
+        OrderInf = querySnapshot.docs.map(doc => doc.data());
+        console.log("RRRRRRrzz", OrderInf, OrderInf[0].status);
+        setRequestStatus(OrderInf[0].status);
+        console.log("RRRRRRr", requestStatus);
+
+
+      })
+      .catch(function (error) {
+
+        console.log("RRRRRxxx", requestStatus);
+        setRequestStatus("")
+      });
+  }
+
+  const toggleModalVisibilityFalse = (item1) => {
+    console.log("isModalVisible before  = ", isModalVisible);
+    console.log("In add itemValue", itemValue)
+
+    if (refundReason === "") {
+      Alert.alert("Please complete information  refund reason not added ")
+      console.log("Product not added, Please complete all information needed ", itemValue.name)
+    } else {
+
+      setModalVisible(false);
+      addNewProduct(itemValue);
+      // console.log("item-----------: ", itemValue);
+      // console.log("refundssss ", refundReason);
+      Alert.alert("waiting for provider review", itemValue.name);
+      // console.log("isModalVisible after  = ", isModalVisible);
+      // addNewProduct(itemValue);
+    }
+  };
+
+  const toggleModalVisibilityFalse1 = () => {
+    console.log("isModalVisible before  = ", isModalVisible);
+
+    setModalVisible(false);
+
+    console.log("isModalVisible after  = ", isModalVisible);
+  };
+
+  const toggleModalVisibilityTrue = () => {
+    console.log("isModalVisible before  = ", isModalVisible);
+    setModalVisible(true);
+    console.log("isModalVisible after  = ", isModalVisible);
   };
 
 
-  state = {
-    email: null,
-    password: "",
-    errorMessage: "",
-    isLoading: false,
-    displayName: "",
-    photoURL: "",
-    givenName: "",
-    phoneNumber: "",
-    address: "",
-  };
 
-  //     comment
-  // ""
-  // customerName
-  // ""
-  // product_name
-  // ""
-  // product_price
-  // 0
-  // product_provider
-  // ""
-  // product_quantity
-  // 0
-  // status
-  // true
+  // console.log("REEEEEEEEEEEEEorder", this.props.route.params.item);
+  return (
 
-   showDialog = () => {
-   // setVisible(true);
-   this.setState({visible:true});
-  };
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#F5F5F5" }}>
+      {/* <FlatList
+        data={props.route.params.item}
+        renderItem={({ item }) => ( */}
 
-   handleCancel = () => {
-    //setVisible(false);
-    this.setState({visible:false});
+      <View style={{ alignItems: "center", justifyContent: "center" }}>
+        <TouchableOpacity
+        // onPress={() => { this.props.navigation.navigate("pageOne"); }}
+        >
+          <View style={styles.container}>
+            <View style={styles.infoBoxWrapper}>
 
-  };
-
-   handleSend = (item) => {
-    // The user has pressed the "Delete" button, so here you can do your own logic.
-    // ...Your logic
-    //setVisible(false);
-    console.log("printing item ........",item);
-    this.addComment(item);
-  };
-
-  addComment(item) {
-
-   // if (this.state.feedback != null) {
-    console.log("leeeeeeeeeeena");
-        Alert.alert("Your message is sent successfully....waiting for provider approval.")
-        //this.setState({ feedback: null })
-        db.collection("RefundRequests").add({
-        //    customerName: this.state.displayName,
-            //   comment: this.state.feedback,
-        //     product_provider: this.props.route.params.item.provider,
-        //     product_price: this.props.route.params.item.price,
-        //     product_quantity:this.props.route.params.item.quantity,
-        //     product_name:this.props.route.params.item.name,
-          //  comment:"leeeeeeeena",
-            product:item,
-        })
-            .catch(function (error) {
-                console.error("Error sending message: ", error);
-            });
-
-   // } else {
-     //   Alert.alert("Please Write a message")
-   // }
-
-}
-
-getCurrentDate() {
-    var date = new Date().getDate();
-    var month = new Date().getMonth() + 1;
-    var year = new Date().getFullYear();
-    var hours = new Date().getHours();
-    var min = new Date().getMinutes();
-    var suffix = (hours >= 12) ? 'pm' : 'am';
-    //only -12 from hours if it is greater than 12 (if not back at mid night)
-    hours = (hours > 12) ? hours - 12 : hours;
-    min = (min < 10) ? "0" + min : min;
-    //if 00 then it is 12 am
-    hours = (hours == '00') ? 12 : hours;
-    console.log("thistime-hours", hours)
-    var finalObject = date + '/' + month + '/' + year + ' ' + hours + ':' + min + " " + suffix;
-    console.log("user-time", finalObject)
-    return finalObject;
-}
-
-
-
-  render() {
-   // console.log("REEEEEEEEEEEEEorder", this.props.route.params.item);
-    return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: "#F5F5F5" }}>
-        <FlatList
-          data={this.props.route.params.item.OrderProducts}
-          renderItem={({ item }) => (
-            <View style={{ alignItems: "center", justifyContent: "center" }}>
-              <TouchableOpacity
-              // onPress={() => { this.props.navigation.navigate("pageOne"); }}
+              <View
+                style={[
+                  styles.infoBox,
+                  {
+                    borderColor: "#800C69",
+                    borderBottomWidth: 1,
+                  },
+                ]}
               >
-                <View style={styles.container}>
-                  <View style={styles.infoBoxWrapper}>
-                    <View
-                      style={[
-                        styles.infoBox,
-                        {
-                          borderColor: "white",
-                          borderRightWidth: 1,
-                          borderTopWidth: 1,
-                          borderBottomWidth: 1,
-                          borderLeftWidth: 1,
-                        },
-                      ]}
+                <Image
+                  style={styles.image}
+                  source={{ uri: props.route.params.item.image }}
+                />
+              </View>
+
+              <View
+                style={[
+                  styles.infoBox,
+                  {
+                    color: "#800C69",
+                    borderColor: "#800C69",
+                    borderBottomWidth: 1,
+
+                  },
+                ]}
+              >
+                <Text
+                  style={{
+                    color: "#38700F",
+                    fontSize: 14,
+                    fontWeight: "bold",
+                    marginTop: 20,
+                  }}
+                >
+                  {`Provider: `}
+                  {props.route.params.item.provider}
+                  {`          Name: `}
+                  {props.route.params.item.name}
+                  {`                    Price: `}
+                  {props.route.params.item.price}
+                  {`                                  Quantity: `}
+                  {props.route.params.item.quantity}
+                </Text>
+
+
+
+
+                <View style={styles.separator} />
+
+                {(requestStatus == "") &&
+                  <TouchableOpacity
+                    style={{
+                      flex: 1,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                    // onPress={this.showDialog}
+                    onPress={() => { setItemValue(props.route.params.item) & console.log("item set : ", itemValue, " item: ", props.route.params.item) & setModalVisible(true) }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        color: "#800C69",
+                        fontWeight: "bold",
+                      }}
                     >
                       <Image
-                        style={styles.image}
-                        source={{ uri: item.image }}
-                      />
-                    </View>
+                        style={styles.icon}
+                        source={require("../assets/bank-account.png")}
+                      />{" "}
+                      Refund
+                    </Text>
+                  </TouchableOpacity>
+                }
 
-                    <View
-                      style={[
-                        styles.infoBox,
-                        {
-                          color: "#90EE90",
-                          borderColor: "white",
-                          borderRightWidth: 1,
-                          borderTopWidth: 1,
-                          borderBottomWidth: 1,
-                          borderLeftWidth: 1,
-                        },
-                      ]}
-                        >
-                      <Text
-                        style={{
-                          color: "#38700F",
-                          fontSize: 14,
-                          fontWeight: "bold",
-                          marginTop: 20,
-                        }}
-                      >
-                        {`Provider: `}
-                        {item.provider}
-                        {`          Name: `}
-                        {item.name}
-                        {`                    Price: `}
-                        {item.price}
-                        {`                                  Quantity: `}
-                        {item.quantity}
-                      </Text>
+                <Modal animationType="slide"
+                  transparent visible={isModalVisible}
+                  presentationStyle="overFullScreen"
+                  onDismiss={toggleModalVisibilityFalse1}>
+                  <View style={styles.viewWrapper}>
+                    <View style={styles.modalView}>
+                      <Text style={{ fontSize: 16, fontWeight: "bold" }}> Why Do You Want To Return The Product?</Text>
+                      <Text style={{ paddingBottom: 10, fontSize: 14 }}>{itemValue.name}</Text>
 
-                      <View style={styles.separator} />
+
+                      <TextInput placeholder="Write refund reason....."
+                        placeholderTextColor="#d4d6d9"
+                        value={refundReason} style={styles.textInput}
+                        onChangeText={(value) => setrefundReason(value)} />
+
                       <TouchableOpacity
-                        style={{
-                          flex: 1,
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                        onPress={this.showDialog}
+                        style={styles.buttonContainers}
+                        // & toggleModalVisibilityFalse(item)
+                        onPress={() => {
+                          console.log("before itemValue:", itemValue) &
+                            toggleModalVisibilityFalse(itemValue)
+                        }
+                        }
                       >
                         <Text
                           style={{
-                            fontSize: 16,
-                            color: "#800C69",
-                            fontWeight: "bold",
+                            color: "white",
+                            padding: 5,
+                            fontSize: 18,
                           }}
                         >
-                          <Image
-                            style={styles.icon}
-                            source={require("../assets/bank-account.png")}
-                          />{" "}
-                          Refund
+                          Confirm
                         </Text>
                       </TouchableOpacity>
-                     < Dialog.Container visible={this.state.visible}>
-                            <Dialog.Title>
-                              Why Do You Want To Return The Product?{" "}
-                            </Dialog.Title>
-                            <Dialog.Input placeholder="   Write refund reason....."
-                             value={this.state.feedback}
-                             onChangeText={feedback => this.setState({ feedback })}
-                            
-                            ></Dialog.Input>
-                            <Dialog.Button label="Cancel" onPress={this.handleCancel} />
-                            <Dialog.Button label="Send" onPress={this.handleSend(item)} />
-                          </Dialog.Container>
+
+                      <TouchableOpacity
+                        style={styles.buttonContainers1}
+                        onPress={
+                          toggleModalVisibilityFalse1
+                        }
+                      >
+                        <Text
+                          style={{
+                            color: "white",
+                            fontSize: 18,
+                          }}
+                        >
+                          Cancel
+                        </Text>
+                      </TouchableOpacity>
                     </View>
                   </View>
+                </Modal>
 
-                  <View
-                    style={{
-                      justifyContent: "center",
-                      alignItems: "center",
-                      padding: 5,
-                    }}
-                  >
-                    <Text style={{ fontSize: 14, color: "#800C69" }}>
-                      {/* <Image style={styles.icon} source={require('../assets/calendar.png')} /> */}{" "}
-                      {`        `}
-                    </Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
+
+
+              </View>
             </View>
-          )}
-        />
-      </SafeAreaView>
-    );
-  }
+
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: 5,
+              }}
+            >
+              <Text style={{ fontSize: 14, color: "#800C69" }}>
+                {/* <Image style={styles.icon} source={require('../assets/calendar.png')} /> */}{" "}
+                {`        `}
+              </Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+
+
+        {getStatus(props.route.params.item) && (requestStatus == "")}
+        {(requestStatus == "waitForApprovall") ? (
+          <View style={[styles.container1, { alignItems: "center", padding: 15 }]}>
+            <Image style={styles.image1} source={require('../assets/timer.png')} />
+            <Text style={{ fontSize: 14, color: "#800C69", fontWeight: 'bold', paddingTop: 8 }}>Wait for Provider Approvall</Text>
+          </View>
+        ) : (
+          (requestStatus == "Approved") ? (
+            <View style={[styles.container1, { alignItems: "center", padding: 15 }]}>
+              <Image style={styles.image1} source={require('../assets/approved.png')} />
+              <Text style={{ fontSize: 14, color: "#800C69", fontWeight: 'bold', paddingTop: 8 }}>Approved</Text>
+            </View>
+          ) : (
+            (requestStatus == "Rejected") ? (
+              <View style={[styles.container1, { alignItems: "center", padding: 15 }]}>
+                <Image style={styles.image1} source={require('../assets/rejected.png')} />
+                <Text style={{ fontSize: 14, color: "#800C69", fontWeight: 'bold', paddingTop: 8 }}>Rejected</Text>
+              </View>
+            ) : (
+              <View style={[styles.container2, { alignItems: "center", padding: 15 }]}>
+                {/* <Image style={styles.image1} source={require('../assets/rejected.png')} />
+                <Text style={{ fontSize: 14, color: "#800C69", fontWeight: 'bold', paddingTop: 8 }}>Rejected</Text> */}
+              </View>
+
+            )
+
+
+          )
+
+        )
+        }
+      </View>
+      {/* )
+        }
+      /> */}
+    </SafeAreaView >
+  );
 }
+
+export default ReorderRefund;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'space-between',
-    // backgroundColor: '#ecf0f1',
-    // padding: 8,
-    // flexDirection: 'column',
-    // alignItems: 'center'
   },
 
   userInfoSection: {
@@ -429,7 +507,7 @@ const styles = StyleSheet.create({
   container: {
     width: 350,
     height: 200,
-    marginBottom: 25,
+    // marginBottom: 25,
     borderRadius: 15,
     backgroundColor: "#FFFFFF",
     overflow: "hidden",
@@ -465,4 +543,91 @@ const styles = StyleSheet.create({
     // flex: 1,
     resizeMode: "contain",
   },
+
+  viewWrapper: {
+    height: 350,
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
+  },
+  modalView: {
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    elevation: 5,
+    transform: [{ translateX: -(width * 0.4) },
+    { translateY: -90 }],
+    height: 330,
+    width: width * 0.8,
+    backgroundColor: "#fff",
+    borderRadius: 7,
+  },
+  textInput: {
+    width: "80%",
+    height: "25%",
+    borderRadius: 5,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderColor: "rgba(0, 0, 0, 0.2)",
+    borderWidth: 1,
+    marginBottom: 8,
+
+  },
+  buttonContainer1: {
+
+    // marginBottom: 50,
+    marginLeft: 5,
+    height: 35,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // marginBottom: 5,
+    marginTop: 5,
+    width: 135,
+    borderRadius: 30,
+    backgroundColor: '#2E922E',
+    color: 'white'
+  },
+  buttonContainers: {
+    // marginBottom: 50,
+    height: 45,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 5,
+    marginTop: 15,
+    width: 250,
+    borderRadius: 30,
+    backgroundColor: "#800C69",
+    color: "white",
+  },
+  buttonContainers1: {
+    // marginBottom: 50,
+    height: 45,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+    // marginTop: 15,
+    width: 250,
+    borderRadius: 30,
+    backgroundColor: "#800C69",
+    color: "white",
+  },
+  image1: {
+    width: 55,
+    height: 55,
+  },
+  container1: {
+    width: 350,
+    height: 120,
+    marginBottom: 25,
+    borderRadius: 15,
+    backgroundColor: "#FFFFFF",
+    overflow: "hidden",
+  },
+
 });

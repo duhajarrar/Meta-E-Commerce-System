@@ -12,7 +12,8 @@ export default class refund extends Component {
         this.docs = firebase.firestore().collection('Orders-Packges').orderBy('OrderTimestamp');
         this.state = {
             isLoading: true,
-            orderDB: []
+            orderDB: [],
+            products: []
         };
     }
 
@@ -28,6 +29,7 @@ export default class refund extends Component {
         firebase.auth().onAuthStateChanged((user) => {
             if (user != null) {
                 this.setState({ email: user.email });
+                this.setState({ user: user });
                 let OrderInf;
                 db.collection('Orders-Packges').orderBy('OrderTimestamp', 'desc')
                     .where('customerEmail', '==', user.email).limit(1)
@@ -36,7 +38,8 @@ export default class refund extends Component {
                         OrderInf = querySnapshot.docs.map(doc => doc.data());
                         console.log("orders", OrderInf)
                         this.setState({ orderDB: OrderInf });
-                        console.log("user-orders", this.state.orderDB)
+                        console.log("user-orders", this.state.orderDB[0].OrderProducts);
+                        this.setState({ products: this.state.orderDB[0].OrderProducts });
                     })
             }
         })
@@ -49,16 +52,21 @@ export default class refund extends Component {
 
     render() {
         // this.getorderDBData();
-       
+        console.log("xxxxxxxxxxxxxx", this.state.products)
         return (
 
             <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
 
+                <View style={styles.cardHeader}>
+                    <Text style={styles.buyNow}>
+                        Last Order Items
+                    </Text>
+                </View>
 
                 <FlatList
-                    data={this.state.orderDB}
+                    data={this.state.products}
                     renderItem={({ item }) =>
-                    
+
                         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
 
 
@@ -71,44 +79,42 @@ export default class refund extends Component {
 
                                     <View style={{ justifyContent: "center", alignItems: "center", padding: 5 }}>
                                         <Text style={{ fontSize: 14, color: "#800C69", }}>
-                                            <Image style={styles.icon} source={require('../assets/calendar.png')} />
-                                            {' '}Order Date:  {item.OrderDate}</Text>
+                                            {/* <Image style={styles.icon} source={require('../assets/calendar.png')} /> */}
+                                            {' '}Item Name:  {item.name}</Text>
                                     </View>
 
                                     <View style={{ justifyContent: "center", alignItems: "center", padding: 5 }}>
                                         <Text style={{ fontSize: 14, color: "#800C69", }}>
-                                            <Image style={styles.icon} source={require('../assets/checklist.png')} />
-                                            {' '}Number Of Products: {item.OrderProducts.length}</Text>
-                                    </View>
-
-                                    <View style={{ justifyContent: "center", alignItems: "center", padding: 5 }}>
-                                        <Text style={{ fontSize: 14, color: "#800C69", }}>
-                                        <Image style={styles.icon} source={require('../assets/money2.png')} />
-                                            {' '}Total Price: {item.TotalPrice}</Text>
+                                            <Image style={styles.icon} source={require('../assets/money2.png')} />
+                                            {' '}Item Price: {item.price}</Text>
                                     </View>
 
                                     <View style={{ justifyContent: "center", alignItems: "center", padding: 5 }}>
                                         <Text style={{ fontSize: 14, color: "#800C69", }}>
                                             {/* <Image style={styles.icon} source={require('../assets/calendar.png')} /> */}
-                                            {' '}{`        `}</Text>
+                                            {' '}Item Provider:  {item.provider}</Text>
                                     </View>
+
 
                                     <View style={styles.separator} />
 
                                     <TouchableOpacity style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
                                         onPress={() =>
                                             this.props.navigation.navigate('ReorderRefund',
-                                                { item: item }
+                                                {
+                                                    item: item,
+                                                    user: this.state.user
+                                                }
                                             )
                                         }
                                     >
                                         <Text style={{ fontSize: 16, color: "#800C69", fontWeight: 'bold', }}>
-                                            <Image style={styles.icon} source={require('../assets/product.png')} />
-                                            {' '}View Order Products</Text>
+                                            <Image style={styles.icon} source={require('../assets/bank-account.png')} />
+                                            {' '}Refund</Text>
                                     </TouchableOpacity>
 
                                 </View>
-                            </TouchableOpacity>                          
+                            </TouchableOpacity>
                         </View>
                     }
                 />
@@ -303,6 +309,7 @@ const styles = StyleSheet.create({
         width: 350,
         height: 200,
         marginBottom: 25,
+        marginTop: 25,
         borderRadius: 15,
         backgroundColor: '#FFFFFF',
         overflow: 'hidden'
@@ -341,6 +348,18 @@ const styles = StyleSheet.create({
     separator: {
         height: 2,
         backgroundColor: "#800C69"
+    },
+    cardHeader: {
+        paddingVertical: 17,
+        paddingHorizontal: 16,
+        borderTopLeftRadius: 1,
+        borderTopRightRadius: 1,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        // paddingLeft: "10%",
+        backgroundColor: "#ECD4EA",
+        //fontcolor: 'black'
     },
 });
 

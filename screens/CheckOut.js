@@ -9,6 +9,7 @@ var db = firebase.firestore();
 
 export default class CheckOut extends Component {
   state = { user: {}, address: '', addressDB: [], email: {} };
+
   componentDidMount() {
 
     firebase.auth().onAuthStateChanged((user) => {
@@ -82,22 +83,6 @@ export default class CheckOut extends Component {
     });
   }
 
-  // addTest(orders) {
-  //   db.collection("Orders-Packges").add({
-  //     customerName: this.state.user.displayName,
-  //     customerEmail: this.state.user.email,
-  //     OrderDate: this.getCurrentDate(),
-  //     OrderTimestamp: new Date().valueOf(),
-  //     address: this.state.address,
-  //     TotalPrice: this.props.route.params.TotalAmount,
-  //     OrderProducts: orders
-  //   })
-  //     .catch(function (error) {
-  //       console.error("Error adding document: ", error);
-  //     });
-
-  // }
-
   addPendingOrders(orders) {
     orders.forEach(obj => {
       obj['itemStatus'] = "in preparation";
@@ -130,12 +115,15 @@ export default class CheckOut extends Component {
       Alert.alert("Please Select Address");
     }
     else {
-      this.addOrder(this.props.route.params.products)
-      if (this.props.route.params.clearCart != null) {
-        this.props.route.params.clearCart()
-      }
+      // this.addOrder(this.props.route.params.products)
+      // if (this.props.route.params.clearCart != null) {
+      //   this.props.route.params.clearCart()
+      // }
       this.props.navigation.navigate("PaymentMethod", {
         TotalAmount: this.props.route.params.TotalAmount,
+        clearCart: this.props.route.params.clearCart,
+        products: this.props.route.params.products,
+        address: this.state.address,
       });
     }
   }

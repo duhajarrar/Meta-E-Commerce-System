@@ -22,7 +22,7 @@ export default class ProviderHome extends Component {
       case "Al-Shini":
         return require('../images/alshini.jpg');
       case "Gardens":
-        return require('../images/alshini.jpg');
+        return require('../images/gardens.jpg');
     }
   }
 
@@ -99,7 +99,7 @@ export default class ProviderHome extends Component {
                 {" "}
                 {this.props.route.params.ProviderName}
               </Text>
-{/* 
+              {/* 
               <TouchableOpacity style={[styles.buttonContainer, { marginTop: 50 }]}
                 onPress={() => this.importDataFromCSV()
                 }

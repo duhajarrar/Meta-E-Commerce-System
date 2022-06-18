@@ -116,110 +116,235 @@ export default class editLocation extends Component {
 
 
   render() {
+
+    // return (
+    //    <KeyboardAvoidingView style={styles.containerStyle} behavior="padding" enabled
+    //     keyboardVerticalOffset={150}>
+    //     <SafeAreaView style={{ flex: 1 }}>
+    //       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+
+    //         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+    //           <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
+    //           <View>
+    //             <Text style={{ width: 170, textAlign: 'center', fontSize: 25 }}>Recipient Info</Text>
+    //           </View>
+    //           <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
+    //         </View>
+
+    //         <TextInput
+    //           placeholder={"Recipient Name"}
+    //           placeholderTextColor="#B1B1B1"
+    //           returnKeyType="next"
+    //           onChangeText={(recipientName) => { this.updateRecipientName(recipientName) }}
+    //           value={this.props.route.params.recipientName}
+    //           style={styles.input}
+    //         />
+
+    //         <TextInput
+    //           placeholder={"Recipient Email"}
+    //           placeholderTextColor="#B1B1B1"
+    //           returnKeyType="next"
+    //           keyboardType='email-address'
+    //           value={this.props.route.params.recipientEmail}
+    //           onChangeText={(recipientEmail) => { this.updateRecipientEmail(recipientEmail) }}
+    //           style={styles.input}
+    //         />
+
+    //         <TextInput
+    //           placeholder={"Recipient Phone"}
+    //           placeholderTextColor="#B1B1B1"
+    //           returnKeyType="next"
+    //           keyboardType='numeric'
+    //           value={this.props.route.params.recipientPhone}
+    //           onChangeText={(recipientPhone) => { this.updateRecipientPhone(recipientPhone) }}
+    //           style={styles.input}
+    //         />
+
+    //         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
+    //           <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
+    //           <View>
+    //             <Text style={{ width: 170, textAlign: 'center', fontSize: 25 }}>Address Info</Text>
+    //           </View>
+    //           <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
+    //         </View>
+
+    //         <TextInput
+    //           placeholder={"Country"}
+    //           placeholderTextColor="#B1B1B1"
+    //           returnKeyType="next"
+    //           // textContentType="country"
+
+    //           onChangeText={(country) => { this.updateCountry(country) }}
+    //           // defaultValue={this.props.route.params.itemData.country}
+    //           value={this.props.route.params.country}
+    //           style={styles.input}
+    //         />
+
+    //         <TextInput
+    //           placeholder={"City"}
+    //           placeholderTextColor="#B1B1B1"
+    //           returnKeyType="next"
+    //           // textContentType="city"
+    //           onChangeText={(city) => { this.updateCity(city) }}
+    //           value={this.props.route.params.city}
+    //           style={styles.input}
+    //         />
+
+
+    //         <TextInput
+    //           placeholder={"Street"}
+    //           placeholderTextColor="#B1B1B1"
+    //           returnKeyType="next"
+    //           // textContentType="street"
+    //           onChangeText={(street) => { this.updateStreet(street) }}
+    //           value={this.props.route.params.street}
+    //           style={styles.input}
+    //         />
+
+    //         <TextInput
+    //           placeholder={"More Description"}
+    //           placeholderTextColor="#B1B1B1"
+    //           returnKeyType="next"
+    //           onChangeText={(moreDescription) => { this.updateMoreDescription(moreDescription) }}
+    //           value={this.props.route.params.moreDescription}
+    //           style={styles.input}
+    //         />
+
+    //         <TouchableOpacity
+    //           style={styles.buttonContainer}
+    //           onPress={() => this.editAddress() & this.props.navigation.navigate("Locations")
+    //             & Alert.alert('Address updated')
+    //           }>
+    //           <Text style={{
+    //             color: "white",
+    //             padding: 5,
+    //             fontSize: 18
+    //           }}>Update Address</Text>
+    //         </TouchableOpacity>
+
+    //       </View>
+
+    //     </SafeAreaView>
+    //   </KeyboardAvoidingView>
+
+    // );
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
-          <View>
-            <Text style={{ width: 170, textAlign: 'center', fontSize: 25 }}>Recipient Info</Text>
+
+      <KeyboardAvoidingView style={styles.containerStyle} behavior="padding" enabled
+        keyboardVerticalOffset={150}>
+        <SafeAreaView style={{ flex: 1 }}>
+
+
+
+          <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
+              <View>
+                <Text style={{ width: 170, textAlign: "center", fontSize: 20 }}>
+                  Recipient Info
+                </Text>
+              </View>
+              <View style={{ flex: 1, height: 1, backgroundColor: "black" }} />
+            </View>
+
+
+            <TextInput
+              placeholder={"Recipient Name"}
+              placeholderTextColor="#B1B1B1"
+              returnKeyType="next"
+              onChangeText={(recipientName) => { this.updateRecipientName(recipientName) }}
+              value={this.props.route.params.recipientName}
+              style={styles.input}
+            />
+
+            <TextInput
+              placeholder={"Recipient Email"}
+              placeholderTextColor="#B1B1B1"
+              returnKeyType="next"
+              keyboardType='email-address'
+              value={this.props.route.params.recipientEmail}
+              onChangeText={(recipientEmail) => { this.updateRecipientEmail(recipientEmail) }}
+              style={styles.input}
+            />
+
+            <TextInput
+              placeholder={"Recipient Phone"}
+              placeholderTextColor="#B1B1B1"
+              returnKeyType="next"
+              keyboardType='numeric'
+              value={this.props.route.params.recipientPhone}
+              onChangeText={(recipientPhone) => { this.updateRecipientPhone(recipientPhone) }}
+              style={styles.input}
+            />
+
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
+              <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
+              <View>
+                <Text style={{ width: 170, textAlign: 'center', fontSize: 25 }}>Address Info</Text>
+              </View>
+              <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
+            </View>
+
+            <TextInput
+              placeholder={"Country"}
+              placeholderTextColor="#B1B1B1"
+              returnKeyType="next"
+              // textContentType="country"
+
+              onChangeText={(country) => { this.updateCountry(country) }}
+              // defaultValue={this.props.route.params.itemData.country}
+              value={this.props.route.params.country}
+              style={styles.input}
+            />
+
+            <TextInput
+              placeholder={"City"}
+              placeholderTextColor="#B1B1B1"
+              returnKeyType="next"
+              // textContentType="city"
+              onChangeText={(city) => { this.updateCity(city) }}
+              value={this.props.route.params.city}
+              style={styles.input}
+            />
+
+
+            <TextInput
+              placeholder={"Street"}
+              placeholderTextColor="#B1B1B1"
+              returnKeyType="next"
+              // textContentType="street"
+              onChangeText={(street) => { this.updateStreet(street) }}
+              value={this.props.route.params.street}
+              style={styles.input}
+            />
+
+            <TextInput
+              placeholder={"More Description"}
+              placeholderTextColor="#B1B1B1"
+              returnKeyType="next"
+              onChangeText={(moreDescription) => { this.updateMoreDescription(moreDescription) }}
+              value={this.props.route.params.moreDescription}
+              style={styles.input}
+            />
+
+
+            <TouchableOpacity
+              style={styles.buttonContainer}
+              onPress={() => this.editAddress() & this.props.navigation.navigate("Locations")
+                & Alert.alert('Address updated')
+              }>
+              <Text style={{
+                color: "white",
+                padding: 5,
+                fontSize: 18
+              }}>Update Address</Text>
+            </TouchableOpacity>
+
           </View>
-          <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
-        </View>
-
-        <TextInput
-          placeholder={"Recipient Name"}
-          placeholderTextColor="#B1B1B1"
-          returnKeyType="next"
-          onChangeText={(recipientName) => { this.updateRecipientName(recipientName) }}
-          value={this.props.route.params.recipientName}
-          style={styles.input}
-        />
-
-        <TextInput
-          placeholder={"Recipient Email"}
-          placeholderTextColor="#B1B1B1"
-          returnKeyType="next"
-          keyboardType='email-address'
-          value={this.props.route.params.recipientEmail}
-          onChangeText={(recipientEmail) => { this.updateRecipientEmail(recipientEmail) }}
-          style={styles.input}
-        />
-
-        <TextInput
-          placeholder={"Recipient Phone"}
-          placeholderTextColor="#B1B1B1"
-          returnKeyType="next"
-          keyboardType='numeric'
-          value={this.props.route.params.recipientPhone}
-          onChangeText={(recipientPhone) => { this.updateRecipientPhone(recipientPhone) }}
-          style={styles.input}
-        />
-
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
-          <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
-          <View>
-            <Text style={{ width: 170, textAlign: 'center', fontSize: 25 }}>Address Info</Text>
-          </View>
-          <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
-        </View>
-
-        <TextInput
-          placeholder={"Country"}
-          placeholderTextColor="#B1B1B1"
-          returnKeyType="next"
-          // textContentType="country"
-
-          onChangeText={(country) => { this.updateCountry(country) }}
-          // defaultValue={this.props.route.params.itemData.country}
-          value={this.props.route.params.country}
-          style={styles.input}
-        />
-
-        <TextInput
-          placeholder={"City"}
-          placeholderTextColor="#B1B1B1"
-          returnKeyType="next"
-          // textContentType="city"
-          onChangeText={(city) => { this.updateCity(city) }}
-          value={this.props.route.params.city}
-          style={styles.input}
-        />
-
-
-        <TextInput
-          placeholder={"Street"}
-          placeholderTextColor="#B1B1B1"
-          returnKeyType="next"
-          // textContentType="street"
-          onChangeText={(street) => { this.updateStreet(street) }}
-          value={this.props.route.params.street}
-          style={styles.input}
-        />
-
-        <TextInput
-          placeholder={"More Description"}
-          placeholderTextColor="#B1B1B1"
-          returnKeyType="next"
-          onChangeText={(moreDescription) => { this.updateMoreDescription(moreDescription) }}
-          value={this.props.route.params.moreDescription}
-          style={styles.input}
-        />
-
-        <TouchableOpacity
-          style={styles.buttonContainer}
-          onPress={() => this.editAddress() & this.props.navigation.navigate("Locations")
-            & Alert.alert('Address updated') 
-          }>
-          <Text style={{
-            color: "white",
-            padding: 5,
-            fontSize: 18
-          }}>Update Address</Text>
-        </TouchableOpacity>
-  
-      </View>
-
+        </SafeAreaView>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -228,19 +353,29 @@ export default class editLocation extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // justifyContent: 'space-between',
+    // backgroundColor: '#ecf0f1',
+    // padding: 8,
+    // flexDirection: 'column',
+    // alignItems: 'center'
+  },
+  container1: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center"
   },
   buttonContainer: {
     // marginBottom: 50,
     height: 45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 10,
     marginTop: 15,
     width: 250,
     borderRadius: 30,
     backgroundColor: "#800C69",
-    color: 'white'
+    color: "white",
   },
 
   userInfoSection: {
@@ -249,43 +384,43 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   caption: {
     fontSize: 14,
     lineHeight: 14,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 10,
   },
   infoBoxWrapper: {
     //borderBottomColor: 'white',
     borderBottomWidth: 1,
-    borderTopColor: '#dddddd',
+    borderTopColor: "#dddddd",
     borderTopWidth: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     height: 200,
   },
   infoBox: {
-    width: '50%',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: "50%",
+    alignItems: "center",
+    justifyContent: "center",
     //margin: 2
   },
   menuWrapper: {
     marginTop: 10,
   },
   menuItem: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingVertical: 15,
     paddingHorizontal: 30,
   },
   menuItemText: {
-    color: '#777777',
+    color: "#777777",
     marginLeft: 20,
-    fontWeight: '600',
+    fontWeight: "600",
     fontSize: 16,
     lineHeight: 26,
   },
@@ -298,23 +433,23 @@ const styles = StyleSheet.create({
     backgroundColor: "#E6E6E6",
   },
   listContainer: {
-    flexDirection: 'column',
-    alignItems: 'center'
+    flexDirection: "column",
+    alignItems: "center",
   },
   separator: {
     marginTop: 10,
   },
   /******** card **************/
   card: {
-    shadowColor: '#00000021',
+    shadowColor: "#00000021",
     shadowOffset: {
-      width: 2
+      width: 2,
     },
     shadowOpacity: 0.5,
     shadowRadius: 4,
     marginVertical: 8,
     backgroundColor: "white",
-    flexBasis: '47%',
+    flexBasis: "47%",
     marginHorizontal: 5,
   },
   cardHeader: {
@@ -322,11 +457,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderTopLeftRadius: 1,
     borderTopRightRadius: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     // paddingLeft: "10%",
-    backgroundColor: '#ECD4EA',
+    backgroundColor: "#ECD4EA",
     //fontcolor: 'black'
   },
   cardContent: {
@@ -335,14 +470,14 @@ const styles = StyleSheet.create({
   },
   cardFooter: {
     marginTop: 110,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     paddingTop: 10,
     paddingBottom: 10,
     paddingHorizontal: 20,
     borderBottomLeftRadius: 1,
     borderBottomRightRadius: 1,
-    backgroundColor: '#ECD4EA',
+    backgroundColor: "#ECD4EA",
   },
   cardImage: {
     flex: 1,
@@ -357,7 +492,7 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 16,
     color: "#38700F",
-    marginTop: 5
+    marginTop: 5,
   },
   shop: {
     fontSize: 18,
@@ -369,11 +504,12 @@ const styles = StyleSheet.create({
     color: "#38700F",
     marginTop: 5,
     marginLeft: "30%",
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
     textAlign: "center",
-
-  }, input: {
+  },
+  input: {
+    backgroundColor: "white",
     fontSize: 18,
     borderColor: "#707070",
     borderWidth: 1,
@@ -381,7 +517,7 @@ const styles = StyleSheet.create({
     marginTop: 25.5,
     borderRadius: 15,
     // fontWeight: 'bold',
-    color: 'black',
+    color: "black",
     paddingLeft: 48,
     marginHorizontal: 25,
     width: 300,
@@ -399,23 +535,22 @@ const styles = StyleSheet.create({
   socialBarContainer: {
     // justifyContent: 'center',
     // alignItems: 'center',
-    flexDirection: 'column',
-    flex: 1
+    flexDirection: "column",
+    flex: 1,
   },
   socialBarSection: {
     marginTop: 10,
-    flexDirection: 'row',
+    flexDirection: "row",
     flex: 2,
-    justifyContent: 'space-between',
-
+    justifyContent: "space-between",
   },
   socialBarlabel: {
-    alignSelf: 'flex-end',
-    justifyContent: 'space-between',
+    alignSelf: "flex-end",
+    justifyContent: "space-between",
   },
   socialBarButton: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     // alignItems: 'center',
     // backgroundColor: '#FFFFFF',
   },
@@ -424,44 +559,44 @@ const styles = StyleSheet.create({
     height: 200,
     marginBottom: 25,
     borderRadius: 15,
-    backgroundColor: '#FFFFFF',
-    overflow: 'hidden'
+    backgroundColor: "#FFFFFF",
+    overflow: "hidden",
   },
 
   image: {
-    alignSelf: 'flex-start',
-    width: '100%',
-    height: '100%'
+    alignSelf: "flex-start",
+    width: "100%",
+    height: "100%",
   },
 
   textContainer: {
     flex: 1,
-    alignSelf: 'flex-end',
-    textAlign: 'right'
+    alignSelf: "flex-end",
+    textAlign: "right",
 
     // alignItems: 'center',
     // justifyContent: 'center'
   },
   camera: {
-    alignSelf: 'center',
+    alignSelf: "center",
     margin: 8,
-
-  }, cameraWrapper: {
-    position: 'absolute',
+  },
+  cameraWrapper: {
+    position: "absolute",
     top: 150,
     left: 225,
-    backgroundColor: '#800C69',
+    backgroundColor: "#800C69",
     width: 40,
     height: 40,
-    borderRadius: 100
+    borderRadius: 100,
   },
 
   text: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 20,
     color: "#800C69",
-    alignSelf: 'flex-end',
-    textAlign: 'right'
+    alignSelf: "flex-end",
+    textAlign: "right",
   },
   logo: {
     marginTop: 50,
@@ -469,6 +604,10 @@ const styles = StyleSheet.create({
     // height: 400,
     width: "100%",
     // flex: 1,
-    resizeMode: 'contain'
+    resizeMode: "contain",
+  },
+  containerStyle: {
+    height: '100%',
+    width: '100%',
   },
 });
