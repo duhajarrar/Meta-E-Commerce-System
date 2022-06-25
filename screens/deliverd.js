@@ -112,7 +112,7 @@ export default class deliverd extends Component {
                             }}
                         >
                             <Image style={styles.icon} source={require('../assets/delivered.png')} />
-                            <Text style={[styles.buyNow]}>  Set As Aeliverd  </Text>
+                            <Text style={[styles.buyNow]}>  Set As Deliverd  </Text>
                         </TouchableOpacity>
                     </View>
 
