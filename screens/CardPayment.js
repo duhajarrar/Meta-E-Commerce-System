@@ -80,7 +80,7 @@ export default class CardPayment extends Component {
     }
 
     render() {
-        console.log("CArd TotalAmount}", this.props.route.params.TotalAmount)
+        console.log("Card TotalAmount}", this.props.route.params.TotalAmount)
         this.addOrder(this.props.route.params.products);
         return (
             <StripeProvider publishableKey="pk_test_51KkE0nKp6AqW7tekVsUktEjRVxORKt0abudPefXwCYRpYHsEJo6yD7abWCWRqb2KS7Vg3VCEsIM9BtO4D28xtWp600UDl17oRV">

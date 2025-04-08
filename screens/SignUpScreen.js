@@ -128,7 +128,7 @@ class SignUpScreen extends React.Component {
             </Text>
             <View>
               <View style={styles.v}>
-                <Icon name={'md-person'} size={21} color={'#800C69'}
+                <Icon name={'person'} size={21} color={'#800C69'}
                   style={styles.inputIcon} />
                 {/* <View style={styles.form}> */}
                 <TextInput

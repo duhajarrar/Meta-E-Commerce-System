@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button, Alert } from "react-native";
 import { CardField, useConfirmPayment } from "@stripe/stripe-react-native";
-import { CreditCardInput } from "react-native-credit-card-input";
+// import { CreditCardInput } from "react-native-credit-card-input";
 //ADD localhost address of your server
 const API_URL = "http://172.19.208.1:3000";
 
@@ -86,7 +86,7 @@ const StripeApp = props => {
         }}
       />*/}
 
-     { <CreditCardInput style={styles.cardContainer}
+     {/* { <CreditCardInput style={styles.cardContainer}
         onChange={
           cardDetails => {console.log('card Details===>',cardDetails)&
           setCardDetails(cardDetails);
@@ -94,7 +94,28 @@ const StripeApp = props => {
         placeholders={{
           number: "4242 4242 4242 4242",expiry: "MM/YY", cvc: "CVC"
          }}
-        />}
+        /> */
+        <CardField
+        postalCodeEnabled={true}
+        placeholders={{
+          number: "4242 4242 4242 4242",
+          expiration: "MM/YY",
+          cvc: "CVC",
+        }}
+        cardStyle={{
+          backgroundColor: '#FFFFFF',
+          textColor: '#000000',
+          fontSize: 16,
+          placeholderColor: '#A9A9A9',
+        }}
+        style={styles.cardContainer}
+        onCardChange={(cardDetails) => {
+          console.log('card Details ===>', cardDetails);
+          setCardDetails(cardDetails);
+        }}
+      />
+        
+        }
       
      <View style={styles.container}>
 

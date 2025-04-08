@@ -19,8 +19,9 @@ import IconEmail from 'react-native-vector-icons/Zocial'
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
 import * as Facebook from 'expo-facebook'
-import * as Google from 'expo-google-app-auth';
-import * as GoogleSignIn from 'expo-google-sign-in';
+import * as Google from 'expo-auth-session/providers/google';
+// import * as GoogleSignIn from 'expo-google-sign-in';
+
 import { getAuth } from "firebase/compat/auth";
 import { G } from "react-native-svg";
 

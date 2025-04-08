@@ -9,6 +9,7 @@
     "facebookDisplayName": "Project",
     "facebookAppId": "337956678166688",
     "facebookScheme": "fb337956678166688",
+    "newArchEnabled": true,
     "plugins": [
       [
         "expo-image-picker",

@@ -18,8 +18,8 @@ import IconEmail from 'react-native-vector-icons/Zocial'
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
 import * as Facebook from 'expo-facebook'
-import * as Google from 'expo-google-app-auth';
-import * as GoogleSignIn from 'expo-google-sign-in';
+import * as Google from 'expo-auth-session/providers/google';
+// import * as GoogleSignIn from 'expo-google-sign-in';
 import { getAuth } from "firebase/compat/auth";
 import { G } from "react-native-svg";
 
@@ -231,24 +231,23 @@ class SignInScreen extends React.Component {
 
   signInWithGoogleAsync = async () => {
     try {
-      const result = await Google.logInAsync({
-        behavior: 'web',
+      const [request, response, promptAsync] = Google.useAuthRequest({
         androidClientId: '731109863491-m7pnmrb7ml2ses9vu3t3nsfkg3spgm9h.apps.googleusercontent.com',
         webClientId: '731109863491-b5981s6u228m4f4t8l1lliceqstgahkq.apps.googleusercontent.com',
-        iosClientId: '731109863491-77g059lagdgbkmpoph4497904en22u2o.apps.googleusercontent.com', //enter ios client id
-        scopes: ['profile', 'email']
+        iosClientId: '731109863491-77g059lagdgbkmpoph4497904en22u2o.apps.googleusercontent.com',
+        scopes: ['profile', 'email'],
       });
 
-      if (result.type === 'success') {
-
-        this.onSignIn(result);
-        // this.addUser();
-        return result.accessToken;
-      } else {
-        return { cancelled: true };
+      if (response?.type === 'success') {
+        const { id_token } = response.authentication;
+        const credential = firebase.auth.GoogleAuthProvider.credential(id_token);
+        await firebase.auth().signInWithCredential(credential);
+        this.onSignIn(response);
+      } else if (response?.type === 'error') {
+        console.error('Google Sign-In Error:', response.error);
       }
     } catch (e) {
-      return { error: true };
+      console.error('Error during Google Sign-In:', e);
     }
   };
 
@@ -270,7 +269,7 @@ class SignInScreen extends React.Component {
               Login
             </Text>
             <View style={styles.form}>
-              {/*<Icon name={'md-person'} size={28} color={'black'}
+              {/*<Icon name={'person'} size={28} color={'black'}
             style={styles.inputIcon}/>
               <TextInput
                 style={styles.input}

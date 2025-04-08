@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, SafeAreaView, Image, Button, TouchableOpacity, 
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
-import StarRating from 'react-native-star-rating';
+import StarRating from 'react-native-star-view';
 
 export const SLIDER_WIDTH = Dimensions.get('window').width + 30;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.65);

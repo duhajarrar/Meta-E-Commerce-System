@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import "firebase/compat/firestore"
-import StarRating from 'react-native-star-rating';
+import StarRating from 'react-native-star-view';
 import { StyleSheet, SafeAreaView, Text, Image, View, TouchableOpacity, FlatList, TextInput, ActivityIndicator } from 'react-native';
 
 var db = firebase.firestore();
